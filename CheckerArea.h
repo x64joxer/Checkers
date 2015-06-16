@@ -1,0 +1,56 @@
+#ifndef CHECKERAREA_H
+#define CHECKERAREA_H
+
+#include <QWidget>
+#include <QPainter>
+#include <QMouseEvent>
+#include "Board.h"
+#include "PossibleMoves.h"
+
+namespace Ui {
+class CheckerArea;
+}
+
+class CheckerArea : public QWidget
+{
+        Q_OBJECT
+
+    public:
+        explicit CheckerArea(QWidget *parent = 0);
+        void SetBoard(Board *wsk);
+        ~CheckerArea();
+
+    private:
+        Ui::CheckerArea *ui;
+        QColor field1;
+        QColor field2;
+        QColor pawn1;
+        QColor pawn2;
+
+        Board *board;
+        PossibleMoves possibleMoves;
+
+        enum CursorState
+        { Free, Grab, WaitForIA } cursorState;
+        int mouseX;
+        int mouseY;
+        unsigned short grabbed;
+
+
+        void Paint();
+        void PaintFields(QPainter *painter);
+        void PaintPawn(QPainter *painter);
+        void PaintGrabbedBlackPawn(QPainter *painter);
+        void DrawPawn(QPainter *painter, const int x, const int y, const int widthField, const int heightField, const bool blackWhite, const bool pons);
+
+        void TakeMouseClickEvent(QMouseEvent *event);
+        void TakeMouseReleaseEvent(QMouseEvent *event);
+        void TakeMouseMoveEvent(QMouseEvent *event);
+
+        void paintEvent(QPaintEvent *event);
+        void mouseMoveEvent(  QMouseEvent * event);
+        void mousePressEvent(QMouseEvent * event);
+        void mouseReleaseEvent(QMouseEvent *event);
+};
+
+#endif // CHECKERAREA_H
