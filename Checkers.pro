@@ -20,7 +20,10 @@ SOURCES += main.cpp\
     Logs.cpp \
     SinglePath.cpp \
     PawnPos.cpp \
-    PossibleMoves.cpp
+    PossibleMoves.cpp \
+    IA/IADecisionTree.cpp \
+    IA/IAPossibleMoves.cpp \
+    IA/IATreeExpander.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -29,7 +32,10 @@ HEADERS  += MainWindow.h \
     Logs.h \
     SinglePath.h \
     PawnPos.h \
-    PossibleMoves.h
+    PossibleMoves.h \
+    IA/IADecisionTree.h \
+    IA/IAPossibleMoves.h \
+    IA/IATreeExpander.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui

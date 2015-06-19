@@ -61,10 +61,14 @@ void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,c
     {
         qDebug() << "ERROR! SetWhitePawnPos(unsigned short number,unsigned short x, unsigned short y) Try to set pawn on another pawn!";
     } else
-    {
+    {        
         Pawn &ref = white.at(number);
         ref.x = x;
         ref.y = y;
+        if (y == 7)
+        {
+            ref.pons = true;
+        };
     };
 }
 
@@ -90,6 +94,82 @@ void Board::SetBlackPawnPos(const unsigned short number,const unsigned short x,c
         Pawn &ref = black.at(number);
         ref.x = x;
         ref.y = y;
+        if (y == 0)
+        {
+            ref.pons = true;
+        };
+    };
+}
+
+void Board::PutWhiteTopLeftPawn(const unsigned short number)
+{
+    if (!GetWhitePawnPons(number))
+    {
+        qDebug() << "ERROR! Board::PutWhiteTopLeftPawn(const unsigned short number) Pawn is not pons!";
+    } else
+    {
+        PawnPos tempPos = GetWhitePawnPos(number);
+        SetWhitePawnPos(number, tempPos.X() -1, tempPos.Y()-1);
+    };
+}
+
+void Board::PutWhiteTopRightPawn(const unsigned short number)
+{
+    if (!GetWhitePawnPons(number))
+    {
+        qDebug() << "ERROR! Board::PutWhiteTopRightPawn(const unsigned short number) Pawn is not pons!";
+    } else
+    {
+        PawnPos tempPos = GetWhitePawnPos(number);
+        SetWhitePawnPos(number, tempPos.X() +1, tempPos.Y()-1);
+    };
+}
+
+void Board::PutWhiteBottomLeftPawn(const unsigned short number)
+{
+    PawnPos tempPos = GetWhitePawnPos(number);
+    SetWhitePawnPos(number, tempPos.X() -1, tempPos.Y()+1);
+}
+
+void Board::PutWhiteBottomRightPawn(const unsigned short number)
+{
+    PawnPos tempPos = GetWhitePawnPos(number);
+    SetWhitePawnPos(number, tempPos.X() +1, tempPos.Y()+1);
+}
+
+void Board::PutBlackTopLeftPawn(const unsigned short number)
+{
+        PawnPos tempPos = GetBlackPawnPos(number);
+        SetBlackPawnPos(number, tempPos.X() -1, tempPos.Y()-1);
+}
+
+void Board::PutBlackTopRightPawn(const unsigned short number)
+{
+        PawnPos tempPos = GetBlackPawnPos(number);
+        SetBlackPawnPos(number, tempPos.X() +1, tempPos.Y()-1);
+}
+
+void Board::PutBlackBottomLeftPawn(const unsigned short number)
+{
+    if (!GetBlackPawnPons(number))
+    {
+        qDebug() << "ERROR! Board::PutBlackBottomLeftPawn(const unsigned short number) Pawn is not pons!";
+    } else
+    {
+        PawnPos tempPos = GetBlackPawnPos(number);
+        SetBlackPawnPos(number, tempPos.X() -1, tempPos.Y()+1);
+    };
+}
+
+void Board::PutBlackBottomRightPawn(const unsigned short number)
+{
+    if (!GetBlackPawnPons(number))
+    {
+        qDebug() << "ERROR! Board::PutBlackBottomRightPawn(const unsigned short number) Pawn is not pons!";
+    } else
+    {
+        PawnPos tempPos = GetBlackPawnPos(number);
+        SetBlackPawnPos(number, tempPos.X() +1, tempPos.Y()+1);
     };
 }
 
@@ -100,7 +180,7 @@ void Board::RemoveBlackPawn(const unsigned short number)
         qDebug() << "ERROR! Board::RemoveBlackPawn(const unsigned short number) Requesting white pawn not exist!";
     };
 
-    white.erase(black.begin()+number);
+    black.erase(black.begin()+number);
 }
 
 void Board::RemoveWhitePawn(const unsigned short number)
@@ -134,7 +214,7 @@ PawnPos Board::GetBlackPawnPos(const unsigned short number)
     } else
     {
         Pawn temp = black.at(number);
-        return PawnPos(temp.x, temp.y);
+        return PawnPos(temp.x, temp.y);        
     };
     return PawnPos(0,0);
 }
@@ -199,6 +279,30 @@ bool Board::GetBlackPawnPons(const unsigned short number)
     return 0;
 }
 
+bool Board::SetWhitePawnPons(const unsigned short number, const bool flag)
+{
+    if (number>white.size()-1)
+    {
+        qDebug() << "ERROR! Board::SetWhitePawnPons(const unsigned short number, const bool flag) Requesting white pawn not exist!";
+    } else
+    {
+        Pawn &ref = white.at(number);
+        ref.pons = flag;
+    };
+}
+
+bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
+{
+    if (number>black.size()-1)
+    {
+        qDebug() << "ERROR! Board::SetWhitePawnPons(const unsigned short number, const bool flag) Requesting white pawn not exist!";
+    } else
+    {
+        Pawn &ref = black.at(number);
+        ref.pons = flag;
+    };
+}
+
 bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
 {
     foreach(Pawn temp, white)
@@ -256,7 +360,7 @@ unsigned short Board::GetNumberOfBlack()
     return black.size();
 }
 
-void Board::RemovePonsFrom(const unsigned short x, const unsigned short y)
+void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
 {
 
     if (((y+1) % 2 == 1)&&((x+1) % 2 == 1))
@@ -295,4 +399,55 @@ void Board::RemovePonsFrom(const unsigned short x, const unsigned short y)
     };
 
     if (!flag) qDebug() << "ERROR! Board::RemovePonsFrom(const unsigned short x, const unsigned short y) Requesting pawn that not exist!";
+}
+
+void Board::printDebug()
+{
+    QString line;
+    bool flag = 0;
+
+    for (int y=0; y<8; y++)
+    {
+
+        line ="|";
+
+        for (int x=0; x<8; x++)
+        {
+
+            if (IsWhitePawnOnPos(x,y))
+            {
+                if (IsPawnOnPos(x,y))
+                {
+                    line += "W";
+                } else
+                {
+                    line += "w";
+                };
+            } else
+            if (IsBlackPawnOnPos(x,y))
+            {
+                if (IsPawnOnPos(x,y))
+                {
+                    line += "B";
+                } else
+                {
+                    line += "b";
+                };
+            } else
+            if (flag)
+            {
+                line+="\\";
+            }
+            else
+            {
+                line+=" ";
+            };
+
+            line+="|";
+            flag = !flag;
+        };
+
+        qDebug() << line;
+        flag = !flag;
+    };
 }

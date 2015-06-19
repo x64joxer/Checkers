@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "CheckerArea.h"
 #include "Board.h"
+#include "IA/IADecisionTree.h"
+#include "IA/IATreeExpander.h"
 
 namespace Ui {
 class MainWindow;

@@ -7,7 +7,7 @@ class PawnPos
 {
     public:
         PawnPos();
-        PawnPos(const int X, const int Y);
+        PawnPos(const unsigned short X, const unsigned short Y);
         unsigned short X();
         unsigned short Y();
         void SetX(const unsigned short X);

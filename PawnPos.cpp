@@ -5,7 +5,7 @@ PawnPos::PawnPos()
 
 }
 
-PawnPos::PawnPos(const int X, const int Y)
+PawnPos::PawnPos(const unsigned short X, const unsigned short Y)
 {
     x = X;
     y = Y;
