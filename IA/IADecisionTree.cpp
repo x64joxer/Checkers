@@ -81,7 +81,7 @@ IADecisionTree::~IADecisionTree()
     }
     next.clear();
     numberOfElelments--;
-    qDebug() << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
+   // qDebug() << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
 }
 
 unsigned int IADecisionTree::numberOfElelments = 0;

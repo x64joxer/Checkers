@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#define QT_NO_DEBUG_OUTPUT
+
 #include <QMainWindow>
 #include "CheckerArea.h"
 #include "Board.h"

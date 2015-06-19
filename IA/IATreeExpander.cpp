@@ -9,14 +9,21 @@ void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
 {
     qDebug() << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";
     IABoardQueue queue ;
+    IADecisionTree *currentWork;
+    queue.PushBack(treePointer);
 
-    if (treePointer->Black())
+    for (unsigned short i = 0;i<50000;i++)
     {
-      qDebug() << "LOG: (treePointer->Black())";
-    } else
-    {
-      qDebug() << "LOG: (treePointer->White())";
-      ExpandWhite(treePointer, queue);
+        currentWork = queue.PopFirst();
+        if (currentWork->Black())
+        {
+          qDebug() << "LOG: (treePointer->Black())";
+          ExpandBlack(currentWork, queue);
+        } else
+        {
+          qDebug() << "LOG: (treePointer->White())";
+          ExpandWhite(currentWork, queue);
+        };
     };
 }
 
@@ -87,6 +94,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
 
        if (!killFlag)
        {
+           treePointer->SetPreviousMurder(9);
            ExpandBlack(treePointer, queue);
        };
 
@@ -230,7 +238,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
            tempNew.printDebug();
            possible.KillHitTopLeftBlack(i, tempNew);
            killFlag = true;
-           queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+           queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
            qDebug() << "LOG: Result";
            tempNew.printDebug();
        };
@@ -242,7 +250,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
            tempNew.printDebug();
            possible.KillHitTopRightBlack(i, tempNew);
            killFlag = true;
-           queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+           queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
            qDebug() << "LOG: Result";
            tempNew.printDebug();
        };
@@ -258,7 +266,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
               tempNew.printDebug();
               possible.KillHitBottomLeftBlack(i, tempNew);
               killFlag = true;
-              queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+              queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
               qDebug() << "LOG: Result";
               tempNew.printDebug();
           };
@@ -270,7 +278,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
               tempNew.printDebug();
               possible.KillHitBottomRightBlack(i, tempNew);
               killFlag = true;
-              queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+              queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
               qDebug() << "LOG: Result";
               tempNew.printDebug();
           };
@@ -279,6 +287,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
 
        if (!killFlag)
        {
+           treePointer->SetPreviousMurder(9);
            ExpandWhite(treePointer, queue);
        };
 
@@ -295,7 +304,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
            tempNew.printDebug();
            possible.KillHitTopLeftBlack(i, tempNew);
            killFlag = true;
-           queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+           queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
            qDebug() << "LOG: Result";
            tempNew.printDebug();
        };
@@ -307,7 +316,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
            tempNew.printDebug();
            possible.KillHitTopRightBlack(i, tempNew);
            killFlag = true;
-           queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+           queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
            qDebug() << "LOG: Result";
            tempNew.printDebug();
        };
@@ -323,7 +332,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
              tempNew.printDebug();
              possible.KillHitBottomLeftBlack(i, tempNew);
              killFlag = true;
-             queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+             queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
              qDebug() << "LOG: Result";
              tempNew.printDebug();
          };
@@ -335,7 +344,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
              tempNew.printDebug();
              possible.KillHitBottomRightBlack(i, tempNew);
              killFlag = true;
-             queue.PushBack(treePointer->AddNextStep(tempNew,1,i));
+             queue.PushBack(treePointer->AddNextStep(tempNew,0,i));
              qDebug() << "LOG: Result";
              tempNew.printDebug();
          };
@@ -356,7 +365,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                 Board tempNew = board;
                 tempNew.printDebug();
                 tempNew.PutBlackTopLeftPawn(i);
-                queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                queue.PushBack(treePointer->AddNextStep(tempNew,1));
                 qDebug() << "LOG: Result";
                 tempNew.printDebug();
             };
@@ -367,7 +376,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                 Board tempNew = board;
                 tempNew.printDebug();
                 tempNew.PutBlackTopRightPawn(i);
-                queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                queue.PushBack(treePointer->AddNextStep(tempNew,1));
                 qDebug() << "LOG: Result";
                 tempNew.printDebug();
             };
@@ -381,7 +390,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutBlackBottomLeftPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                    queue.PushBack(treePointer->AddNextStep(tempNew,1));
                     qDebug() << "LOG: Result";
                     tempNew.printDebug();
                 };
@@ -392,7 +401,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutBlackBottomRightPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                    queue.PushBack(treePointer->AddNextStep(tempNew,1));
                     qDebug() << "LOG: Result";
                     tempNew.printDebug();
                 };

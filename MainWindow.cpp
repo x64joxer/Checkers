@@ -20,8 +20,14 @@ void MainWindow::Init()
     //board->RemovePawnFrom(2,1);
     //board->printDebug();
   //  board->SetBlackPawnPos(0,6,3);
-    board->SetWhitePawnPos(11,7-1,4-1);
-    board->SetWhitePawnPons(11,true);
+    board->SetWhitePawnPos(11,5,4);
+
+    for (unsigned short i=0;i<10;i++)
+    {
+        board->RemoveWhitePawn(i);
+        board->RemoveBlackPawn(i);
+    };
+
    // board->SetWhitePawnPos(10,3,4);
 
     PawnPos temp = board->GetWhitePawnPos(9);
@@ -32,7 +38,7 @@ void MainWindow::Init()
     IADecisionTree *tree;
     tree = new IADecisionTree();
 
-    tree->StartWhite();
+    tree->StartBlack();
     tree->SetBoard(*board);
     expander.ExpandTheTree(tree);
     delete tree;

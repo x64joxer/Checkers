@@ -405,6 +405,8 @@ void Board::printDebug()
 {
     QString line;
     bool flag = 0;
+    qDebug() << "LOG: White= " << GetNumberOfWhite();
+    qDebug() << "LOG: Black= " << GetNumberOfBlack();
 
     for (int y=0; y<8; y++)
     {
@@ -416,7 +418,8 @@ void Board::printDebug()
 
             if (IsWhitePawnOnPos(x,y))
             {
-                if (IsPawnOnPos(x,y))
+                unsigned short number = GetWhitePawnNumber(x,y);
+                if (GetWhitePawnPons(number))
                 {
                     line += "W";
                 } else
@@ -426,7 +429,8 @@ void Board::printDebug()
             } else
             if (IsBlackPawnOnPos(x,y))
             {
-                if (IsPawnOnPos(x,y))
+                unsigned short number = GetBlackPawnNumber(x,y);
+                if (GetBlackPawnPons(number))
                 {
                     line += "B";
                 } else
