@@ -37,7 +37,7 @@ Board IADecisionTree::GetBoard()
     return board;
 }
 
-void IADecisionTree::AddNextStep(Board b,const bool blackWhte, const unsigned short number)
+IADecisionTree * IADecisionTree::AddNextStep(Board b,const bool blackWhte, const unsigned short number)
 {
     //Mutex
     IADecisionTree *wsk = new IADecisionTree();
@@ -53,7 +53,7 @@ void IADecisionTree::AddNextStep(Board b,const bool blackWhte, const unsigned sh
     wsk->SetBoard(b);
     next.push_back(wsk);
 
-
+    return wsk;
     //Mutex
 }
 

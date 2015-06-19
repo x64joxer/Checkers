@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     PossibleMoves.cpp \
     IA/IADecisionTree.cpp \
     IA/IAPossibleMoves.cpp \
-    IA/IATreeExpander.cpp
+    IA/IATreeExpander.cpp \
+    IA/IABoardQueue.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -35,7 +36,8 @@ HEADERS  += MainWindow.h \
     PossibleMoves.h \
     IA/IADecisionTree.h \
     IA/IAPossibleMoves.h \
-    IA/IATreeExpander.h
+    IA/IATreeExpander.h \
+    IA/IABoardQueue.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui
