@@ -20,7 +20,7 @@ void MainWindow::Init()
     //board->RemovePawnFrom(2,1);
     //board->printDebug();
   //  board->SetBlackPawnPos(0,6,3);
-    board->SetWhitePawnPos(11,7,4);
+    board->SetWhitePawnPos(11,7-1,4-1);
     board->SetWhitePawnPons(11,true);
    // board->SetWhitePawnPos(10,3,4);
 

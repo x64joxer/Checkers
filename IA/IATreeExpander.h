@@ -14,6 +14,7 @@ class IATreeExpander
 
     private:
         bool ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue);
+        bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue);
 };
 
 #endif // IATREEEXPANDER_H
