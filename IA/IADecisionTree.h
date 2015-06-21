@@ -12,6 +12,8 @@ class IADecisionTree
         bool Black();
         bool White();
         void SetBoard(Board &b);
+        void SetPreviousElement(IADecisionTree *wsk);
+        IADecisionTree * GetPreviousElement();
         void StartBlack();
         void StartWhite();
         Board GetBoard();

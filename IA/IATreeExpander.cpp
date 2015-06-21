@@ -10,10 +10,10 @@ void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     qDebug() << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";
     IABoardQueue queue ;
     IADecisionTree *currentWork;
-    queue.PushBack(treePointer);
+    queue.ForcePushBack(treePointer);
 
-    for (unsigned short i = 0;i<50000;i++)
-    {
+    for (unsigned short i = 0;i<1000;i++)
+    {        
         currentWork = queue.PopFirst();
         if (currentWork->Black())
         {
@@ -25,6 +25,8 @@ void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
           ExpandWhite(currentWork, queue);
         };
     };
+
+   queue.GetBestResult();
 }
 
 bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue)

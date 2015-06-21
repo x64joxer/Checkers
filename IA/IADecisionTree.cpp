@@ -3,6 +3,7 @@
 
 IADecisionTree::IADecisionTree()
 {
+    previous = NULL;
     numberOfElelments++;
     qDebug() << "LOG! IADecisionTree::IADecisionTree() Number of elements = " << numberOfElelments ;
 }
@@ -20,6 +21,16 @@ bool IADecisionTree::White()
 void IADecisionTree::SetBoard(Board &b)
 {
     board = b;
+}
+
+void IADecisionTree::SetPreviousElement(IADecisionTree *wsk)
+{
+    previous = wsk;
+}
+
+IADecisionTree * IADecisionTree::GetPreviousElement()
+{
+    return previous;
 }
 
 void IADecisionTree::StartBlack()
@@ -51,6 +62,8 @@ IADecisionTree * IADecisionTree::AddNextStep(Board b,const bool blackWhte, const
         wsk->StartBlack();
     };
     wsk->SetBoard(b);
+
+    wsk->SetPreviousElement(this);
     next.push_back(wsk);
 
     return wsk;
