@@ -209,6 +209,19 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 } else
                 {
                     qDebug() << "cursorState = Free"; //In future IA !!!!!!!
+                    //Test
+                    IATreeExpander expander;
+                    IADecisionTree *tree;
+                    tree = new IADecisionTree();
+                    Board copy = *board;
+                    tree->StartWhite();
+                    tree->SetBoard(*board);
+                    *board =  expander.ExpandTheTree(tree);
+                    qDebug() << "LOG: Before";
+                    copy.printDebug();
+                    qDebug() << "LOG: After";
+                    board->printDebug();
+                    //Test
                     cursorState = Free;
                 };
             } else
@@ -216,6 +229,20 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 qDebug() << "cursorState = Free"; //In future IA !!!!!!!
                 cursorState = Free;
                 board->SetBlackPawnPos(grabbed,x,y);
+                //Test
+                IATreeExpander expander;
+                IADecisionTree *tree;
+                tree = new IADecisionTree();
+                Board copy = *board;
+                tree->StartWhite();
+                tree->SetBoard(*board);
+                *board =  expander.ExpandTheTree(tree);
+
+                qDebug() << "LOG: Before";
+                copy.printDebug();
+                qDebug() << "LOG: After";
+                board->printDebug();
+                //Test
             }
         } else
         {

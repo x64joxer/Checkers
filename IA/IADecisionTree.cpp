@@ -18,6 +18,39 @@ bool IADecisionTree::White()
     return blackWhite;
 }
 
+Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
+{
+    IADecisionTree *temp;
+    std::list<IADecisionTree *> white;
+
+    qDebug() << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
+
+    while (wsk->GetPreviousElement() != NULL)
+    {
+            temp = wsk;
+            if (temp->Black())
+            {
+              qDebug() << "LOG! Add to white list!";
+              temp->GetBoard().printDebug();
+              white.push_front(temp);
+            } else
+            {
+              qDebug() << "LOG! Clear white list!";
+              wsk->GetBoard().printDebug();
+             // white.clear();
+            };
+            wsk = wsk->GetPreviousElement();
+
+    };
+
+    qDebug() << "LOG! Number of black steps =" << white.size();    
+    std::list<IADecisionTree *>::iterator iter = white.begin();
+    temp = iter.operator *();
+    if (white.size() == 0) qDebug() << "ERROR! White list is empty!";
+    temp->GetBoard().printDebug();
+    return temp->GetBoard();
+}
+
 void IADecisionTree::SetBoard(Board &b)
 {
     board = b;

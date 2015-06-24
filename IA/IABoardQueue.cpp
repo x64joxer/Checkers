@@ -39,7 +39,7 @@ void IABoardQueue::PushBack(IADecisionTree *wsk)
         {
             queue.clear();
             test = board.GetNumberOfBlack();
-            queue.push_back(wsk);
+            queue.push_front(wsk);
         } else
         {
             queue.push_back(wsk);
@@ -69,8 +69,41 @@ IADecisionTree * IABoardQueue::PopFirst()
 {    
     //Mutex
     std::list<IADecisionTree*>::iterator iter = queue.begin();
+    bool flag = false;
     IADecisionTree * wsk = *iter;
-    queue.pop_front();
+    int size = queue.size() -1;
+
+    do
+    {
+        queue.pop_front();
+        flag = false;
+
+        if (wsk->GetBoard().GetNumberOfBlack() == 0)
+        {
+            queue.push_back(wsk);
+            flag = true;
+        } else
+        if (wsk->GetBoard().GetNumberOfWhite() == 0)
+        {
+            queue.push_back(wsk);
+            flag = true;
+        };
+
+        size--;
+        if ((size == 0)&&(flag))
+        {
+            flag = false;
+            wsk = NULL;
+        };
+
+        if (flag)
+        {
+            iter = queue.begin();
+            wsk = *iter;
+        };
+
+    } while (flag);
+
     //Mutex
     return wsk;
 }

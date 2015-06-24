@@ -11,6 +11,7 @@ class IADecisionTree
         ~IADecisionTree();
         bool Black();
         bool White();
+        Board GetOldestAncestor(IADecisionTree *wsk);
         void SetBoard(Board &b);
         void SetPreviousElement(IADecisionTree *wsk);
         IADecisionTree * GetPreviousElement();

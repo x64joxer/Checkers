@@ -6,6 +6,8 @@
 #include <QMouseEvent>
 #include "Board.h"
 #include "PossibleMoves.h"
+#include "IA/IATreeExpander.h"
+#include "IA/IADecisionTree.h"
 
 namespace Ui {
 class CheckerArea;

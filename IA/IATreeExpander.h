@@ -10,11 +10,11 @@ class IATreeExpander
 {
     public:
         IATreeExpander();
-        void ExpandTheTree(IADecisionTree *treePointer);
+        Board ExpandTheTree(IADecisionTree *treePointer);
 
     private:
         bool ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue);
-        bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue);
+        bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue);        
 };
 
 #endif // IATREEEXPANDER_H

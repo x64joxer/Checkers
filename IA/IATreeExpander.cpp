@@ -5,16 +5,18 @@ IATreeExpander::IATreeExpander()
 
 }
 
-void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
+Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
 {
     qDebug() << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";
     IABoardQueue queue ;
     IADecisionTree *currentWork;
     queue.ForcePushBack(treePointer);
 
-    for (unsigned short i = 0;i<1000;i++)
+    for (unsigned short i = 0;i<2000;i++)
     {        
         currentWork = queue.PopFirst();
+        if (currentWork == NULL) break;
+
         if (currentWork->Black())
         {
           qDebug() << "LOG: (treePointer->Black())";
@@ -26,7 +28,10 @@ void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
         };
     };
 
-   queue.GetBestResult();
+
+    Board temp = currentWork->GetOldestAncestor(queue.GetBestResult());
+
+    return temp;
 }
 
 bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue)
@@ -97,6 +102,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
        if (!killFlag)
        {
            treePointer->SetPreviousMurder(9);
+           treePointer->StartBlack();
            ExpandBlack(treePointer, queue);
        };
 
@@ -290,6 +296,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
        if (!killFlag)
        {
            treePointer->SetPreviousMurder(9);
+           treePointer->StartWhite();
            ExpandWhite(treePointer, queue);
        };
 

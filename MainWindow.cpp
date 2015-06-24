@@ -34,7 +34,8 @@ void MainWindow::Init()
     IADecisionTree *tree;
     tree = new IADecisionTree();
 
-    tree->StartBlack();
+//    tree->StartBlack();
+    tree->StartWhite();
     tree->SetBoard(*board);
     expander.ExpandTheTree(tree);
     delete tree;
