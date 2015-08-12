@@ -83,7 +83,7 @@ void CheckerArea::PaintFields(QPainter *painter)
 
 void CheckerArea::PaintPawn(QPainter *painter)
 {
-    if (board == NULL) qDebug() << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
+    if (board == NULL) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
     ushort numberOfWhite = board->GetNumberOfWhite();
     ushort numberOfBlack = board->GetNumberOfBlack();
     int widthField = width() / 8;
@@ -193,7 +193,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
 
     if (cursorState == Grab)
     {
-        qDebug() << "if (cursorState == Grab)";
+        Traces() << "\n" << "if (cursorState == Grab)";
         if (possibleMoves.CanIPutHere(grabbed, x, y, *board))
         {
             unsigned short killed;
@@ -204,11 +204,11 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 board->SetBlackPawnPos(grabbed,x,y);
                 if (possibleMoves.CheckHitTopLeft(x,y,*board) | possibleMoves.CheckHitTopRight(x,y,*board))
                 {
-                    qDebug() << "cursorState = Free";
+                    Traces() << "\n" << "cursorState = Free";
                     cursorState = Free;
                 } else
                 {
-                    qDebug() << "cursorState = Free"; //In future IA !!!!!!!
+                    Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                     //Test
                     IATreeExpander expander;
                     IADecisionTree *tree;
@@ -217,16 +217,16 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     tree->StartWhite();
                     tree->SetBoard(*board);
                     *board =  expander.ExpandTheTree(tree);
-                    qDebug() << "LOG: Before";
+                    Traces() << "\n" << "LOG: Before";
                     copy.printDebug();
-                    qDebug() << "LOG: After";
+                    Traces() << "\n" << "LOG: After";
                     board->printDebug();
                     //Test
                     cursorState = Free;
                 };
             } else
             {
-                qDebug() << "cursorState = Free"; //In future IA !!!!!!!
+                Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                 cursorState = Free;
                 board->SetBlackPawnPos(grabbed,x,y);
                 //Test
@@ -238,16 +238,16 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 tree->SetBoard(*board);
                 *board =  expander.ExpandTheTree(tree);
 
-                qDebug() << "LOG: Before";
+                Traces() << "\n" << "LOG: Before";
                 copy.printDebug();
-                qDebug() << "LOG: After";
+                Traces() << "\n" << "LOG: After";
                 board->printDebug();
                 //Test
             }
         } else
         {
             cursorState = Free;
-            qDebug() << "cursorState = Free";
+            Traces() << "\n" << "cursorState = Free";
         };
     };
 

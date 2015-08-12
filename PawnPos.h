@@ -1,7 +1,7 @@
 #ifndef PAWNPOS_H
 #define PAWNPOS_H
 
-#include <QDebug>
+#include "Traces/Traces.h"
 
 class PawnPos
 {

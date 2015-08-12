@@ -5,7 +5,7 @@ IADecisionTree::IADecisionTree()
 {
     previous = NULL;
     numberOfElelments++;
-    qDebug() << "LOG! IADecisionTree::IADecisionTree() Number of elements = " << numberOfElelments ;
+    Traces() << "\n" << "LOG! IADecisionTree::IADecisionTree() Number of elements = " << numberOfElelments ;
 }
 
 bool IADecisionTree::Black()
@@ -23,19 +23,19 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
     IADecisionTree *temp;
     std::list<IADecisionTree *> white;
 
-    qDebug() << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
+    Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
 
     while (wsk->GetPreviousElement() != NULL)
     {
             temp = wsk;
             if (temp->Black())
             {
-              qDebug() << "LOG! Add to white list!";
+              Traces() << "\n" << "LOG! Add to white list!";
               temp->GetBoard().printDebug();
               white.push_front(temp);
             } else
             {
-              qDebug() << "LOG! Clear white list!";
+              Traces() << "\n" << "LOG! Clear white list!";
               wsk->GetBoard().printDebug();
              // white.clear();
             };
@@ -43,10 +43,10 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
 
     };
 
-    qDebug() << "LOG! Number of black steps =" << white.size();    
+    Traces() << "\n" << "LOG! Number of black steps =" << white.size();    
     std::list<IADecisionTree *>::iterator iter = white.begin();
     temp = iter.operator *();
-    if (white.size() == 0) qDebug() << "ERROR! White list is empty!";
+    if (white.size() == 0) Traces() << "\n" << "ERROR! White list is empty!";
     temp->GetBoard().printDebug();
     return temp->GetBoard();
 }
@@ -105,12 +105,12 @@ IADecisionTree * IADecisionTree::AddNextStep(Board b,const bool blackWhte, const
 
 void IADecisionTree::SetPreviousMurder(const unsigned short number)
 {
-    if ((number>=0)&&(number<=9))
+    if ((number>=0)&&(number<=11))
     {
         previousMurder = number;
     } else
     {
-        qDebug() << "ERROR! IADecisionTree::SetPreviousMurder(const unsigned short number) Out of range 0-9!" ;
+        Traces() << "\n" << "ERROR! IADecisionTree::SetPreviousMurder(const unsigned short number) Out of range 0-11! Trying to set " << number;
     };
 }
 
@@ -127,7 +127,7 @@ IADecisionTree::~IADecisionTree()
     }
     next.clear();
     numberOfElelments--;
-   // qDebug() << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
+   // Traces() << "\n" << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
 }
 
 unsigned int IADecisionTree::numberOfElelments = 0;

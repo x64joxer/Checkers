@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <QPoint>
-#include <QDebug>
+#include "Traces/Traces.h"
 #include "Pawn.h"
 #include "PawnPos.h"
 

@@ -12,7 +12,7 @@ void IABoardQueue::ForcePushBack(IADecisionTree *wsk)
 
 IADecisionTree * IABoardQueue::GetBestResult()
 {
-    qDebug() << "LOG: IABoardQueue::GetBestResult()";
+    Traces() << "\n" << "LOG: IABoardQueue::GetBestResult()";
     IADecisionTree * best = queue.front();
     foreach (IADecisionTree *wsk, queue)
     {
@@ -22,7 +22,7 @@ IADecisionTree * IABoardQueue::GetBestResult()
         };
     };
 
-    qDebug() << "LOG: Best result:";
+    Traces() << "\n" << "LOG: Best result:";
     best->GetBoard().printDebug();
 
     return best;
@@ -35,7 +35,7 @@ int IABoardQueue::PushBack(IADecisionTree *wsk)
     //Test
     /*if (queue.size() == 0)
     {
-        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) List empty, push front";
+        Traces() << "\n" << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) List empty, push front";
         queue.push_front(wsk);
         return 0;
     };
@@ -54,11 +54,11 @@ int IABoardQueue::PushBack(IADecisionTree *wsk)
 
     if (tempWsk->GetBoard().GetResult() <= board.GetResult())
     {
-        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push first";
+        Traces() << "\n" << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push first";
         queue.push_front(wsk);
     } else
     {
-        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push second first";
+        Traces() << "\n" << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push second first";
         queue.pop_front();
         queue.push_front(wsk);
         queue.push_front(tempWsk);
@@ -88,7 +88,7 @@ int IABoardQueue::PushBack(IADecisionTree *wsk)
         };
     };*/
 
-    qDebug() << "LOG: Queue size:" << queue.size();
+    Traces() << "\n" << "LOG: Queue size:" << queue.size();
     return 0;
     //Test
 

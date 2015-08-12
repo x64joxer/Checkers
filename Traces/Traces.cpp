@@ -5,18 +5,27 @@ Traces::Traces()
 
 }
 
-Traces& Traces::operator <<(std::string data)
+/*Traces& Traces::operator <<(std::string data)
 {
+    qDebug() << "Operator";
     StringToFile(data);
+}*/
+
+Traces& Traces::operator <<(QString data)
+{
+    if (traceOn)  StringToFile(data.toStdString());
 }
 
 Traces& Traces::operator <<(long data)
 {
-    std::string number;
-    std::stringstream strstream;
-    strstream << data;
-    strstream >> number;
-    StringToFile(number);
+    if (traceOn)
+    {
+        std::string number;
+        std::stringstream strstream;
+        strstream << data;
+        strstream >> number;
+        StringToFile(number);
+    };
 }
 
 void Traces::SetPatch(const std::string &patchAndName)
@@ -28,11 +37,21 @@ void Traces::SetPatch(const std::string &patchAndName)
     };
 }
 
-void Traces::StringToFile(std::string & log)
+void Traces::StringToFile(std::string log)
 {
     logFile << log;
 }
 
+void Traces::TurnOnTraces()
+{
+    traceOn = true;
+}
+
+void Traces::TurnOffTraces()
+{
+    traceOn = false;
+}
 
 std::string Traces::patchAndNameFile ="";
 std::ofstream Traces::logFile;
+bool Traces::traceOn = false;

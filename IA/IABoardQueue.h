@@ -2,6 +2,7 @@
 #define IABOARDQUEUE_H
 
 #include "IA/IADecisionTree.h"
+#include "Traces/Traces.h"
 
 class IABoardQueue
 {

@@ -20,7 +20,7 @@ void MainWindow::Init()
 int i;
     Traces trac;
     Traces::SetPatch("log.txt");
-    Traces() << "kot" << "\n" << "dog" << 13;
+    Traces() << "\n" << "kot" << "\n" << "dog" << 13;
 
     //board->SetWhitePawnPos(1,1,4);
     //board->SetWhitePawnPos(2,0,3);
@@ -34,7 +34,7 @@ int i;
    // board->SetWhitePawnPos(10,3,4);
 
     PawnPos temp = board->GetWhitePawnPos(9);
-    qDebug() << temp.X() << " " << temp.Y();
+    Traces() << "\n" << temp.X() << " " << temp.Y();
     board->printDebug();
 
    // IATreeExpander expander;
