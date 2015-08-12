@@ -8,6 +8,7 @@
 #include "Board.h"
 #include "IA/IADecisionTree.h"
 #include "IA/IATreeExpander.h"
+#include "Traces/Traces.h"
 
 namespace Ui {
 class MainWindow;

@@ -15,6 +15,13 @@ void MainWindow::Init()
     board = new Board();
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
+
+
+int i;
+    Traces trac;
+    Traces::SetPatch("log.txt");
+    Traces() << "kot" << "\n" << "dog" << 13;
+
     //board->SetWhitePawnPos(1,1,4);
     //board->SetWhitePawnPos(2,0,3);
     //board->RemovePawnFrom(2,1);
@@ -30,15 +37,15 @@ void MainWindow::Init()
     qDebug() << temp.X() << " " << temp.Y();
     board->printDebug();
 
-    IATreeExpander expander;
-    IADecisionTree *tree;
-    tree = new IADecisionTree();
+   // IATreeExpander expander;
+  //  IADecisionTree *tree;
+   // tree = new IADecisionTree();
 
 //    tree->StartBlack();
-    tree->StartWhite();
-    tree->SetBoard(*board);
-    expander.ExpandTheTree(tree);
-    delete tree;
+ //   tree->StartWhite();
+  //  tree->SetBoard(*board);
+  //  expander.ExpandTheTree(tree);
+   // delete tree;
 }
 
 void MainWindow::resizeEvent( QResizeEvent * event )
