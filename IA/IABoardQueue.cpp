@@ -28,12 +28,44 @@ IADecisionTree * IABoardQueue::GetBestResult()
     return best;
 }
 
-void IABoardQueue::PushBack(IADecisionTree *wsk)
+int IABoardQueue::PushBack(IADecisionTree *wsk)
 {
+    queue.push_back(wsk);
     //Mutex
     //Test
+    /*if (queue.size() == 0)
+    {
+        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) List empty, push front";
+        queue.push_front(wsk);
+        return 0;
+    };
+
+    if (wsk->GetPreviousElement()->White())
+    {
+        if (wsk->GetBoard().GetNumberOfWhite()<wsk->GetPreviousElement()->GetBoard().GetNumberOfWhite())
+        {
+            queue.push_back(wsk);
+            return 0;
+        };
+    };
+
     Board board = wsk->GetBoard();
-    if (wsk->Black())
+    IADecisionTree *tempWsk = queue.front();
+
+    if (tempWsk->GetBoard().GetResult() <= board.GetResult())
+    {
+        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push first";
+        queue.push_front(wsk);
+    } else
+    {
+        qDebug() << "LOG: IABoardQueue::PushBack(IADecisionTree *wsk) Push second first";
+        queue.pop_front();
+        queue.push_front(wsk);
+        queue.push_front(tempWsk);
+
+    };*/
+
+    /*if (wsk->Black())
     {
         if (board.GetNumberOfBlack()<test)
         {
@@ -54,9 +86,10 @@ void IABoardQueue::PushBack(IADecisionTree *wsk)
         {
             queue.push_back(wsk);
         };
-    };
+    };*/
 
     qDebug() << "LOG: Queue size:" << queue.size();
+    return 0;
     //Test
 
 

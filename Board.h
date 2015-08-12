@@ -40,6 +40,7 @@ class Board
         unsigned short GetNumberOfBlack();
         void RemovePawnFrom(const unsigned short x, const unsigned short y);
 
+        unsigned short GetResult();
         void printDebug();
 
     private:

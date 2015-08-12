@@ -7,7 +7,7 @@ class IABoardQueue
 {
     public:
         IABoardQueue();
-        void PushBack(IADecisionTree *wsk);
+        int PushBack(IADecisionTree *wsk);
         void ForcePushBack(IADecisionTree *wsk);
         IADecisionTree * GetBestResult();
         IADecisionTree * PopFirst();

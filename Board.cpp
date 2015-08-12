@@ -401,6 +401,16 @@ void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
     if (!flag) qDebug() << "ERROR! Board::RemovePonsFrom(const unsigned short x, const unsigned short y) Requesting pawn that not exist!";
 }
 
+unsigned short Board::GetResult()
+{
+    unsigned short result;
+
+    result = white.size();
+    result+= -(black.size() - 12);
+
+    return result;
+}
+
 void Board::printDebug()
 {
     QString line;
