@@ -218,6 +218,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     {
                         Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                         //Test
+                        repaint();
                         IATreeExpander expander;
                         IADecisionTree *tree;
                         tree = new IADecisionTree();
@@ -238,6 +239,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 {
                     Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                     //Test
+                    repaint();
                     IATreeExpander expander;
                     IADecisionTree *tree;
                     tree = new IADecisionTree();
@@ -259,6 +261,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 cursorState = Free;
                 board->SetBlackPawnPos(grabbed,x,y);
                 //Test
+                repaint();
                 IATreeExpander expander;
                 IADecisionTree *tree;
                 tree = new IADecisionTree();
@@ -278,8 +281,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
             cursorState = Free;
             Traces() << "\n" << "cursorState = Free";
         };
-    };
-
+    };    
     repaint();
 }
 

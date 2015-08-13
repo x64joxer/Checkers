@@ -10,11 +10,12 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     Traces() << "\n" << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";
     IABoardQueue queue ;
     IADecisionTree *currentWork;
+    IADecisionTree *tempWork;
     queue.ForcePushBack(treePointer);
 
-    for (unsigned short i = 0;i<2000;i++)
-    {        
-        currentWork = queue.PopFirst();
+    for (unsigned short i = 0;i<7000;i++)
+    {               
+        currentWork = queue.PopFirst();      
         if (currentWork == NULL) break;
 
         if (currentWork->Black())
@@ -26,10 +27,10 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
           Traces() << "\n" << "LOG: (treePointer->White())";
           ExpandWhite(currentWork, queue);
         };
+        tempWork = currentWork;
     };
 
-
-    Board temp = currentWork->GetOldestAncestor(queue.GetBestResult());
+    Board temp = /*currentWork*/tempWork->GetOldestAncestor(queue.GetBestResult());
 
     return temp;
 }

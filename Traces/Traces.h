@@ -28,7 +28,7 @@ class Traces
 
     private:
         static std::string patchAndNameFile;
-        void StringToFile(std::string log);
+        inline void StringToFile(std::string log);
         static std::ofstream logFile;
         static bool traceOn;
 };

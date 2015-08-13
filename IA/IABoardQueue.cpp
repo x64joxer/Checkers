@@ -128,7 +128,7 @@ IADecisionTree * IABoardQueue::PopFirst()
         };
 
         size--;
-        if ((size == 0)&&(flag))
+        if ((size <= 0)&&(flag))
         {
             flag = false;
             wsk = NULL;
