@@ -411,6 +411,13 @@ unsigned short Board::GetResult()
     return result;
 }
 
+double Board::GetPercentageResult()
+{
+    Traces() << "\n" << "LOG: Board::GetPercentageResult() = " << (double)black.size() / (double)white.size();
+    qDebug() << (double)black.size() / (double)white.size();
+    return (double)black.size() / (double)white.size();
+}
+
 void Board::printDebug()
 {
     QString line;

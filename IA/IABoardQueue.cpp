@@ -16,7 +16,12 @@ IADecisionTree * IABoardQueue::GetBestResult()
     IADecisionTree * best = queue.front();
     foreach (IADecisionTree *wsk, queue)
     {
-        if (best->GetBoard().GetNumberOfBlack()>wsk->GetBoard().GetNumberOfBlack())
+        //if (best->GetBoard().GetNumberOfBlack()>wsk->GetBoard().GetNumberOfBlack())
+        //{
+       //    best = wsk;
+       // };
+
+        if (best->GetBoard().GetPercentageResult()>wsk->GetBoard().GetPercentageResult())
         {
            best = wsk;
         };

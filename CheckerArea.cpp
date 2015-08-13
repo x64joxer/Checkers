@@ -204,9 +204,9 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 board->SetBlackPawnPos(grabbed,x,y);
                 if (possibleMoves.CheckHitTopLeft(x,y,*board) | possibleMoves.CheckHitTopRight(x,y,*board))
                 {
-                    Traces() << "\n" << "cursorState = Free";
+                    Traces() << "\n" << "After kill possibleMoves.CheckHitTopLeft(x,y,*board) | possibleMoves.CheckHitTopRight(x,y,*board) is true, cursorState = Free";
                     cursorState = Free;
-                }
+                } else
                 if (board->GetBlackPawnPons(grabbed))
                 {
                     if (possibleMoves.CheckHitBottomLeft(x,y,*board) | possibleMoves.CheckHitBottomRight(x,y,*board))
@@ -223,8 +223,9 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                         tree = new IADecisionTree();
                         Board copy = *board;
                         tree->StartWhite();
-                        tree->SetBoard(*board);
+                        tree->SetBoard(*board);                        
                         *board =  expander.ExpandTheTree(tree);
+                        delete tree;
                         Traces() << "\n" << "LOG: Before";
                         copy.printDebug();
                         Traces() << "\n" << "LOG: After";
@@ -244,6 +245,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     tree->StartWhite();
                     tree->SetBoard(*board);
                     *board =  expander.ExpandTheTree(tree);
+                    delete tree;
                     Traces() << "\n" << "LOG: Before";
                     copy.printDebug();
                     Traces() << "\n" << "LOG: After";
@@ -264,7 +266,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 tree->StartWhite();
                 tree->SetBoard(*board);
                 *board =  expander.ExpandTheTree(tree);
-
+                delete tree;
                 Traces() << "\n" << "LOG: Before";
                 copy.printDebug();
                 Traces() << "\n" << "LOG: After";

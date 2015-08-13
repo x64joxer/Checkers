@@ -127,7 +127,7 @@ IADecisionTree::~IADecisionTree()
     }
     next.clear();
     numberOfElelments--;
-   // Traces() << "\n" << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
+    Traces() << "\n" << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
 }
 
 unsigned int IADecisionTree::numberOfElelments = 0;

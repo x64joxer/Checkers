@@ -41,6 +41,7 @@ class Board
         void RemovePawnFrom(const unsigned short x, const unsigned short y);
 
         unsigned short GetResult();
+        double GetPercentageResult();
         void printDebug();
 
     private:
