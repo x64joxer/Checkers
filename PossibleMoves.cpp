@@ -22,7 +22,7 @@ bool PossibleMoves::CanIGrab(const unsigned short number, Board board)
             PawnPos pos = board.GetBlackPawnPos(i);
             otherFlag = otherFlag | CheckHitTopLeft(pos.X(), pos.Y(), board) | CheckHitTopRight(pos.X(), pos.Y(), board);
 
-            if (board.GetWhitePawnPons(i))
+            if (board.GetBlackPawnPons(i))
             {
                 otherFlag = otherFlag | CheckHitBottomLeft(pos.X(), pos.Y(), board) | CheckHitBottomRight(pos.X(), pos.Y(), board);
             };
@@ -148,6 +148,13 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
     PawnPos pos = board.GetBlackPawnPos(number);
     bool ponsFlag = board.GetBlackPawnPons(number);
 
+    bool killFlag = CheckHitTopLeft(pos.X(), pos.Y(), board) | CheckHitTopRight(pos.X(), pos.Y(), board);
+    if (ponsFlag)
+    {
+        killFlag = killFlag | CheckHitBottomLeft(pos.X(), pos.Y(), board) | CheckHitBottomRight(pos.X(), pos.Y(), board);
+    };
+
+
     if ((x == pos.X()-2)&&(y == pos.Y()-2))
     {
         if (CheckHitTopLeft(pos.X(), pos.Y(), board))
@@ -168,7 +175,7 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
     {
         if (CheckPutTopLeft(pos.X(), pos.Y(), board))
         {
-            return 1;
+            if (!killFlag) return 1;
         };
     };
 
@@ -176,7 +183,7 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
     {
         if (CheckPutTopRight(pos.X(), pos.Y(), board))
         {
-            return 1;
+            if (!killFlag) return 1;
         };
     };
 
@@ -202,7 +209,7 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
         {
             if (CheckPutBottomLeft(pos.X(), pos.Y(), board))
             {
-                return 1;
+                if (!killFlag) return 1;
             };
         };
 
@@ -210,7 +217,7 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
         {
             if (CheckPutBottomRight(pos.X(), pos.Y(), board))
             {
-                return 1;
+               if (!killFlag) return 1;
             };
         };
     };

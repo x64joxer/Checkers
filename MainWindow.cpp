@@ -18,9 +18,10 @@ void MainWindow::Init()
 
 
 int i;
-    Traces trac;
+    Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "kot" << "\n" << "dog" << 13;
+
 
     //board->SetWhitePawnPos(1,1,4);
     //board->SetWhitePawnPos(2,0,3);

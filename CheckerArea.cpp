@@ -206,7 +206,34 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 {
                     Traces() << "\n" << "cursorState = Free";
                     cursorState = Free;
-                } else
+                }
+                if (board->GetBlackPawnPons(grabbed))
+                {
+                    if (possibleMoves.CheckHitBottomLeft(x,y,*board) | possibleMoves.CheckHitBottomRight(x,y,*board))
+                    {
+                        Traces() << "\n" << "cursorState = Free";
+                        cursorState = Free;
+                    } //Error here
+                    else
+                    {
+                        Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
+                        //Test
+                        IATreeExpander expander;
+                        IADecisionTree *tree;
+                        tree = new IADecisionTree();
+                        Board copy = *board;
+                        tree->StartWhite();
+                        tree->SetBoard(*board);
+                        *board =  expander.ExpandTheTree(tree);
+                        Traces() << "\n" << "LOG: Before";
+                        copy.printDebug();
+                        Traces() << "\n" << "LOG: After";
+                        board->printDebug();
+                        //Test
+                        cursorState = Free;
+                    };
+                }
+                else
                 {
                     Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                     //Test
