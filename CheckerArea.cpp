@@ -14,6 +14,8 @@ CheckerArea::CheckerArea(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setFocusPolicy(Qt::TabFocus);
+
     board = NULL;
 
     field1 = QColor(0,0,0);
@@ -23,6 +25,8 @@ CheckerArea::CheckerArea(QWidget *parent) :
     pawn2 = QColor(255,0,0);
 
     cursorState = Free;
+
+    displayedBoard = 0;
 }
 
 //███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -83,29 +87,39 @@ void CheckerArea::PaintFields(QPainter *painter)
 
 void CheckerArea::PaintPawn(QPainter *painter)
 {
-    if (board == NULL) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
-    ushort numberOfWhite = board->GetNumberOfWhite();
-    ushort numberOfBlack = board->GetNumberOfBlack();
+    Board *boardToPaint;
+
+    if (displayedBoard == 0)
+    {
+      boardToPaint = board;
+    } else
+    {
+      boardToPaint = &previousBoard;
+    };
+
+    if (boardToPaint == NULL) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
+    ushort numberOfWhite = boardToPaint->GetNumberOfWhite();
+    ushort numberOfBlack = boardToPaint->GetNumberOfBlack();
     int widthField = width() / 8;
     int heightField = height() / 8;
     PawnPos pos;
 
     for (int i=0;i<numberOfWhite;i++)
     {
-        pos = board->GetWhitePawnPos(i);
+        pos = boardToPaint->GetWhitePawnPos(i);
 
         DrawPawn(painter,
                  (pos.X() * widthField) + (widthField /2),
                  (pos.Y() * heightField) + (heightField /2),
                  widthField,
                  heightField,1,
-                 board->GetWhitePawnPons(i));
+                 boardToPaint->GetWhitePawnPons(i));
 
     };
 
     for (int i=0;i<numberOfBlack;i++)
     {
-        pos = board->GetBlackPawnPos(i);
+        pos = boardToPaint->GetBlackPawnPos(i);
 
         DrawPawn(painter,
                  (pos.X() * widthField) + (widthField /2),
@@ -113,7 +127,7 @@ void CheckerArea::PaintPawn(QPainter *painter)
                  widthField,
                  heightField,
                  0,
-                 board->GetBlackPawnPons(i));
+                 boardToPaint->GetBlackPawnPons(i));
 
     };
 }
@@ -217,7 +231,8 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     else
                     {
                         Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
-                        //Test
+                        previousBoard = *board;
+                        //Test                        
                         qDebug() << "Start";
                         repaint();
                         IATreeExpander expander;
@@ -240,6 +255,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 else
                 {
                     Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
+                    previousBoard = *board;
                     //Test
                     qDebug() << "Start";
                     repaint();
@@ -264,7 +280,8 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                 cursorState = Free;
                 board->SetBlackPawnPos(grabbed,x,y);
-                //Test
+                previousBoard = *board;
+                //Test                
                 qDebug() << "Start";
                 repaint();
                 IATreeExpander expander;
@@ -300,6 +317,20 @@ void CheckerArea::TakeMouseMoveEvent(QMouseEvent *event)
 
 }
 
+void CheckerArea::TakeKeyPressed(QKeyEvent *event)
+{
+    if (event->key()==Qt::Key_Up)
+    {
+       displayedBoard = 1;
+       repaint();
+    } else
+    if (event->key()==Qt::Key_Down)
+    {
+       displayedBoard = 0;
+       repaint();
+    };
+}
+
 //███████╗██╗      ██████╗ ████████╗███████╗
 //██╔════╝██║     ██╔═══██╗╚══██╔══╝██╔════╝
 //███████╗██║     ██║   ██║   ██║   ███████╗
@@ -332,6 +363,11 @@ void CheckerArea::mousePressEvent(QMouseEvent * event)
 void CheckerArea::mouseReleaseEvent(QMouseEvent *event)
 {
     TakeMouseReleaseEvent(event);
+}
+
+void CheckerArea::keyPressEvent(QKeyEvent *event)
+{
+    TakeKeyPressed(event);
 }
 
 //██████╗ ███████╗███████╗████████╗██████╗ ██╗   ██╗ ██████╗████████╗ ██████╗ ██████╗

@@ -30,6 +30,9 @@ class CheckerArea : public QWidget
         QColor pawn2;
 
         Board *board;
+        Board previousBoard;
+        unsigned short int displayedBoard;
+
         PossibleMoves possibleMoves;
 
         enum CursorState
@@ -48,11 +51,13 @@ class CheckerArea : public QWidget
         void TakeMouseClickEvent(QMouseEvent *event);
         void TakeMouseReleaseEvent(QMouseEvent *event);
         void TakeMouseMoveEvent(QMouseEvent *event);
+        void TakeKeyPressed(QKeyEvent *event);
 
         void paintEvent(QPaintEvent *event);
         void mouseMoveEvent(  QMouseEvent * event);
         void mousePressEvent(QMouseEvent * event);
         void mouseReleaseEvent(QMouseEvent *event);
+        void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // CHECKERAREA_H
