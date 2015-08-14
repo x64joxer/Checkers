@@ -218,6 +218,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     {
                         Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                         //Test
+                        qDebug() << "Start";
                         repaint();
                         IATreeExpander expander;
                         IADecisionTree *tree;
@@ -231,14 +232,16 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                         copy.printDebug();
                         Traces() << "\n" << "LOG: After";
                         board->printDebug();
+                        qDebug() << "Stop";
                         //Test
-                        cursorState = Free;
+                        cursorState = Free;                        
                     };
                 }
                 else
                 {
                     Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                     //Test
+                    qDebug() << "Start";
                     repaint();
                     IATreeExpander expander;
                     IADecisionTree *tree;
@@ -252,6 +255,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     copy.printDebug();
                     Traces() << "\n" << "LOG: After";
                     board->printDebug();
+                    qDebug() << "Stop";
                     //Test
                     cursorState = Free;
                 };
@@ -261,6 +265,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 cursorState = Free;
                 board->SetBlackPawnPos(grabbed,x,y);
                 //Test
+                qDebug() << "Start";
                 repaint();
                 IATreeExpander expander;
                 IADecisionTree *tree;
@@ -274,6 +279,7 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                 copy.printDebug();
                 Traces() << "\n" << "LOG: After";
                 board->printDebug();
+                qDebug() << "Stop";
                 //Test
             }
         } else
