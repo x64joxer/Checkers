@@ -30,6 +30,7 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
         tempWork = currentWork;
     };
 
+    //tempWork->GetPreviousElement()->GetBoard();
     Board temp = /*currentWork*/tempWork->GetOldestAncestor(queue.GetBestResult());
 
     return temp;

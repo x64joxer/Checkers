@@ -471,3 +471,139 @@ void Board::printDebug()
         flag = !flag;
     };
 }
+
+Board & Board::operator =(char* data)
+{
+
+    //| |w| |w| |w| |w|
+    //|w| |w| |w| |w| |
+    //| |w| |w| |w| |w|
+    //|\| |\| |\| |\| |
+    //| |\| |\| |\| |b|
+    //|b| |b| |b| |\| |
+    //| |b| |b| |b| |b|
+    //|b| |b| |b| |b| |
+    numberOfBlack = 0;
+    numberOfBlack = 0;
+    white.clear();
+    black.clear();
+
+    for (int y=0;y<8;y++)
+    {
+        int realPositionX;
+        if ((y+1)%2 == 1)
+        {
+            realPositionX = 0;
+        } else
+        {
+            realPositionX = 0;
+        };
+
+        for (int x=0;x<17;x++)
+        {
+           int position = (y*17)+x;
+
+           if (data[position] == 'w')
+           {
+             white.push_back(Pawn(realPositionX,y,0,0));
+             realPositionX += 1;
+           } else
+           if (data[position] == 'W')
+           {
+             white.push_back(Pawn(realPositionX,y,0,1));
+
+             realPositionX += 1;
+           } else
+           if (data[position] == 'b')
+           {
+             black.push_back(Pawn(realPositionX,y,0,0));
+qDebug() << realPositionX << " " << y;
+             realPositionX += 1;
+           } else
+           if (data[position] == 'B')
+           {
+             black.push_back(Pawn(realPositionX,y,0,1));
+
+             realPositionX += 1;
+           }else
+           if (data[position] == ' ')
+           {
+               realPositionX += 1;
+           } else
+           if (data[position] == '\\')
+           {
+               realPositionX += 1;
+           };
+
+        };
+    };
+}
+
+
+Board & Board::operator =(std::string data)
+{
+
+    //| |w| |w| |w| |w|
+    //|w| |w| |w| |w| |
+    //| |w| |w| |w| |w|
+    //|\| |\| |\| |\| |
+    //| |\| |\| |\| |b|
+    //|b| |b| |b| |\| |
+    //| |b| |b| |b| |b|
+    //|b| |b| |b| |b| |
+    numberOfBlack = 0;
+    numberOfBlack = 0;
+    white.clear();
+    black.clear();
+
+    for (int y=0;y<8;y++)
+    {
+        int realPositionX;
+        if ((y+1)%2 == 1)
+        {
+            realPositionX = 0;
+        } else
+        {
+            realPositionX = 0;
+        };
+
+        for (int x=0;x<17;x++)
+        {
+           int position = (y*17)+x;
+
+           if (data[position] == 'w')
+           {
+             white.push_back(Pawn(realPositionX,y,0,0));
+             realPositionX += 1;
+           } else
+           if (data[position] == 'W')
+           {
+             white.push_back(Pawn(realPositionX,y,0,1));
+
+             realPositionX += 1;
+           } else
+           if (data[position] == 'b')
+           {
+             black.push_back(Pawn(realPositionX,y,0,0));
+qDebug() << realPositionX << " " << y;
+             realPositionX += 1;
+           } else
+           if (data[position] == 'B')
+           {
+             black.push_back(Pawn(realPositionX,y,0,1));
+
+             realPositionX += 1;
+           }else
+           if (data[position] == ' ')
+           {
+               realPositionX += 1;
+           } else
+           if (data[position] == '\\')
+           {
+               realPositionX += 1;
+           };
+
+        };
+    };
+}
+

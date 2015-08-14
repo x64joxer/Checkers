@@ -14,11 +14,21 @@ void MainWindow::Init()
 {
     board = new Board();
     checkerArea = new CheckerArea(this);
+
+    *board =
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | |b| | | |") +
+            std::string("| | | | | |b| |b|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |");
+
+
     checkerArea->SetBoard(board);
 
-
-int i;
-   // Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 
@@ -34,9 +44,9 @@ int i;
 
    // board->SetWhitePawnPos(10,3,4);
 
-    PawnPos temp = board->GetWhitePawnPos(9);
-    Traces() << "\n" << temp.X() << " " << temp.Y();
-    board->printDebug();
+    //PawnPos temp = board->GetWhitePawnPos(9);
+    //Traces() << "\n" << temp.X() << " " << temp.Y();
+    //board->printDebug();
 
    // IATreeExpander expander;
   //  IADecisionTree *tree;

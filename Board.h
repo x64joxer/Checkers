@@ -44,6 +44,9 @@ class Board
         double GetPercentageResult();
         void printDebug();
 
+        Board & operator =(char *);
+        Board & operator =(std::string);
+
     private:
         unsigned short numberOfWhite;
         unsigned short numberOfBlack;
