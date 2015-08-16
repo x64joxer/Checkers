@@ -130,4 +130,65 @@ IADecisionTree::~IADecisionTree()
     Traces() << "\n" << "LOG! IADecisionTree::~IADecisionTree() Number of elements = " << numberOfElelments ;
 }
 
+bool IADecisionTree::IsSimilarBlackInPatch(IADecisionTree *wsk, Board board)
+{
+    unsigned short int counter = 0;
+    IADecisionTree *temp;
+
+    Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
+
+    while (wsk->GetPreviousElement() != NULL)
+    {
+            temp = wsk;
+            if (temp->Black())
+            {
+                if (temp->GetBoard() == board) return true;
+            };
+            wsk = wsk->GetPreviousElement();
+
+            counter++;
+
+            if (counter==12) break;
+    };
+
+    temp = wsk;
+    if (temp->Black())
+    {
+        if (temp->GetBoard() == board) return true;
+    };
+
+    return false;
+}
+
+
+bool IADecisionTree::IsSimilarWhiteInPatch(IADecisionTree *wsk, Board board)
+{
+    unsigned short int counter = 0;
+    IADecisionTree *temp;
+
+    Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
+
+    while (wsk->GetPreviousElement() != NULL)
+    {
+            temp = wsk;
+            if (temp->White())
+            {
+                if (temp->GetBoard() == board) return true;
+            };
+            wsk = wsk->GetPreviousElement();
+
+            counter++;
+
+            if (counter==12) break;
+    };
+
+    temp = wsk;
+    if (temp->White())
+    {
+        if (temp->GetBoard() == board) return true;
+    };
+
+    return false;
+}
+
 unsigned int IADecisionTree::numberOfElelments = 0;

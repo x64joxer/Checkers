@@ -89,6 +89,83 @@ void MainWindow::Init()
         Traces() << "(board1 != board2)";
     };
 
+
+    {
+        Board *board1 = new Board();
+        Board *boardtest = new Board();
+        Board *boardnext[20];
+        IADecisionTree *treenext[20];
+
+        *board1 =
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | |w|") +
+                std::string("| | | | | | | |w|") +
+                std::string("| | | | |b| | | |") +
+                std::string("| | | | | |b| |B|") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |");
+
+        *boardtest =
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | |w|") +
+                std::string("| | | | | | | |w|") +
+                std::string("| | | | |b| | | |") +
+                std::string("| | | | | |b| |B|") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |");
+
+
+
+        IADecisionTree *tree1;
+        tree1 = new IADecisionTree();
+        tree1->StartBlack();
+        tree1->SetBoard(*board1);
+        tree1->SetPreviousElement(NULL);
+
+        int howmuch = 13;
+
+        for (int i=0;i<howmuch;i++)
+        {
+            boardnext[i] = new Board();
+            *boardnext[i] =  std::string("| | | | | | | | |") +
+                    std::string("| | | | | | | |w|") +
+                    std::string("| | | | | | | |w|") +
+                    std::string("| | | | |b| | | |") +
+                    std::string("| | | | | | | | |") +
+                    std::string("| | | | | | | | |") +
+                    std::string("| | | | | | | | |") +
+                    std::string("| | | | | | | | |");
+
+
+        };
+
+        treenext[0] = new IADecisionTree();
+        treenext[0]->StartWhite();
+        treenext[0]->SetBoard(*boardnext[0]);
+        treenext[0]->SetPreviousElement(tree1);
+
+        for (int i=1;i<howmuch;i++)
+        {
+
+            treenext[i] = new IADecisionTree();
+            treenext[i]->StartWhite();
+            treenext[i]->SetBoard(*boardnext[i]);
+            treenext[i]->SetPreviousElement(treenext[i-1]);
+        };
+
+
+        if (treenext[0]->IsSimilarBlackInPatch(treenext[howmuch-1],*boardtest))
+        {
+            Traces() << "tree3->IsSimilarBlackInPatch(tree3,*board3) = true";
+        } else
+        {
+            Traces() << "tree3->IsSimilarBlackInPatch(tree3,*board3) = false";
+        };
+
+    };
+
 }
 
 void MainWindow::resizeEvent( QResizeEvent * event )
