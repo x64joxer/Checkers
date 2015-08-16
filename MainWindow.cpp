@@ -15,7 +15,7 @@ void MainWindow::Init()
     board = new Board();
     checkerArea = new CheckerArea(this);
 
-    *board =
+    /**board =
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | |w|") +
@@ -23,12 +23,12 @@ void MainWindow::Init()
             std::string("| | | | | |b| |b|") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |");
+            std::string("| | | | | | | | |");*/
 
 
     checkerArea->SetBoard(board);
 
-    Traces::TurnOnTraces();
+   // Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 

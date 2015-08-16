@@ -14,26 +14,34 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     queue.ForcePushBack(treePointer);
 
     for (unsigned short i = 0;i<7000;i++)
-    {               
-        currentWork = queue.PopFirst();      
+    {
+        currentWork = queue.PopFirst();
+
         if (currentWork == NULL) break;
 
         if (currentWork->Black())
-        {
-          Traces() << "\n" << "LOG: (treePointer->Black())";
+        {            
+          Traces() << "\n" << "LOG: (treePointer->Black())";          
           ExpandBlack(currentWork, queue);
         } else
-        {
-          Traces() << "\n" << "LOG: (treePointer->White())";
-          ExpandWhite(currentWork, queue);
-        };
-        tempWork = currentWork;
+        {          
+          Traces() << "\n" << "LOG: (treePointer->White())";          
+          ExpandWhite(currentWork, queue);          
+        };        
+        tempWork = currentWork;        
     };
 
-    //tempWork->GetPreviousElement()->GetBoard();
-    Board temp = /*currentWork*/tempWork->GetOldestAncestor(queue.GetBestResult());
+    IADecisionTree *wskTreeExpander =  queue.GetBestResult();
 
-    return temp;
+    if (wskTreeExpander)
+    {
+        Board temp = /*currentWork*/tempWork->GetOldestAncestor(queue.GetBestResult());
+        return temp;
+    };
+
+    //No possible moves
+    Traces() << "\n" << "LOG: IATreeExpander::ExpandTheTree(IADecisionTree *treePointer) No possible moves!!";
+    return  treePointer->GetBoard();
 }
 
 bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue)
@@ -45,7 +53,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
     IAPossibleMoves possible;
     bool killFlag = false;
 
-    if (treePointer->GetPreviousMurder()<9)
+    if (treePointer->GetPreviousMurder()<12)
     {
         unsigned short i = treePointer->GetPreviousMurder();
         //Left Bottom
@@ -103,7 +111,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
 
        if (!killFlag)
        {
-           treePointer->SetPreviousMurder(9);
+           treePointer->SetPreviousMurder(12);
            treePointer->StartBlack();
            ExpandBlack(treePointer, queue);
        };

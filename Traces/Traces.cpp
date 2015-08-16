@@ -19,7 +19,7 @@ Traces& Traces::operator <<(QString data)
 Traces& Traces::operator <<(long data)
 {
     if (traceOn)
-    {
+    {  
         std::string number;
         std::stringstream strstream;
         strstream << data;
@@ -38,7 +38,7 @@ void Traces::SetPatch(const std::string &patchAndName)
 }
 
 void Traces::StringToFile(std::string log)
-{
+{    
     logFile << log;
 }
 

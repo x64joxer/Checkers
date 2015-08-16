@@ -12,6 +12,8 @@ void IABoardQueue::ForcePushBack(IADecisionTree *wsk)
 
 IADecisionTree * IABoardQueue::GetBestResult()
 {
+    if (queue.empty()) return NULL;
+
     Traces() << "\n" << "LOG: IABoardQueue::GetBestResult()";
     IADecisionTree * best = queue.front();
     foreach (IADecisionTree *wsk, queue)
@@ -106,10 +108,12 @@ int IABoardQueue::PushBack(IADecisionTree *wsk)
 IADecisionTree * IABoardQueue::PopFirst()
 {    
     //Mutex
+    if (queue.empty()) return NULL;
+
     std::list<IADecisionTree*>::iterator iter = queue.begin();
     bool flag = false;
     IADecisionTree * wsk = *iter;
-    int size = queue.size() -1;
+    int size = queue.size() -1;    
 
     do
     {
