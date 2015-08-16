@@ -50,3 +50,16 @@ void PawnPos::SetY(const unsigned short Y)
         y = Y;
     };
 }
+
+bool PawnPos::operator != (PawnPos data)
+{
+    if (X()==data.X())
+    {
+        if (Y()==data.Y())
+        {
+            return false;
+        };
+    };
+
+    return true;
+}

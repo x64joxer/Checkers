@@ -607,3 +607,49 @@ qDebug() << realPositionX << " " << y;
     };
 }
 
+bool Board::operator ==(Board data)
+{
+    Traces() << "\n" << "Board::operator ==(Board data)";
+    if (GetNumberOfBlack()!=data.GetNumberOfBlack())
+    {
+      return false;
+    };
+    if (GetNumberOfWhite()!=data.GetNumberOfWhite())
+    {
+      return false;
+    };
+
+    if (GetNumberOfWhite()>0)
+    {
+        for (unsigned short int i=0;i<GetNumberOfWhite();i++)
+        {
+            if (GetWhitePawnPos(i) != data.GetWhitePawnPos(i))
+            {
+                return 0;
+            };
+
+            if (GetWhitePawnPons(i)!=data.GetWhitePawnPons(i))
+            {
+              return 0;
+            };
+        };
+    };
+
+    if (GetNumberOfBlack()>0)
+    {
+        for (unsigned short int i=0;i<GetNumberOfBlack();i++)
+        {
+            if (GetBlackPawnPos(i) != data.GetBlackPawnPos(i))
+            {
+                return 0;
+            };
+
+            if (GetBlackPawnPons(i) != data.GetBlackPawnPons(i))
+            {
+              return 0;
+            };
+        };
+    };
+
+    return 1;
+}

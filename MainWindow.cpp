@@ -28,7 +28,7 @@ void MainWindow::Init()
 
     checkerArea->SetBoard(board);
 
-   // Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 
@@ -57,6 +57,38 @@ void MainWindow::Init()
   //  tree->SetBoard(*board);
   //  expander.ExpandTheTree(tree);
    // delete tree;
+
+    //Tests
+    Board board1;
+    board1 =
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | |b| | | |") +
+            std::string("| | | | | |b| |b|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |");
+
+    Board board2;
+     board2 =
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | |b| | | |") +
+            std::string("| | | | | |b| |b|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |");
+
+    if (board1 == board2)
+    {
+        Traces() << "\n(board1 == board2)";
+    } else
+    {
+        Traces() << "(board1 != board2)";
+    };
+
 }
 
 void MainWindow::resizeEvent( QResizeEvent * event )

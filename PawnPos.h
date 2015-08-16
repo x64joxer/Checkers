@@ -12,6 +12,9 @@ class PawnPos
         unsigned short Y();
         void SetX(const unsigned short X);
         void SetY(const unsigned short Y);
+
+        bool operator != (PawnPos );
+
     private:
         unsigned short x : 4;
         unsigned short y : 4;

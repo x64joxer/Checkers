@@ -46,6 +46,8 @@ class Board
 
         Board & operator =(char *);
         Board & operator =(std::string);
+        bool operator ==(Board );
+
 
     private:
         unsigned short numberOfWhite;
