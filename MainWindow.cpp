@@ -16,19 +16,19 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
 
     /**board =
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | |w|") +
-            std::string("| | | | |b| | | |") +
-            std::string("| | | | | |b| |b|") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |");*/
+            std::string("| | | | | |B| | |") +
+            std::string("| | | | | | |w| |") +
+            std::string("| | | | | |w| |w|") +
+            std::string("| | |B| | | |w| |") +
+            std::string("| | | |b| | | |b|") +
+            std::string("|b| |w| | | | | |") +
+            std::string("| |W| | | | | | |") +
+            std::string("|b| | | |b| |b| |");*/
 
 
     checkerArea->SetBoard(board);
 
-    Traces::TurnOnTraces();
+   // Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 

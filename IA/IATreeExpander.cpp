@@ -2,33 +2,35 @@
 
 IATreeExpander::IATreeExpander()
 {
-
+    singleThread = true;
+    numberOfSteps = 1000;
 }
 
-Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
+Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
 {
-    Traces() << "\n" << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";
+    Traces() << "\n" << "LOG: void IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)";
+
     IABoardQueue queue ;
     IADecisionTree *currentWork;
     IADecisionTree *tempWork;
     queue.ForcePushBack(treePointer);
 
-    for (unsigned short i = 0;i<7000;i++)
+    for (unsigned short i = 0;i<numberOfSteps;i++)
     {
         currentWork = queue.PopFirst();
 
         if (currentWork == NULL) break;
 
         if (currentWork->Black())
-        {            
-          Traces() << "\n" << "LOG: (treePointer->Black())";          
+        {
+          Traces() << "\n" << "LOG: (treePointer->Black())";
           ExpandBlack(currentWork, queue);
         } else
-        {          
-          Traces() << "\n" << "LOG: (treePointer->White())";          
-          ExpandWhite(currentWork, queue);          
-        };        
-        tempWork = currentWork;        
+        {
+          Traces() << "\n" << "LOG: (treePointer->White())";
+          ExpandWhite(currentWork, queue);
+        };
+        tempWork = currentWork;
     };
 
     IADecisionTree *wskTreeExpander =  queue.GetBestResult();
@@ -42,6 +44,33 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     //No possible moves
     Traces() << "\n" << "LOG: IATreeExpander::ExpandTheTree(IADecisionTree *treePointer) No possible moves!!";
     return  treePointer->GetBoard();
+}
+
+Board IATreeExpander::ExpandTheTreeMultiThread(IADecisionTree *treePointer)
+{
+
+}
+
+Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
+{
+    Traces() << "\n" << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";    
+
+    Board tempBoard;
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+    if (singleThread)
+    {
+        tempBoard =  ExpandTheTreeSingleThread(treePointer);
+    } else
+    {
+        tempBoard = ExpandTheTreeMultiThread(treePointer);
+    };
+
+    std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
+    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() <<std::endl;
+
+    return tempBoard;
 }
 
 bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue)
@@ -214,9 +243,16 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutWhiteTopLeftPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,0));
-                    Traces() << "\n" << "LOG: Result";
-                    tempNew.printDebug();
+
+                    if (treePointer->IsSimilarWhiteInPatch(treePointer,tempNew) == false)
+                    {
+                        queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                        Traces() << "\n" << "LOG: Result";
+                        tempNew.printDebug();
+                    } else
+                    {
+                        Traces() << "\n" << "LOG: There was similar white board!";
+                    };
                 };
                 //Top Right
                 if (possible.CheckPutTopRightWhite(i, board))
@@ -225,9 +261,16 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutWhiteTopRightPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,0));
-                    Traces() << "\n" << "LOG: Result";
-                    tempNew.printDebug();
+
+                    if (treePointer->IsSimilarWhiteInPatch(treePointer,tempNew) == false)
+                    {
+                        queue.PushBack(treePointer->AddNextStep(tempNew,0));
+                        Traces() << "\n" << "LOG: Result";
+                        tempNew.printDebug();
+                    } else
+                    {
+                        Traces() << "\n" << "LOG: There was similar white board!";
+                    };
                 };
             };
         };
@@ -409,9 +452,15 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutBlackBottomLeftPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,1));
-                    Traces() << "\n" << "LOG: Result";
-                    tempNew.printDebug();
+                    if (treePointer->IsSimilarBlackInPatch(treePointer,tempNew) == false)
+                    {
+                        queue.PushBack(treePointer->AddNextStep(tempNew,1));
+                        Traces() << "\n" << "LOG: Result";
+                        tempNew.printDebug();
+                    } else
+                    {
+                        Traces() << "\n" << "LOG: There was similar board!";
+                    };
                 };
                 //Bottom Right
                 if (possible.CheckPutBottomRightBlack(i, board))
@@ -420,9 +469,16 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                     Board tempNew = board;
                     tempNew.printDebug();
                     tempNew.PutBlackBottomRightPawn(i);
-                    queue.PushBack(treePointer->AddNextStep(tempNew,1));
-                    Traces() << "\n" << "LOG: Result";
-                    tempNew.printDebug();
+
+                    if (treePointer->IsSimilarBlackInPatch(treePointer,tempNew) == false)
+                    {
+                        queue.PushBack(treePointer->AddNextStep(tempNew,1));
+                        Traces() << "\n" << "LOG: Result";
+                        tempNew.printDebug();
+                    } else
+                    {
+                        Traces() << "\n" << "LOG: There was similar board!";
+                    };
                 };
             };
         };
