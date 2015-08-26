@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QMouseEvent>
+#include <thread>
 #include "Board.h"
 #include "PossibleMoves.h"
 #include "IA/IATreeExpander.h"
