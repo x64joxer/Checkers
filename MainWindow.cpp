@@ -29,7 +29,6 @@ void MainWindow::Init()
     checkerArea->SetBoard(board);
 
     Traces::TurnOnTraces();
-    Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 
 
