@@ -15,20 +15,20 @@ void MainWindow::Init()
     board = new Board();
     checkerArea = new CheckerArea(this);
 
-    /**board =
-            std::string("| | | | | |B| | |") +
-            std::string("| | | | | | |w| |") +
-            std::string("| | | | | |w| |w|") +
-            std::string("| | |B| | | |w| |") +
-            std::string("| | | |b| | | |b|") +
-            std::string("|b| |w| | | | | |") +
-            std::string("| |W| | | | | | |") +
-            std::string("|b| | | |b| |b| |");*/
+   /* *board =
+            std::string("| | | | | |b| | |") +
+            std::string("| | | | |w| |w| |") +
+            std::string("| | | |w| | | |w|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | |w| | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | |b| | | | | |");*/
 
 
     checkerArea->SetBoard(board);
 
-   // Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
     Traces::SetPatch("log.txt");
     Traces() << "\n" << "Start Traces!!";
 
@@ -59,7 +59,8 @@ void MainWindow::Init()
    // delete tree;
 
     //Tests
-    Board board1;
+
+    /*Board board1;
     board1 =
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | |w|") +
@@ -164,7 +165,12 @@ void MainWindow::Init()
             Traces() << "tree3->IsSimilarBlackInPatch(tree3,*board3) = false";
         };
 
-    };
+    }*/
+
+    std::stringstream ss;
+    ss << std::this_thread::get_id();
+    uint64_t id = std::stoull(ss.str());
+    qDebug() << id;
 
 }
 

@@ -16,8 +16,8 @@ class IATreeExpander
         Board ExpandTheTreeMultiThread(IADecisionTree *treePointer);
 
     private:
-        bool ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue);
-        bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue);
+        bool ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber = 1);
+        bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber = 1);
 
         bool singleThread;
         int numberOfSteps;

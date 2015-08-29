@@ -24,11 +24,11 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
         if (currentWork->Black())
         {
           Traces() << "\n" << "LOG: (treePointer->Black())";
-          ExpandBlack(currentWork, queue);
+          ExpandBlack(currentWork, queue, i);
         } else
         {
           Traces() << "\n" << "LOG: (treePointer->White())";
-          ExpandWhite(currentWork, queue);
+          ExpandWhite(currentWork, queue, i);
         };
         tempWork = currentWork;
     };
@@ -73,7 +73,7 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     return tempBoard;
 }
 
-bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue)
+bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber)
 {
     Traces() << "\n" << "LOG: void IATreeExpander::ExpandWhite(IADecisionTree *treePointer)";
 
@@ -207,10 +207,11 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
     if (!killFlag)
     {
         Traces() << "\n" << "LOG:  (!killFlag) == true";
+        bool canImove = false;
 
         //Check possible puts
         for (unsigned short i=0;i<pawnNumber;i++)
-        {
+        {            
             //Bottom Left
             if (possible.CheckPutBottomLeftWhite(i, board))
             {
@@ -221,6 +222,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                 queue.PushBack(treePointer->AddNextStep(tempNew,0));
                 Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
+                canImove = true;
             };
             //Bottom Right
             if (possible.CheckPutBottomRightWhite(i, board))
@@ -232,6 +234,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                 queue.PushBack(treePointer->AddNextStep(tempNew,0));
                 Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
+                canImove = true;
             };
             //For pons
             if (board.GetWhitePawnPons(i))
@@ -249,6 +252,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                         queue.PushBack(treePointer->AddNextStep(tempNew,0));
                         Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
+                        canImove = true;
                     } else
                     {
                         Traces() << "\n" << "LOG: There was similar white board!";
@@ -267,11 +271,21 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
                         queue.PushBack(treePointer->AddNextStep(tempNew,0));
                         Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
+                        canImove = true;
                     } else
                     {
                         Traces() << "\n" << "LOG: There was similar white board!";
                     };
                 };
+            };            
+        };
+        if (!canImove)
+        {
+            if (stepNumber>0)
+            {
+                queue.PushBackDoNotForget(treePointer);
+                Traces() << "\n" << "LOG: There was situation when white player can not move!";
+                treePointer->GetBoard().printDebug();
             };
         };
     };
@@ -279,7 +293,7 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
     return 0;
 }
 
-bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue)
+bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber)
 {
     Traces() << "\n" << "LOG: void IATreeExpander::ExpandBlack(IADecisionTree *treePointer)";
 
@@ -416,10 +430,10 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
     if (!killFlag)
     {
         Traces() << "\n" << "LOG:  (!killFlag) == true";
-
+        bool canImove = false;
         //Check possible puts
         for (unsigned short i=0;i<pawnNumber;i++)
-        {
+        {                        
             //Top Left
             if (possible.CheckPutTopLeftBlack(i, board))
             {
@@ -430,6 +444,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                 queue.PushBack(treePointer->AddNextStep(tempNew,1));
                 Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
+                canImove = true;
             };
             //Top Right
             if (possible.CheckPutTopRightBlack(i, board))
@@ -441,6 +456,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                 queue.PushBack(treePointer->AddNextStep(tempNew,1));
                 Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
+                canImove = true;
             };
             //For pons
             if (board.GetBlackPawnPons(i))
@@ -457,6 +473,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                         queue.PushBack(treePointer->AddNextStep(tempNew,1));
                         Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
+                        canImove = true;
                     } else
                     {
                         Traces() << "\n" << "LOG: There was similar board!";
@@ -475,11 +492,21 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
                         queue.PushBack(treePointer->AddNextStep(tempNew,1));
                         Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
+                        canImove = true;
                     } else
                     {
                         Traces() << "\n" << "LOG: There was similar board!";
                     };
                 };
+            };            
+        };
+        if (!canImove)
+        {
+            if (stepNumber>0)
+            {
+                queue.PushBackDoNotForget(treePointer);
+                Traces() << "\n" << "LOG: There was situation when black player can not move!";
+                treePointer->GetBoard().printDebug();
             };
         };
     };

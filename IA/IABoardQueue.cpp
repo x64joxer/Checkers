@@ -12,20 +12,43 @@ void IABoardQueue::ForcePushBack(IADecisionTree *wsk)
 
 IADecisionTree * IABoardQueue::GetBestResult()
 {
-    if (queue.empty()) return NULL;
-
     Traces() << "\n" << "LOG: IABoardQueue::GetBestResult()";
-    IADecisionTree * best = queue.front();
-    foreach (IADecisionTree *wsk, queue)
-    {
-        //if (best->GetBoard().GetNumberOfBlack()>wsk->GetBoard().GetNumberOfBlack())
-        //{
-       //    best = wsk;
-       // };
+    Traces() << "LOG: queue.size()=" << queue.size();
+    Traces() << "LOG: doNotForgetQueue.size()=" << doNotForgetQueue.size();
 
-        if (best->GetBoard().GetPercentageResult()>wsk->GetBoard().GetPercentageResult())
+    IADecisionTree * best;
+
+    if ((queue.empty())&&(doNotForgetQueue.empty())) return NULL;
+
+    if (queue.size()==1)
+    {
+        best = queue.front();
+    } else
+    if (queue.size()>1)
+    {
+        best = queue.front();
+        foreach (IADecisionTree *wsk, queue)
+        {           
+            if (best->GetBoard().GetPercentageResult()>wsk->GetBoard().GetPercentageResult())
+            {
+               best = wsk;
+            };
+        };
+    };
+
+    if (doNotForgetQueue.size()==1)
+    {
+        best = doNotForgetQueue.front();
+    } else
+    if (doNotForgetQueue.size()>1)
+    {
+        best = doNotForgetQueue.front();
+        foreach (IADecisionTree *wsk, doNotForgetQueue)
         {
-           best = wsk;
+            if (best->GetBoard().GetPercentageResult()>wsk->GetBoard().GetPercentageResult())
+            {
+               best = wsk;
+            };
         };
     };
 
@@ -102,6 +125,13 @@ int IABoardQueue::PushBack(IADecisionTree *wsk)
 
 
 
+    //Mutex
+}
+
+int IABoardQueue::PushBackDoNotForget(IADecisionTree *wsk)
+{
+    //Mutex
+    doNotForgetQueue.push_back(wsk);
     //Mutex
 }
 
