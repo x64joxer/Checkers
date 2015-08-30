@@ -13,7 +13,6 @@ class IATreeExpander
     public:
         IATreeExpander();
         void Move(Board * boardRef, std::atomic_bool * flag);
-        void Mo(int *);
         Board ExpandTheTree(IADecisionTree *treePointer);
         Board ExpandTheTreeSingleThread(IADecisionTree *treePointer);
         Board ExpandTheTreeMultiThread(IADecisionTree *treePointer);

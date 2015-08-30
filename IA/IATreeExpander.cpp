@@ -54,40 +54,18 @@ Board IATreeExpander::ExpandTheTreeMultiThread(IADecisionTree *treePointer)
 
 void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag)
 {
-    //Test
-    /*qDebug() << "Start";
-    repaint();
-    IATreeExpander expander;
-    IADecisionTree *tree;
-    tree = new IADecisionTree();
-    Board copy = *board;
-    tree->StartWhite();
-    tree->SetBoard(*board);
-    *board =  expander.ExpandTheTree(tree);
-    delete tree;
-    Traces() << "\n" << "LOG: Before";
-    copy.printDebug();
-    Traces() << "\n" << "LOG: After";
-    board->printDebug();
-    qDebug() << "Stop";*/
-    //Test
-
-
     IATreeExpander expander;
     IADecisionTree *tree;
     tree = new IADecisionTree();
     Board copy = *boardRef;
     tree->StartWhite();
     tree->SetPreviousMurder(12);
-    tree->SetBoard(*boardRef);
+    tree->SetBoard(*boardRef);    
+    Traces() << "\n" << "LOG: After";
+    boardRef->printDebug();
     *boardRef =  expander.ExpandTheTree(tree);
     *flag = true;
     delete tree;
-}
-
-void IATreeExpander::Mo(int *i)
-{
-
 }
 
 Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)

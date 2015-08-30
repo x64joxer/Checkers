@@ -2,6 +2,7 @@
 #define CHECKERAREA_H
 
 #include <QWidget>
+#include <QTimer>
 #include <QPainter>
 #include <QMouseEvent>
 #include <thread>
@@ -48,6 +49,8 @@ class CheckerArea : public QWidget
         std::atomic_bool endIaJobFlag;
         IATreeExpander jobExpander;
 
+        QTimer *waitForIATimer;
+
         void Paint();
         void PaintFields(QPainter *painter);
         void PaintPawn(QPainter *painter);
@@ -66,6 +69,9 @@ class CheckerArea : public QWidget
         void mousePressEvent(QMouseEvent * event);
         void mouseReleaseEvent(QMouseEvent *event);
         void keyPressEvent(QKeyEvent *event);
+
+    private slots:
+        void CheckStatus();
 };
 
 #endif // CHECKERAREA_H

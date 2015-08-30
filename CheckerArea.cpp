@@ -27,6 +27,9 @@ CheckerArea::CheckerArea(QWidget *parent) :
     cursorState = Free;
 
     displayedBoard = 0;
+    waitForIATimer = new QTimer();
+    waitForIATimer->setInterval(50);
+    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));
 
 }
 
@@ -90,12 +93,18 @@ void CheckerArea::PaintPawn(QPainter *painter)
 {
     Board *boardToPaint;
 
-    if (displayedBoard == 0)
+    if (cursorState == WaitForIA)
     {
-      boardToPaint = board;
+        boardToPaint = &previousBoard;
     } else
     {
-      boardToPaint = &previousBoard;
+        if (displayedBoard == 0)
+        {
+          boardToPaint = board;
+        } else
+        {
+          boardToPaint = &previousBoard;
+        };
     };
 
     if (boardToPaint == nullptr) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
@@ -176,14 +185,12 @@ void CheckerArea::DrawPawn(QPainter *painter, const int x, const int y, const in
     };
 }
 
-void coss()
-{
-
-}
-
 void CheckerArea::StartThinking()
 {
-    repaint();
+    cursorState = WaitForIA;
+    endIaJobFlag = false;
+    displayedBoard = 0;
+    repaint();    
     Board copy = *board;
 
     Traces() << "\n" << "LOG: Before";
@@ -191,9 +198,7 @@ void CheckerArea::StartThinking()
     std::thread tempJob(&IATreeExpander::Move,&jobExpander, board, &endIaJobFlag );
     tempJob.detach();
     iaJob = std::move(tempJob);
-
-    Traces() << "\n" << "LOG: After";
-    board->printDebug();    
+    waitForIATimer->start();
 }
 
 void CheckerArea::TakeMouseClickEvent(QMouseEvent *event)
@@ -251,23 +256,20 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     } //Error here
                     else
                     {
-                        Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
+                        Traces() << "\n" << "cursorState = WaitForIA";
                         previousBoard = *board;
-                        StartThinking();
-                       // cursorState = Free;
+                        StartThinking();                     
                     };
                 }
                 else
                 {
-                    Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
+                    Traces() << "\n" << "cursorState = WaitForIA";
                     previousBoard = *board;
                     StartThinking();
-                    //cursorState = Free;
                 };
             } else
             {
-                Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
-               // cursorState = Free;
+                Traces() << "\n" << "cursorState = WaitForIA";
                 board->SetBlackPawnPos(grabbed,x,y);   
                 previousBoard = *board;
                 StartThinking();
@@ -310,6 +312,19 @@ void CheckerArea::TakeKeyPressed(QKeyEvent *event)
 //╚════██║██║     ██║   ██║   ██║   ╚════██║
 //███████║███████╗╚██████╔╝   ██║   ███████║
 //╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚══════╝
+
+void CheckerArea::CheckStatus()
+{
+
+    if (endIaJobFlag)
+    {
+        qDebug() <<    "Got it" ;
+        waitForIATimer->stop();
+        endIaJobFlag = false;
+        cursorState = Free;
+        repaint();
+    };
+}
 
 //███████╗██╗   ██╗███████╗███╗   ██╗████████╗███████╗
 //██╔════╝██║   ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
