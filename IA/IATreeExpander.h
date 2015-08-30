@@ -12,8 +12,8 @@ class IATreeExpander
 {
     public:
         IATreeExpander();
-        void Move(Board * boardRef, std::atomic_bool * flag);
-        Board ExpandTheTree(IADecisionTree *treePointer);
+        void Move(Board * boardRef, std::atomic_bool * flag, std::atomic<int> *percentSteps);
+        Board ExpandTheTree(IADecisionTree *treePointer, std::atomic<int> *percentSteps);
         Board ExpandTheTreeSingleThread(IADecisionTree *treePointer);
         Board ExpandTheTreeMultiThread(IADecisionTree *treePointer);
 
@@ -22,7 +22,9 @@ class IATreeExpander
         bool ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber = 1);
 
         bool singleThread;
+        int currentStep;
         int numberOfSteps;
+        std::atomic<int> *currentPercentSteps;
 };
 
 #endif // IATREEEXPANDER_H

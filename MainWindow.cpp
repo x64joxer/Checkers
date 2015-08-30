@@ -28,7 +28,7 @@ void MainWindow::Init()
 
     checkerArea->SetBoard(board);
 
-    Traces::TurnOnTraces();
+    //Traces::TurnOnTraces();
     Traces() << "\n" << "Start Traces!!";
 
     //board->SetWhitePawnPos(1,1,4);

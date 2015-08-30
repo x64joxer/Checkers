@@ -3,7 +3,7 @@
 IATreeExpander::IATreeExpander()
 {
     singleThread = true;
-    numberOfSteps = 1000;
+    numberOfSteps = 2000;
 }
 
 Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
@@ -31,6 +31,7 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
           ExpandWhite(currentWork, queue, i);
         };
         tempWork = currentWork;
+        *currentPercentSteps = i / (numberOfSteps / 100);
     };
 
     IADecisionTree *wskTreeExpander =  queue.GetBestResult();
@@ -52,7 +53,7 @@ Board IATreeExpander::ExpandTheTreeMultiThread(IADecisionTree *treePointer)
 
 }
 
-void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag)
+void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag, std::atomic<int> *percentSteps)
 {
     IATreeExpander expander;
     IADecisionTree *tree;
@@ -63,16 +64,18 @@ void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag)
     tree->SetBoard(*boardRef);    
     Traces() << "\n" << "LOG: After";
     boardRef->printDebug();
-    *boardRef =  expander.ExpandTheTree(tree);
+    *boardRef =  expander.ExpandTheTree(tree, percentSteps);
     *flag = true;
     delete tree;
 }
 
-Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
+Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer, std::atomic<int> *percentSteps)
 {
     Traces() << "\n" << "LOG: void IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)";    
 
     Board tempBoard;
+    currentPercentSteps = percentSteps;
+
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 

@@ -35,9 +35,9 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
               white.push_front(temp);
             } else
             {
-              Traces() << "\n" << "LOG! Clear white list!";
-              wsk->GetBoard().printDebug();
-              white.clear();
+              //Traces() << "\n" << "LOG! Clear white list!";
+              //wsk->GetBoard().printDebug();
+              //white.clear();
             };
             wsk = wsk->GetPreviousElement();
     };

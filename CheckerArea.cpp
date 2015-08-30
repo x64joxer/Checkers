@@ -22,7 +22,7 @@ CheckerArea::CheckerArea(QWidget *parent) :
     field2 = QColor(255,255,255);
 
     pawn1 = QColor(0,0,255);
-    pawn2 = QColor(255,0,0);
+    pawn2 = QColor(255,0,0);    
 
     cursorState = Free;
 
@@ -48,6 +48,7 @@ void CheckerArea::Paint()
     PaintFields(&painter);
     PaintPawn(&painter);
     PaintGrabbedBlackPawn(&painter);
+    PaintPercentageEllipse(&painter);
 
     painter.end();
 }
@@ -78,6 +79,7 @@ void CheckerArea::PaintFields(QPainter *painter)
             };
 
             flag = !flag;
+
 
             painter->drawRect(x*widthField,
                               y*heightField,
@@ -153,6 +155,32 @@ void CheckerArea::PaintGrabbedBlackPawn(QPainter *painter)
     };
 }
 
+void CheckerArea::PaintPercentageEllipse(QPainter *painter)
+{
+
+    if (cursorState == WaitForIA)
+    {
+        int size = 5;
+        QRectF rectangle(width() -(width() / size) -10,
+                         height() - (height() / size) - 10,
+                         (width() / size),
+                         (height() / size));
+
+        int startAngle = 0 * 16;
+
+        int spanAngle = ((((360*16)) * currentPercentOfSteps) /100);
+
+        if (currentPercentOfSteps == 99) spanAngle = 360*16;
+
+        painter->setBrush(QColor(0,255,0));
+        painter->setPen(QColor(0,255,0));
+
+        painter->drawPie(rectangle,
+                         startAngle,
+                         spanAngle);
+    };
+}
+
 void CheckerArea::DrawPawn(QPainter *painter, const int x, const int y, const int widthField, const int heightField, const bool blackWhite, const bool pons)
 {
     if (blackWhite)
@@ -195,7 +223,7 @@ void CheckerArea::StartThinking()
 
     Traces() << "\n" << "LOG: Before";
     copy.printDebug();
-    std::thread tempJob(&IATreeExpander::Move,&jobExpander, board, &endIaJobFlag );
+    std::thread tempJob(&IATreeExpander::Move,&jobExpander, board, &endIaJobFlag, &currentPercentOfSteps );
     tempJob.detach();
     iaJob = std::move(tempJob);
     waitForIATimer->start();
@@ -315,15 +343,13 @@ void CheckerArea::TakeKeyPressed(QKeyEvent *event)
 
 void CheckerArea::CheckStatus()
 {
-
     if (endIaJobFlag)
     {
-        qDebug() <<    "Got it" ;
         waitForIATimer->stop();
         endIaJobFlag = false;
         cursorState = Free;
-        repaint();
     };
+    repaint();
 }
 
 //███████╗██╗   ██╗███████╗███╗   ██╗████████╗███████╗

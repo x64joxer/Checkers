@@ -1,6 +1,7 @@
 #ifndef CHECKERAREA_H
 #define CHECKERAREA_H
 
+#include <QGraphicsEllipseItem>
 #include <QWidget>
 #include <QTimer>
 #include <QPainter>
@@ -47,6 +48,7 @@ class CheckerArea : public QWidget
 
         std::thread iaJob;
         std::atomic_bool endIaJobFlag;
+        std::atomic<int> currentPercentOfSteps;
         IATreeExpander jobExpander;
 
         QTimer *waitForIATimer;
@@ -55,6 +57,7 @@ class CheckerArea : public QWidget
         void PaintFields(QPainter *painter);
         void PaintPawn(QPainter *painter);
         void PaintGrabbedBlackPawn(QPainter *painter);
+        void PaintPercentageEllipse(QPainter *painter);
         void DrawPawn(QPainter *painter, const int x, const int y, const int widthField, const int heightField, const bool blackWhite, const bool pons);
 
         void StartThinking();
