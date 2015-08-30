@@ -3,7 +3,7 @@
 
 IADecisionTree::IADecisionTree()
 {
-    previous = NULL;
+    previous = nullptr;
     numberOfElelments++;
     Traces() << "\n" << "LOG! IADecisionTree::IADecisionTree() Number of elements = " << numberOfElelments ;
 }
@@ -25,8 +25,8 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
 
     Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
 
-    while (wsk->GetPreviousElement() != NULL)
-    {
+    while (wsk->GetPreviousElement() != nullptr)
+    {            
             temp = wsk;
             if (temp->Black())
             {
@@ -37,17 +37,19 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
             {
               Traces() << "\n" << "LOG! Clear white list!";
               wsk->GetBoard().printDebug();
-             // white.clear();
+              white.clear();
             };
             wsk = wsk->GetPreviousElement();
-
     };
 
-    Traces() << "\n" << "LOG! Number of black steps =" << white.size();    
+    if (wsk->GetPreviousElement() == nullptr) Traces() << "\n" << "LOG! (wsk->GetPreviousElement() == nullptr)";
+
+    Traces() << "\n" << "LOG! Number of white steps =" << white.size();
     std::list<IADecisionTree *>::iterator iter = white.begin();
     temp = iter.operator *();
     if (white.size() == 0) Traces() << "\n" << "ERROR! White list is empty!";
     temp->GetBoard().printDebug();
+
     return temp->GetBoard();
 }
 
@@ -96,7 +98,8 @@ IADecisionTree * IADecisionTree::AddNextStep(Board b,const bool blackWhte, const
     };
     wsk->SetBoard(b);
 
-    wsk->SetPreviousElement(this);
+    wsk->SetPreviousElement(this);    
+
     next.push_back(wsk);
 
     return wsk;
@@ -105,12 +108,12 @@ IADecisionTree * IADecisionTree::AddNextStep(Board b,const bool blackWhte, const
 
 void IADecisionTree::SetPreviousMurder(const unsigned short number)
 {
-    if ((number>=0)&&(number<=11))
+    if ((number>=0)&&(number<=12))
     {
         previousMurder = number;
     } else
     {
-        Traces() << "\n" << "ERROR! IADecisionTree::SetPreviousMurder(const unsigned short number) Out of range 0-11! Trying to set " << number;
+        Traces() << "\n" << "ERROR! IADecisionTree::SetPreviousMurder(const unsigned short number) Out of range 0-12! Trying to set " << number;
     };
 }
 
@@ -137,7 +140,7 @@ bool IADecisionTree::IsSimilarBlackInPatch(IADecisionTree *wsk, Board board)
 
     Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
 
-    while (wsk->GetPreviousElement() != NULL)
+    while (wsk->GetPreviousElement() != nullptr)
     {
             temp = wsk;
             if (temp->Black())
@@ -168,7 +171,7 @@ bool IADecisionTree::IsSimilarWhiteInPatch(IADecisionTree *wsk, Board board)
 
     Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
 
-    while (wsk->GetPreviousElement() != NULL)
+    while (wsk->GetPreviousElement() != nullptr)
     {
             temp = wsk;
             if (temp->White())

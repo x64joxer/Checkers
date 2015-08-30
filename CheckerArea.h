@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <thread>
+#include <atomic>
+#include <functional>
 #include "Board.h"
 #include "PossibleMoves.h"
 #include "IA/IATreeExpander.h"
@@ -42,12 +44,17 @@ class CheckerArea : public QWidget
         int mouseY;
         unsigned short grabbed;
 
+        std::thread iaJob;
+        std::atomic_bool endIaJobFlag;
+        IATreeExpander jobExpander;
 
         void Paint();
         void PaintFields(QPainter *painter);
         void PaintPawn(QPainter *painter);
         void PaintGrabbedBlackPawn(QPainter *painter);
         void DrawPawn(QPainter *painter, const int x, const int y, const int widthField, const int heightField, const bool blackWhite, const bool pons);
+
+        void StartThinking();
 
         void TakeMouseClickEvent(QMouseEvent *event);
         void TakeMouseReleaseEvent(QMouseEvent *event);

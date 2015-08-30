@@ -19,7 +19,7 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
     {
         currentWork = queue.PopFirst();
 
-        if (currentWork == NULL) break;
+        if (currentWork == nullptr) break;
 
         if (currentWork->Black())
         {
@@ -38,6 +38,7 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
     if (wskTreeExpander)
     {
         Board temp = /*currentWork*/tempWork->GetOldestAncestor(queue.GetBestResult());
+
         return temp;
     };
 
@@ -47,6 +48,44 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
 }
 
 Board IATreeExpander::ExpandTheTreeMultiThread(IADecisionTree *treePointer)
+{
+
+}
+
+void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag)
+{
+    //Test
+    /*qDebug() << "Start";
+    repaint();
+    IATreeExpander expander;
+    IADecisionTree *tree;
+    tree = new IADecisionTree();
+    Board copy = *board;
+    tree->StartWhite();
+    tree->SetBoard(*board);
+    *board =  expander.ExpandTheTree(tree);
+    delete tree;
+    Traces() << "\n" << "LOG: Before";
+    copy.printDebug();
+    Traces() << "\n" << "LOG: After";
+    board->printDebug();
+    qDebug() << "Stop";*/
+    //Test
+
+
+    IATreeExpander expander;
+    IADecisionTree *tree;
+    tree = new IADecisionTree();
+    Board copy = *boardRef;
+    tree->StartWhite();
+    tree->SetPreviousMurder(12);
+    tree->SetBoard(*boardRef);
+    *boardRef =  expander.ExpandTheTree(tree);
+    *flag = true;
+    delete tree;
+}
+
+void IATreeExpander::Mo(int *i)
 {
 
 }
@@ -70,7 +109,7 @@ Board IATreeExpander::ExpandTheTree(IADecisionTree *treePointer)
     std::chrono::steady_clock::time_point end= std::chrono::steady_clock::now();
     std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() <<std::endl;
 
-    return tempBoard;
+    return tempBoard;        
 }
 
 bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queue, unsigned int stepNumber)
@@ -362,7 +401,7 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
 
        if (!killFlag)
        {
-           treePointer->SetPreviousMurder(9);
+           treePointer->SetPreviousMurder(12);
            treePointer->StartWhite();
            ExpandWhite(treePointer, queue);
        };

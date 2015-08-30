@@ -5,7 +5,6 @@ Board::Board()
     Clear();
 }
 
-
 void Board::Clear()
 {
     bool flag = 0;

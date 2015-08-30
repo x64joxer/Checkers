@@ -16,7 +16,7 @@ CheckerArea::CheckerArea(QWidget *parent) :
 
     setFocusPolicy(Qt::TabFocus);
 
-    board = NULL;
+    board = nullptr;
 
     field1 = QColor(0,0,0);
     field2 = QColor(255,255,255);
@@ -27,6 +27,7 @@ CheckerArea::CheckerArea(QWidget *parent) :
     cursorState = Free;
 
     displayedBoard = 0;
+
 }
 
 //███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -37,7 +38,7 @@ CheckerArea::CheckerArea(QWidget *parent) :
 //╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
 void CheckerArea::Paint()
-{
+{    
     QPainter painter;
     painter.begin(this);
 
@@ -97,7 +98,7 @@ void CheckerArea::PaintPawn(QPainter *painter)
       boardToPaint = &previousBoard;
     };
 
-    if (boardToPaint == NULL) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
+    if (boardToPaint == nullptr) Traces() << "\n" << "ERROR! CheckerArea::PaintPawn(QPainter *painter) RPointer to board is empty!";
     ushort numberOfWhite = boardToPaint->GetNumberOfWhite();
     ushort numberOfBlack = boardToPaint->GetNumberOfBlack();
     int widthField = width() / 8;
@@ -175,6 +176,26 @@ void CheckerArea::DrawPawn(QPainter *painter, const int x, const int y, const in
     };
 }
 
+void coss()
+{
+
+}
+
+void CheckerArea::StartThinking()
+{
+    repaint();
+    Board copy = *board;
+
+    Traces() << "\n" << "LOG: Before";
+    copy.printDebug();
+    std::thread tempJob(&IATreeExpander::Move,&jobExpander, board, &endIaJobFlag );
+    tempJob.detach();
+    iaJob = std::move(tempJob);
+
+    Traces() << "\n" << "LOG: After";
+    board->printDebug();    
+}
+
 void CheckerArea::TakeMouseClickEvent(QMouseEvent *event)
 {
     int widthField = width() / 8;
@@ -232,72 +253,24 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     {
                         Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                         previousBoard = *board;
-                        //Test                        
-                        qDebug() << "Start";
-                        repaint();
-                        IATreeExpander expander;
-                        IADecisionTree *tree;
-                        tree = new IADecisionTree();
-                        Board copy = *board;
-                        tree->StartWhite();
-                        tree->SetBoard(*board);                        
-                        *board =  expander.ExpandTheTree(tree);
-                        delete tree;
-                        Traces() << "\n" << "LOG: Before";
-                        copy.printDebug();
-                        Traces() << "\n" << "LOG: After";
-                        board->printDebug();
-                        qDebug() << "Stop";
-                        //Test
-                        cursorState = Free;                        
+                        StartThinking();
+                       // cursorState = Free;
                     };
                 }
                 else
                 {
                     Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
                     previousBoard = *board;
-                    //Test
-                    qDebug() << "Start";
-                    repaint();
-                    IATreeExpander expander;
-                    IADecisionTree *tree;
-                    tree = new IADecisionTree();
-                    Board copy = *board;
-                    tree->StartWhite();
-                    tree->SetBoard(*board);
-                    *board =  expander.ExpandTheTree(tree);
-                    delete tree;
-                    Traces() << "\n" << "LOG: Before";
-                    copy.printDebug();
-                    Traces() << "\n" << "LOG: After";
-                    board->printDebug();
-                    qDebug() << "Stop";
-                    //Test
-                    cursorState = Free;
+                    StartThinking();
+                    //cursorState = Free;
                 };
             } else
             {
                 Traces() << "\n" << "cursorState = Free"; //In future IA !!!!!!!
-                cursorState = Free;
-                board->SetBlackPawnPos(grabbed,x,y);
+               // cursorState = Free;
+                board->SetBlackPawnPos(grabbed,x,y);   
                 previousBoard = *board;
-                //Test                
-                qDebug() << "Start";
-                repaint();
-                IATreeExpander expander;
-                IADecisionTree *tree;
-                tree = new IADecisionTree();
-                Board copy = *board;
-                tree->StartWhite();
-                tree->SetBoard(*board);
-                *board =  expander.ExpandTheTree(tree);
-                delete tree;
-                Traces() << "\n" << "LOG: Before";
-                copy.printDebug();
-                Traces() << "\n" << "LOG: After";
-                board->printDebug();
-                qDebug() << "Stop";
-                //Test
+                StartThinking();
             }
         } else
         {

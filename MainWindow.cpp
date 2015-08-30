@@ -31,7 +31,6 @@ void MainWindow::Init()
     Traces::TurnOnTraces();
     Traces() << "\n" << "Start Traces!!";
 
-
     //board->SetWhitePawnPos(1,1,4);
     //board->SetWhitePawnPos(2,0,3);
     //board->RemovePawnFrom(2,1);
@@ -122,7 +121,7 @@ void MainWindow::Init()
         tree1 = new IADecisionTree();
         tree1->StartBlack();
         tree1->SetBoard(*board1);
-        tree1->SetPreviousElement(NULL);
+        tree1->SetPreviousElement(nullptr);
 
         int howmuch = 13;
 
@@ -170,6 +169,12 @@ void MainWindow::Init()
     ss << std::this_thread::get_id();
     uint64_t id = std::stoull(ss.str());
     qDebug() << id;
+
+    std::stringstream ss2;
+    ss2 << std::this_thread::get_id();
+    uint64_t id2 = std::stoull(ss.str());
+    qDebug() << id2;
+    qDebug() << "dfdf";
 
 }
 

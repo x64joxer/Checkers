@@ -18,7 +18,7 @@ IADecisionTree * IABoardQueue::GetBestResult()
 
     IADecisionTree * best;
 
-    if ((queue.empty())&&(doNotForgetQueue.empty())) return NULL;
+    if ((queue.empty())&&(doNotForgetQueue.empty())) return nullptr;
 
     if (queue.size()==1)
     {
@@ -138,7 +138,7 @@ int IABoardQueue::PushBackDoNotForget(IADecisionTree *wsk)
 IADecisionTree * IABoardQueue::PopFirst()
 {    
     //Mutex
-    if (queue.empty()) return NULL;
+    if (queue.empty()) return nullptr;
 
     std::list<IADecisionTree*>::iterator iter = queue.begin();
     bool flag = false;
@@ -165,7 +165,7 @@ IADecisionTree * IABoardQueue::PopFirst()
         if ((size <= 0)&&(flag))
         {
             flag = false;
-            wsk = NULL;
+            wsk = nullptr;
         };
 
         if (flag)

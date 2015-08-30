@@ -2,6 +2,7 @@
 #define IATREEEXPANDER_H
 
 #include <chrono>
+#include <atomic>
 #include "IA/IADecisionTree.h"
 #include "IA/IAPossibleMoves.h"
 #include "IA/IABoardQueue.h"
@@ -11,6 +12,8 @@ class IATreeExpander
 {
     public:
         IATreeExpander();
+        void Move(Board * boardRef, std::atomic_bool * flag);
+        void Mo(int *);
         Board ExpandTheTree(IADecisionTree *treePointer);
         Board ExpandTheTreeSingleThread(IADecisionTree *treePointer);
         Board ExpandTheTreeMultiThread(IADecisionTree *treePointer);
