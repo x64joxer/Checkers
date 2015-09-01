@@ -32,7 +32,7 @@ class Traces
     private:
         static std::string patchAndNameFile;
         inline void StringToFile(std::string log);
-              static bool traceOn;
+        static bool traceOn;
         static std::mutex mutex;
         static std::map<unsigned long int,std::string> theardsId;
         static std::set<std::string> idText;

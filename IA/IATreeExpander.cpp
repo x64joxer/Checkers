@@ -3,7 +3,11 @@
 IATreeExpander::IATreeExpander()
 {
     singleThread = true;
-    numberOfSteps = 2000;
+    numberOfSteps = 1000;
+    maxJobs = 8;
+    numberOfJobs = 2;
+    numberOfJobsToGet = 2;
+    numberOfJobsToPut = 10;
 }
 
 Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
@@ -48,9 +52,107 @@ Board IATreeExpander::ExpandTheTreeSingleThread(IADecisionTree *treePointer)
     return  treePointer->GetBoard();
 }
 
+Board IATreeExpander::ExpandTheTreeSingleJob(IABoardQueue *boardWsk, bool firstTimeTakeEverything)
+{
+    Traces() << "\n" << "LOG: START ExpandTheTreeSingleJob(IABoardQueue *boardWsk)";
+    IABoardQueue localBoardQueue;
+    IADecisionTree *currentWork;
+
+    int counter = 0;
+
+    while (true)
+    {
+        //When no work to do
+        if (localBoardQueue.Size() == 0)
+        {
+            if (firstTimeTakeEverything)
+            {
+                boardWsk->TryTransfer(&localBoardQueue, 0);
+                firstTimeTakeEverything = false;
+            } else
+            {
+                Traces() << "\n" << "LOG: Waiting for " << numberOfJobsToGet << " jobs to get";
+                while (localBoardQueue.Size() < numberOfJobsToGet)
+                {
+                    boardWsk->TryTransfer(&localBoardQueue, numberOfJobsToGet);
+                };
+            };
+        };        
+
+        //When you have a lot work to give
+        if (localBoardQueue.Size() >= numberOfJobsToPut)
+        {
+            Traces() << "\n" << "LOG: Transfering jobs to common queue";
+            localBoardQueue.TryTransfer(boardWsk, localBoardQueue.Size());
+        }
+
+        //Expand tree
+        currentWork = localBoardQueue.PopFirst();
+
+        if (currentWork != nullptr)
+        {
+            counter++;
+
+            if (currentWork->Black())
+            {
+              Traces() << "\n" << "LOG: (treePointer->Black())";
+              ExpandBlack(currentWork, localBoardQueue, counter);
+            } else
+            {
+              Traces() << "\n" << "LOG: (treePointer->White())";
+              ExpandWhite(currentWork, localBoardQueue, counter);
+            };
+        };
+
+        if (counter >= numberOfSteps / numberOfJobs)
+        {
+            Traces() << "\n" << "LOG: counter >= numberOfSteps / numberOfJobs FINISHING JOB!";
+            localBoardQueue.TryTransfer(boardWsk, localBoardQueue.Size());
+            break;
+        };
+
+        //END
+    };
+
+    testStop = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+    qDebug() << "Stop " << testStop - testStart;
+
+}
+
 Board IATreeExpander::ExpandTheTreeMultiThread(IADecisionTree *treePointer)
 {
+    Traces() << "\n" << "LOG: ExpandTheTreeMultiThread(IADecisionTree *treePointer)";    
 
+    testStart = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+    qDebug() << "Start " << testStart;
+
+    std::thread jobs[maxJobs-1];
+    IATreeExpander jobExpander[maxJobs-1];
+    IABoardQueue commonBoardQueue;
+
+    //Start jobs
+    if (numberOfJobs > 2)
+    {
+        int i = 2;
+        do
+        {
+            qDebug() << "Start";
+            {
+                std::thread job(&IATreeExpander::ExpandTheTreeSingleJob, &jobExpander[i-1], &commonBoardQueue, false);
+                job.detach();
+                jobs[i-1] = std::move(job);                
+            };
+
+            i++;
+            qDebug() << i;
+        } while (i < numberOfJobs);
+    };
+
+    commonBoardQueue.ForcePushBack(treePointer);
+    jobExpander[0].ExpandTheTreeSingleJob(&commonBoardQueue, true);
+
+    while(true) {};
+    qDebug() << "Dalej";
 }
 
 void IATreeExpander::Move(Board * boardRef, std::atomic_bool * flag, std::atomic<int> *percentSteps)
@@ -533,3 +635,6 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
 
     return 0;
 }
+
+unsigned long IATreeExpander::testStart;
+unsigned long IATreeExpander::testStop;

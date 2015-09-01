@@ -29,7 +29,7 @@ class IADecisionTree
         unsigned short previousMurder;
         bool blackWhite;
         IADecisionTree *previous;
-        std::list<IADecisionTree*> next;
+        std::list<IADecisionTree*> next;        
 
         static unsigned int numberOfElelments;
 };

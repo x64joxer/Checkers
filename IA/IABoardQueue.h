@@ -3,6 +3,7 @@
 
 #include "IA/IADecisionTree.h"
 #include "Traces/Traces.h"
+#include <mutex>
 
 class IABoardQueue
 {
@@ -13,11 +14,14 @@ class IABoardQueue
         void ForcePushBack(IADecisionTree *wsk);
         IADecisionTree * GetBestResult();
         IADecisionTree * PopFirst();
+        void TryTransfer(IABoardQueue *wsk, unsigned int count);
+        int Size();
         ~IABoardQueue();
     private:
         std::list<IADecisionTree*> queue;
         std::list<IADecisionTree*> doNotForgetQueue;
         unsigned short test;
+        std::mutex *mutex;
 };
 
 #endif // IABOARDQUEUE_H
