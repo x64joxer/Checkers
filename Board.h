@@ -52,10 +52,15 @@ class Board
         bool operator ==(Board );
 
     private:
-        unsigned short numberOfWhite;
-        unsigned short numberOfBlack;
-        std::vector<Pawn> white;
-        std::vector<Pawn> black;
+        unsigned short numberOfWhite();
+        unsigned short numberOfBlack();
+        void eraseWhite(unsigned short num);
+        void eraseBlack(unsigned short num);
+        void clearWhite();
+        void clearBlack();
+
+        Pawn white[12];
+        Pawn black[12];
 
 };
 

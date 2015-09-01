@@ -8,33 +8,31 @@ Board::Board()
 void Board::Clear()
 {
     bool flag = 0;
-    numberOfBlack = 8;
-    numberOfWhite = 8;
-    white.clear();
-    black.clear();
 
-    Pawn temp;
+    unsigned short counter =0;
     for (int y = 0;y<3;y++)
     {
         for (int x = 0;x<8;x++)
         {
             if (flag)
             {
-                white.push_back(Pawn(x,y,0,0));
-                temp = white.at(white.size()-1);
+                white[counter] = Pawn(x,y,0,0);
+                counter++;
             };
             flag = !flag;
         };
         flag = !flag;
     };
 
+    counter =0;
     for (int y = 5;y<8;y++)
     {
         for (int x = 0;x<8;x++)
         {
             if (flag)
             {
-                black.push_back(Pawn(x,y,0,0));
+                black[counter] = Pawn(x,y,0,0);
+                counter++;
             };
             flag = !flag;
         };
@@ -44,7 +42,7 @@ void Board::Clear()
 
 void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,const unsigned short y)
 {
-    if (number>white.size()-1)
+    if (number>numberOfWhite()-1)
     {
         Traces() << "\n" << "ERROR! SetWhitePawnPos(unsigned short number,unsigned short x, unsigned short y) Requesting white pawn not exist!";
     } else
@@ -61,7 +59,7 @@ void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,c
         Traces() << "\n" << "ERROR! SetWhitePawnPos(unsigned short number,unsigned short x, unsigned short y) Try to set pawn on another pawn!";
     } else
     {        
-        Pawn &ref = white.at(number);
+        Pawn &ref = white[number];
         ref.x = x;
         ref.y = y;
         if (y == 7)
@@ -73,7 +71,7 @@ void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,c
 
 void Board::SetBlackPawnPos(const unsigned short number,const unsigned short x,const unsigned short y)
 {
-    if (number>black.size()-1)
+    if (number>numberOfBlack()-1)
     {
         Traces() << "\n" << "ERROR! SetBlackPawnPos(unsigned short number,unsigned short x, unsigned short y) Requesting black pawn not exist!";
     } else
@@ -90,7 +88,7 @@ void Board::SetBlackPawnPos(const unsigned short number,const unsigned short x,c
         Traces() << "\n" << "ERROR! SetBlackPawnPos(unsigned short number,unsigned short x, unsigned short y) Try to set pawn on another pawn!";
     } else
     {
-        Pawn &ref = black.at(number);
+        Pawn &ref = black[number];
         ref.x = x;
         ref.y = y;
         if (y == 0)
@@ -174,32 +172,32 @@ void Board::PutBlackBottomRightPawn(const unsigned short number)
 
 void Board::RemoveBlackPawn(const unsigned short number)
 {
-    if (number>black.size()-1)
+    if (number>numberOfBlack()-1)
     {
         Traces() << "\n" << "ERROR! Board::RemoveBlackPawn(const unsigned short number) Requesting white pawn not exist!";
     };
 
-    black.erase(black.begin()+number);
+    eraseBlack(number);
 }
 
 void Board::RemoveWhitePawn(const unsigned short number)
 {
-    if (number>white.size()-1)
+    if (number>numberOfWhite()-1)
     {
         Traces() << "\n" << "ERROR! Board::RemoveWhitePawn(const unsigned short number) Requesting white pawn not exist!";
     };
 
-    white.erase(white.begin()+number);
+    eraseWhite(number);
 }
 
 PawnPos Board::GetWhitePawnPos(const unsigned short number)
 {
-    if (number>white.size()-1)
+    if (number>numberOfWhite()-1)
     {
         Traces() << "\n" << "ERROR! GetWhitePawnPos(const unsigned short number) Requesting white pawn not exist!";
     } else        
     {
-        Pawn temp = white.at(number);
+        Pawn temp = white[number];
         return PawnPos(temp.x, temp.y);
     };
     return PawnPos(0,0);
@@ -207,12 +205,12 @@ PawnPos Board::GetWhitePawnPos(const unsigned short number)
 
 PawnPos Board::GetBlackPawnPos(const unsigned short number)
 {
-    if (number>black.size()-1)
+    if (number>numberOfBlack()-1)
     {        
         Traces() << "\n" << "ERROR! GetBlackPawnPos(const unsigned short number) Requesting black pawn not exist!";
     } else
     {
-        Pawn temp = black.at(number);
+        Pawn temp = black[number];
         return PawnPos(temp.x, temp.y);        
     };
     return PawnPos(0,0);
@@ -220,12 +218,12 @@ PawnPos Board::GetBlackPawnPos(const unsigned short number)
 
 bool Board::GetWhitePawnPons(const unsigned short number)
 {
-    if (number>white.size()-1)
+    if (number>numberOfWhite()-1)
     {
         Traces() << "\n" << "ERROR! GetWhitePawnPons(const unsigned short number) Requesting white pawn not exist!";
     } else
     {
-        Pawn temp = white.at(number);
+        Pawn temp = white[number];
         return temp.pons;
     };
     return 0;
@@ -267,12 +265,12 @@ unsigned short Board::GetBlackPawnNumber(const unsigned short x, const unsigned 
 
 bool Board::GetBlackPawnPons(const unsigned short number)
 {
-    if (number>black.size()-1)
+    if (number>numberOfBlack()-1)
     {        
         Traces() << "\n" << "ERROR! GetBlackPawnPons(const unsigned short number) Requesting black pawn not exist!";
     } else
     {
-        Pawn temp = black.at(number);
+        Pawn temp = black[number];
         return temp.pons;
     };
     return 0;
@@ -280,41 +278,42 @@ bool Board::GetBlackPawnPons(const unsigned short number)
 
 bool Board::SetWhitePawnPons(const unsigned short number, const bool flag)
 {
-    if (number>white.size()-1)
+    if (number>numberOfWhite()-1)
     {
         Traces() << "\n" << "ERROR! Board::SetWhitePawnPons(const unsigned short number, const bool flag) Requesting white pawn not exist!";
     } else
     {
-        Pawn &ref = white.at(number);
+        Pawn &ref = white[number];
         ref.pons = flag;
     };
 }
 
 bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
 {
-    if (number>black.size()-1)
+    if (number>numberOfBlack()-1)
     {
         Traces() << "\n" << "ERROR! Board::SetWhitePawnPons(const unsigned short number, const bool flag) Requesting white pawn not exist!";
     } else
     {
-        Pawn &ref = black.at(number);
+        Pawn &ref = black[number];
         ref.pons = flag;
     };
 }
 
 bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
 {
-    foreach(Pawn temp, white)
+
+    for (unsigned short i=0;i <numberOfWhite();i++)
     {
-        if ((temp.x == x)&&(temp.y == y))
+        if ((white[i].x == x)&&(white[i].y == y))
         {
             return 1;
         };
     };
 
-    foreach(Pawn temp, black)
+    for (unsigned short i=0;i <numberOfBlack();i++)
     {
-        if ((temp.x == x)&&(temp.y == y))
+        if ((black[i].x == x)&&(black[i].y == y))
         {
             return 1;
         };
@@ -325,9 +324,9 @@ bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
 
 bool Board::IsWhitePawnOnPos(const unsigned short x, const unsigned short y)
 {
-    foreach(Pawn temp, white)
+    for (unsigned short i=0;i <numberOfWhite();i++)
     {
-        if ((temp.x == x)&&(temp.y == y))
+        if ((white[i].x == x)&&(white[i].y == y))
         {
             return 1;
         };
@@ -338,9 +337,9 @@ bool Board::IsWhitePawnOnPos(const unsigned short x, const unsigned short y)
 
 bool Board::IsBlackPawnOnPos(const unsigned short x, const unsigned short y)
 {
-    foreach(Pawn temp, black)
+    for (unsigned short i=0;i <numberOfBlack();i++)
     {
-        if ((temp.x == x)&&(temp.y == y))
+        if ((black[i].x == x)&&(black[i].y == y))
         {
             return 1;
         };
@@ -351,12 +350,12 @@ bool Board::IsBlackPawnOnPos(const unsigned short x, const unsigned short y)
 
 unsigned short Board::GetNumberOfWhite()
 {
-   return white.size();
+   return numberOfWhite();
 }
 
 unsigned short Board::GetNumberOfBlack()
 {
-    return black.size();
+    return numberOfBlack();
 }
 
 void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
@@ -374,24 +373,22 @@ void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
     unsigned short counter = 0;
     bool flag = 0;
 
-    foreach(Pawn temp, white)
-   {
-        if ((temp.x == x)&&(temp.y == y))
-        {            
-            white.erase(white.begin()+counter);
-            numberOfWhite--;
+    for (unsigned short i=0;i <numberOfWhite();i++)
+    {
+        if ((white[i].x == x)&&(white[i].y == y))
+        {
+            eraseWhite(counter);
             flag = 1;
         };
         counter ++;
     };
 
     counter = 0;
-    foreach(Pawn temp, black)
+    for (unsigned short i=0;i <numberOfBlack();i++)
     {
-        if ((temp.x == x)&&(temp.y == y))
-        {            
-            black.erase(black.begin()+counter);
-            numberOfBlack--;
+        if ((black[i].x == x)&&(black[i].y == y))
+        {
+            eraseBlack(counter);
             flag = 1;
         };
         counter ++;
@@ -404,16 +401,16 @@ unsigned short Board::GetResult()
 {
     unsigned short result;
 
-    result = white.size();
-    result+= -(black.size() - 12);
+    result = numberOfWhite();
+    result+= -(numberOfBlack() - 12);
 
     return result;
 }
 
 double Board::GetPercentageResult()
 {
-    Traces() << "\n" << "LOG: Board::GetPercentageResult() = " << (double)black.size() / (double)white.size();
-    return (double)black.size() / (double)white.size();
+    Traces() << "\n" << "LOG: Board::GetPercentageResult() = " << (double)numberOfBlack() / (double)numberOfWhite();
+    return (double)numberOfBlack() / (double)numberOfWhite();
 }
 
 void Board::printDebug()
@@ -482,10 +479,9 @@ Board & Board::operator =(char* data)
     //|b| |b| |b| |\| |
     //| |b| |b| |b| |b|
     //|b| |b| |b| |b| |
-    numberOfBlack = 0;
-    numberOfBlack = 0;
-    white.clear();
-    black.clear();
+
+    clearWhite();
+    clearBlack();
 
     for (int y=0;y<8;y++)
     {
@@ -504,24 +500,23 @@ Board & Board::operator =(char* data)
 
            if (data[position] == 'w')
            {
-             white.push_back(Pawn(realPositionX,y,0,0));
+             white[numberOfWhite()] = Pawn(realPositionX,y,0,0);
              realPositionX += 1;
            } else
            if (data[position] == 'W')
            {
-             white.push_back(Pawn(realPositionX,y,0,1));
+             white[numberOfWhite()] = Pawn(realPositionX,y,0,1);
 
              realPositionX += 1;
            } else
            if (data[position] == 'b')
            {
-             black.push_back(Pawn(realPositionX,y,0,0));
-qDebug() << realPositionX << " " << y;
+             black[numberOfBlack()] = Pawn(realPositionX,y,0,0);
              realPositionX += 1;
            } else
            if (data[position] == 'B')
            {
-             black.push_back(Pawn(realPositionX,y,0,1));
+             black[numberOfBlack()] = Pawn(realPositionX,y,0,1);
 
              realPositionX += 1;
            }else
@@ -550,10 +545,9 @@ Board & Board::operator =(std::string data)
     //|b| |b| |b| |\| |
     //| |b| |b| |b| |b|
     //|b| |b| |b| |b| |
-    numberOfBlack = 0;
-    numberOfBlack = 0;
-    white.clear();
-    black.clear();
+
+    clearWhite();
+    clearBlack();
 
     for (int y=0;y<8;y++)
     {
@@ -572,24 +566,24 @@ Board & Board::operator =(std::string data)
 
            if (data[position] == 'w')
            {
-             white.push_back(Pawn(realPositionX,y,0,0));
+             white[numberOfWhite()] = Pawn(realPositionX,y,0,0);
              realPositionX += 1;
            } else
            if (data[position] == 'W')
            {
-             white.push_back(Pawn(realPositionX,y,0,1));
+             white[numberOfWhite()] = Pawn(realPositionX,y,0,1);
 
              realPositionX += 1;
            } else
            if (data[position] == 'b')
            {
-             black.push_back(Pawn(realPositionX,y,0,0));
-qDebug() << realPositionX << " " << y;
+             black[numberOfBlack()] = Pawn(realPositionX,y,0,0);
+
              realPositionX += 1;
            } else
            if (data[position] == 'B')
            {
-             black.push_back(Pawn(realPositionX,y,0,1));
+             black[numberOfBlack()] = Pawn(realPositionX,y,0,1);
 
              realPositionX += 1;
            }else
@@ -651,4 +645,82 @@ bool Board::operator ==(Board data)
     };
 
     return 1;
+}
+
+unsigned short Board::numberOfWhite()
+{
+    unsigned short size = 0;
+
+    for (unsigned short i=0;i<12;i++)
+    {
+        if (!white[i].dead) size++;
+    };
+    return size;
+}
+
+unsigned short Board::numberOfBlack()
+{
+    unsigned short size = 0;
+
+    for (unsigned short i=0;i<12;i++)
+    {
+        if (!black[i].dead) size++;
+    };
+    return size;
+}
+
+void Board::eraseWhite(unsigned short num)
+{
+    unsigned short numW = numberOfWhite();
+    if (numW == 1)
+    {
+        white[0].dead = true;
+    } else
+    if (num == numW)
+    {
+        white[num].dead = true;
+    } else
+    {
+        for (unsigned short i=num;i<numW;i++)
+        {
+            white[i] = white[i+1];
+        };
+        white[numW-1].dead = true;
+    };
+}
+
+void Board::eraseBlack(unsigned short num)
+{
+    unsigned short numB = numberOfBlack();
+    if (numB == 1)
+    {
+        black[0].dead = true;
+    } else
+    if (num == numB)
+    {
+        black[num].dead = true;
+    } else
+    {
+        for (unsigned short i=num;i<numB;i++)
+        {
+            black[i] = black[i+1];
+        };
+        black[numB-1].dead = true;
+    };
+}
+
+void Board::clearWhite()
+{
+    for (unsigned short i=0;i<12;i++)
+    {
+        white[i].dead = true;
+    };
+}
+
+void Board::clearBlack()
+{
+    for (unsigned short i=0;i<12;i++)
+    {
+        black[i].dead = true;
+    };
 }
