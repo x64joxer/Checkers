@@ -131,8 +131,8 @@ bool IAPossibleMoves::CheckPutTopRightBlack(const unsigned short x, const unsign
 
 bool IAPossibleMoves::CheckPutBottomLeftBlack(const unsigned short x, const unsigned short y, Board board)
 {
-    if (OutOfBoardBlack(x-1, y +1)) return 0;
-    if (board.IsPawnOnPos(x-1, y +1)) return 0;
+    if (OutOfBoardBlack(x-1, y +1)) return 0;    
+    if (board.IsPawnOnPos(x-1, y +1)) return 0;    
     return true;
 }
 

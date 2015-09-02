@@ -9,6 +9,7 @@
 #include "IA/IADecisionTree.h"
 #include "IA/IATreeExpander.h"
 #include "Traces/Traces.h"
+#include "ThreadIA/ThreadIATreeExpander.h"
 
 namespace Ui {
 class MainWindow;

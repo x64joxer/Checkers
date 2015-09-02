@@ -301,15 +301,14 @@ bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
 }
 
 bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
-{
-
+{    
     for (unsigned short i=0;i <numberOfWhite();i++)
     {
         if ((white[i].x == x)&&(white[i].y == y))
         {
             return 1;
         };
-    };
+    };    
 
     for (unsigned short i=0;i <numberOfBlack();i++)
     {
@@ -395,6 +394,22 @@ void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
     };
 
     if (!flag) Traces() << "\n" << "ERROR! Board::RemovePonsFrom(const unsigned short x, const unsigned short y) Requesting pawn that not exist!";
+}
+
+void Board::SetPreviousMurder(const unsigned short number)
+{
+    if ((number>=0)&&(number<=12))
+    {
+        previousMurder = number;
+    } else
+    {
+        Traces() << "\n" << "ERROR! IADecisionTree::SetPreviousMurder(const unsigned short number) Out of range 0-12! Trying to set " << number;
+    };
+}
+
+unsigned short Board::GetPreviousMurder()
+{
+    return previousMurder;
 }
 
 unsigned short Board::GetResult()
@@ -741,4 +756,24 @@ void Board::CopyFrom(const ThreadIASimpleBoard & data)
         black[i] = data.black[i];
         white[i] = data.white[i];
     };
+}
+
+void Board::StartBlack()
+{
+    blackWhite = 0;
+}
+
+void Board::StartWhite()
+{
+    blackWhite = 1;
+}
+
+bool Board::Black()
+{
+    return !blackWhite;
+}
+
+bool Board::White()
+{
+    return blackWhite;
 }

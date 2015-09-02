@@ -3,6 +3,7 @@
 
 #include "Board.h"
 #include "PawnPos.h"
+#include "Traces/Traces.h"
 
 class IAPossibleMoves
 {

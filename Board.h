@@ -46,6 +46,9 @@ class Board
         unsigned short GetNumberOfBlack();
         void RemovePawnFrom(const unsigned short x, const unsigned short y);
 
+        void SetPreviousMurder(const unsigned short number);
+        unsigned short GetPreviousMurder();
+
         unsigned short GetResult();
         double GetPercentageResult();
         void printDebug();
@@ -56,6 +59,11 @@ class Board
         void CopyTo(ThreadIASimpleBoard & data);
         void CopyFrom(const ThreadIASimpleBoard & data);
 
+        void StartBlack();
+        void StartWhite();
+        bool Black();
+        bool White();
+
     private:
         unsigned short numberOfWhite();
         unsigned short numberOfBlack();
@@ -64,7 +72,10 @@ class Board
         void clearWhite();
         void clearBlack();
 
+        unsigned short previousMurder;
         ThreadIASimpleBoard origin;
+
+        bool blackWhite;
 
         Pawn white[12];
         Pawn black[12];        

@@ -26,6 +26,8 @@ class Traces
         Traces& operator <<(QString);
         Traces& operator <<(long);
 
+        std::string GetCurrentDate();
+
         static void TurnOnTraces();
         static void TurnOffTraces();      
 
@@ -40,8 +42,7 @@ class Traces
         unsigned long int GetThreadId();
         bool IsOnTheList();
         std::string GetThreadText();
-        std::string CreateNewThreadText();
-        std::string GetCurrentDate();
+        std::string CreateNewThreadText();        
         std::string FindFirstFreeId();
         std::string GenerateText(int);        
 };

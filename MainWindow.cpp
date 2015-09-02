@@ -33,7 +33,7 @@ void MainWindow::Init()
 
     checkerArea->SetBoard(board);
 
-    Traces::TurnOnTraces();
+    //Traces::TurnOnTraces();
     Traces() << "\n" << "Start Traces!!";
 
     //board->SetWhitePawnPos(1,1,4);
@@ -170,7 +170,7 @@ void MainWindow::Init()
 
     }*/
 
-    std::stringstream ss;
+    /*std::stringstream ss;
     ss << std::this_thread::get_id();
     uint64_t id = std::stoull(ss.str());
     qDebug() << id;
@@ -179,7 +179,13 @@ void MainWindow::Init()
     ss2 << std::this_thread::get_id();
     uint64_t id2 = std::stoull(ss.str());
     qDebug() << id2;
-    qDebug() << "dfdf"; 
+    qDebug() << "dfdf"; */
+
+    board->StartBlack();
+    ThreadIATreeExpander expander;
+
+     expander.Expand(*board,800);
+
 
 }
 
