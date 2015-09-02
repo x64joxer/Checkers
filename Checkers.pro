@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     IA/IAPossibleMoves.cpp \
     IA/IATreeExpander.cpp \
     IA/IABoardQueue.cpp \
-    Traces/Traces.cpp
+    Traces/Traces.cpp \
+    ThreadIA/ThreadIASimpleBoard.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -40,7 +41,8 @@ HEADERS  += MainWindow.h \
     IA/IAPossibleMoves.h \
     IA/IATreeExpander.h \
     IA/IABoardQueue.h \
-    Traces/Traces.h
+    Traces/Traces.h \
+    ThreadIA/ThreadIASimpleBoard.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui

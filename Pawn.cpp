@@ -15,7 +15,7 @@ Pawn::Pawn(unsigned short xp, unsigned short yp, unsigned short deadp, unsigned 
 
 void Pawn::Clear()
 {
-    dead = 0;
+    dead = 1;
     pons = 0;
 }
 

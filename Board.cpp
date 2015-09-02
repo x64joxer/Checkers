@@ -724,3 +724,21 @@ void Board::clearBlack()
         black[i].dead = true;
     };
 }
+
+void Board::CopyTo(ThreadIASimpleBoard & data)
+{
+    for (unsigned short i=0;i<12;i++)
+    {
+        data.black[i] = black[i];
+        data.white[i] = white[i];
+    };
+}
+
+void Board::CopyFrom(const ThreadIASimpleBoard & data)
+{
+    for (unsigned short i=0;i<12;i++)
+    {
+        black[i] = data.black[i];
+        white[i] = data.white[i];
+    };
+}

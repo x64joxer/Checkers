@@ -179,7 +179,7 @@ void MainWindow::Init()
     ss2 << std::this_thread::get_id();
     uint64_t id2 = std::stoull(ss.str());
     qDebug() << id2;
-    qDebug() << "dfdf";
+    qDebug() << "dfdf"; 
 
 }
 

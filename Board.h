@@ -9,6 +9,9 @@
 #include "Traces/Traces.h"
 #include "Pawn.h"
 #include "PawnPos.h"
+#include "ThreadIA/ThreadIASimpleBoard.h"
+
+class ThreadIASimpleBoard;
 
 class Board
 {   
@@ -50,6 +53,8 @@ class Board
         Board & operator =(char *);
         Board & operator =(std::string);
         bool operator ==(Board );
+        void CopyTo(ThreadIASimpleBoard & data);
+        void CopyFrom(const ThreadIASimpleBoard & data);
 
     private:
         unsigned short numberOfWhite();
@@ -59,9 +64,10 @@ class Board
         void clearWhite();
         void clearBlack();
 
-        Pawn white[12];
-        Pawn black[12];
+        ThreadIASimpleBoard origin;
 
+        Pawn white[12];
+        Pawn black[12];        
 };
 
 #endif // BOARD_H
