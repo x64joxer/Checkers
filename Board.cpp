@@ -174,7 +174,7 @@ void Board::RemoveBlackPawn(const unsigned short number)
 {
     if (number>numberOfBlack()-1)
     {
-        Traces() << "\n" << "ERROR! Board::RemoveBlackPawn(const unsigned short number) Requesting white pawn not exist!";
+        Traces() << "\n" << "ERROR! Board::RemoveBlackPawn(const unsigned short number) Requesting white " << number << " pawn not exist!";
     };
 
     eraseBlack(number);
@@ -184,7 +184,7 @@ void Board::RemoveWhitePawn(const unsigned short number)
 {
     if (number>numberOfWhite()-1)
     {
-        Traces() << "\n" << "ERROR! Board::RemoveWhitePawn(const unsigned short number) Requesting white pawn not exist!";
+        Traces() << "\n" << "ERROR! Board::RemoveWhitePawn(const unsigned short number) Requesting white " << number << " pawn not exist!";
     };
 
     eraseWhite(number);
@@ -194,7 +194,7 @@ PawnPos Board::GetWhitePawnPos(const unsigned short number)
 {
     if (number>numberOfWhite()-1)
     {
-        Traces() << "\n" << "ERROR! GetWhitePawnPos(const unsigned short number) Requesting white pawn not exist!";
+        Traces() << "\n" << "ERROR! GetWhitePawnPos(const unsigned short number) Requesting " << number << " white pawn not exist!";
     } else        
     {
         Pawn temp = white[number];
@@ -207,7 +207,7 @@ PawnPos Board::GetBlackPawnPos(const unsigned short number)
 {
     if (number>numberOfBlack()-1)
     {        
-        Traces() << "\n" << "ERROR! GetBlackPawnPos(const unsigned short number) Requesting black pawn not exist!";
+        Traces() << "\n" << "ERROR! GetBlackPawnPos(const unsigned short number) Requesting black " << number << " pawn not exist!";
     } else
     {
         Pawn temp = black[number];
@@ -220,7 +220,7 @@ bool Board::GetWhitePawnPons(const unsigned short number)
 {
     if (number>numberOfWhite()-1)
     {
-        Traces() << "\n" << "ERROR! GetWhitePawnPons(const unsigned short number) Requesting white pawn not exist!";
+        Traces() << "\n" << "ERROR! GetWhitePawnPons(const unsigned short number) Requesting white " << number << " pawn not exist!";
     } else
     {
         Pawn temp = white[number];

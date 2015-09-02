@@ -25,24 +25,31 @@ Board IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)
 
     Traces() << "\n" << "LOG! IADecisionTree::GetOldestAncestor(IADecisionTree *wsk)";
 
-    while (wsk->GetPreviousElement() != nullptr)
-    {            
-            temp = wsk;
-            if (temp->Black())
-            {
-              Traces() << "\n" << "LOG! Add to white list!";
-              temp->GetBoard().printDebug();
-              white.push_front(temp);
-            } else
-            {
-              //Traces() << "\n" << "LOG! Clear white list!";
-              //wsk->GetBoard().printDebug();
-              //white.clear();
-            };
-            wsk = wsk->GetPreviousElement();
+    if (wsk->GetPreviousElement() == nullptr)
+    {
+        Traces() << "\n" << "LOG! (wsk->GetPreviousElement() == nullptr)";
+        return wsk->GetBoard();
+    } else
+    {
+        while (wsk->GetPreviousElement() != nullptr)
+        {
+                temp = wsk;
+                if (temp->Black())
+                {
+                  Traces() << "\n" << "LOG! Add to white list!";
+                  temp->GetBoard().printDebug();
+                  white.push_front(temp);
+                } else
+                {
+                  //Traces() << "\n" << "LOG! Clear white list!";
+                  //wsk->GetBoard().printDebug();
+                  //white.clear();
+                };
+                wsk = wsk->GetPreviousElement();
+        };
     };
 
-    if (wsk->GetPreviousElement() == nullptr) Traces() << "\n" << "LOG! (wsk->GetPreviousElement() == nullptr)";
+    if (white.size()==0) white.push_front(temp);
 
     Traces() << "\n" << "LOG! Number of white steps =" << white.size();
     std::list<IADecisionTree *>::iterator iter = white.begin();

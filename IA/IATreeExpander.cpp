@@ -206,6 +206,13 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
 
     if (treePointer->GetPreviousMurder()<12)
     {
+        if (treePointer->GetBoard().GetNumberOfBlack() == 0)
+        {
+            queue.PushBackDoNotForget(treePointer);
+            Traces() << "\n" << "LOG: There was situation when all black was killed!";
+            treePointer->GetBoard().printDebug();
+        };
+
         unsigned short i = treePointer->GetPreviousMurder();
         //Left Bottom
        if (possible.CheckHitBottomLeftWhite(i, board))
@@ -269,6 +276,14 @@ bool IATreeExpander::ExpandWhite(IADecisionTree *treePointer, IABoardQueue &queu
 
        return 0;
     };
+
+    if (treePointer->GetBoard().GetNumberOfWhite() == 0)
+    {
+        queue.PushBackDoNotForget(treePointer);
+        Traces() << "\n" << "LOG: There was situation when all white was killed!";
+        treePointer->GetBoard().printDebug();
+    };
+
     //Check possible kills
     for (unsigned short i=0;i<pawnNumber;i++)
     {
@@ -424,8 +439,15 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
     IAPossibleMoves possible;
     bool killFlag = false;
 
-    if (treePointer->GetPreviousMurder()<9)
+    if (treePointer->GetPreviousMurder()<12)
     {
+        if (treePointer->GetBoard().GetNumberOfWhite() == 0)
+        {
+            queue.PushBackDoNotForget(treePointer);
+            Traces() << "\n" << "LOG: There was situation when all white was killed!";
+            treePointer->GetBoard().printDebug();
+        };
+
         unsigned short i = treePointer->GetPreviousMurder();
         //Left Top
        if (possible.CheckHitTopLeftBlack(i, board))
@@ -491,6 +513,14 @@ bool IATreeExpander::ExpandBlack(IADecisionTree *treePointer, IABoardQueue &queu
 
        return 0;
     };
+
+    if (treePointer->GetBoard().GetNumberOfBlack() == 0)
+    {
+        queue.PushBackDoNotForget(treePointer);
+        Traces() << "\n" << "LOG: There was situation when all black was killed!";
+        treePointer->GetBoard().printDebug();
+    };
+
     //Check possible kills
     for (unsigned short i=0;i<pawnNumber;i++)
     {

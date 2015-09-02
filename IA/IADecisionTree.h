@@ -18,7 +18,7 @@ class IADecisionTree
         void StartBlack();
         void StartWhite();
         Board GetBoard();
-        IADecisionTree * AddNextStep(Board b,const bool blackWhte, const unsigned short number = 9);
+        IADecisionTree * AddNextStep(Board b,const bool blackWhte, const unsigned short number = 12);
         void SetPreviousMurder(const unsigned short number);
         unsigned short GetPreviousMurder();
         bool IsSimilarBlackInPatch(IADecisionTree *wsk, Board board);

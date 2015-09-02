@@ -15,25 +15,25 @@ void MainWindow::Init()
     board = new Board();
     checkerArea = new CheckerArea(this);
 
-   /* *board =
-            std::string("| | | | | |b| | |") +
-            std::string("| | | | |w| |w| |") +
-            std::string("| | | |w| | | |w|") +
+    /**board =
+            std::string("| | | | | | | | |") +
+            std::string("| | | | |w| | | |") +
+            std::string("| | | |w| | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | |w| | | |") +
             std::string("| | | | | | | | |") +
-            std::string("| | |b| | | | | |");*/
+            std::string("| | | | |b| | | |");*/
 
-    board->RemoveWhitePawn(10);
+    //board->RemoveWhitePawn(10);
     //Traces::TurnOnTraces();
-    Traces() << board->GetNumberOfWhite();
-    Traces() << board->GetNumberOfBlack();
+    //Traces() << board->GetNumberOfWhite();
+    //Traces() << board->GetNumberOfBlack();
     //board->RemoveBlackPawn(2);
 
     checkerArea->SetBoard(board);
 
-    //Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
     Traces() << "\n" << "Start Traces!!";
 
     //board->SetWhitePawnPos(1,1,4);
