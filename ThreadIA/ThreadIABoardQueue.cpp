@@ -54,7 +54,7 @@ Board ThreadIABoardQueue<size>::PopFront()
 
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
-{
+{    
     Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
 
     if (numberOfElements == 0)

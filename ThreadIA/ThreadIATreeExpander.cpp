@@ -83,7 +83,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
 {
     if (trace) { Traces() << "\n" << "ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";};
 
-    if (lastQueueElement-firstQueueElement>0)
+    if ((lastQueueElement-firstQueueElement)+1>0)
     {
         for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
         {
