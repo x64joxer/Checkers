@@ -16,7 +16,7 @@ class ThreadIASimpleBoard;
 class Board
 {   
     public:
-        Board();
+        Board();               
         void Clear();
         void SetWhitePawnPos(const unsigned short number,const unsigned short x, const unsigned short y);
         void SetBlackPawnPos(const unsigned short number,const unsigned short x, const unsigned short y);
@@ -59,6 +59,7 @@ class Board
         void CopyTo(ThreadIASimpleBoard & data);
         void CopyFrom(const ThreadIASimpleBoard & data);
         void SetOrigin(Board & data);
+        Board GetOrigin();
 
         void StartBlack();
         void StartWhite();

@@ -2,7 +2,7 @@
 
 template <unsigned long int MQueue, unsigned long int sQueue>
 ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
-    : trace(false),
+    : trace(true),
     queueSize(MQueue),
     lastQueueElement(0),
     firstQueueElement(0),    

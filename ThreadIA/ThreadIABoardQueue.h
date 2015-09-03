@@ -13,6 +13,8 @@ class ThreadIABoardQueue
         Board PopFront();
         inline void PushBack(Board &board);
         inline void PushBackDoNotForget(Board &board);
+        Board GetBestResult();
+        void Clear();
         unsigned long int Size();
     private:
         Board *queue;

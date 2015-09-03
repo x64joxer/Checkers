@@ -10,6 +10,14 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
 }
 
 template <unsigned long int size>
+void ThreadIABoardQueue<size>::Clear()
+{
+    first = 0;
+    last = 0;
+    numberOfElements = 0;
+}
+
+template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront()
 {
     unsigned long int temp = first;
@@ -86,6 +94,33 @@ template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
     //TODO
+}
+
+template <unsigned long int size>
+Board ThreadIABoardQueue<size>::GetBestResult()
+{
+    double result;
+    Board temp;
+
+    if (numberOfElements>0)
+    {
+        result = queue[first].GetPercentageResult();
+        PopFront();
+
+        if (numberOfElements>0)
+        {
+            for (unsigned long int i=first;i<last;i++)
+            {
+                if (result>queue[i].GetPercentageResult())
+                {
+                    result =  queue[i].GetPercentageResult();
+                    temp = queue[i];
+                };
+            };
+        };
+    }
+
+    return temp;
 }
 
 template <unsigned long int size>

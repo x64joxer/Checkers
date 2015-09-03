@@ -18,12 +18,12 @@ void MainWindow::Init()
     /**board =
             std::string("| | | | | | | | |") +
             std::string("| | | | |w| | | |") +
-            std::string("| | | |w| | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | |b| | | |") +
+            std::string("| |b| | | | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
-            std::string("| | | | |w| | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | |b| | | |");*/
+            std::string("| | | | | | | | |");*/
 
     //board->RemoveWhitePawn(10);
     //Traces::TurnOnTraces();
@@ -34,8 +34,8 @@ void MainWindow::Init()
     checkerArea->SetBoard(board);
 
     Traces::TurnOnTraces();
-    ThreadIAMove<900000> move;
-    move.operator ()(board);
+   /* ThreadIAMove<900000> move;
+    move.operator ()(board);*/
 
     Traces() << "\n" << "Start Traces!!";
 

@@ -38,6 +38,8 @@ void Board::Clear()
         };
         flag = !flag;
     };
+
+    SetPreviousMurder(12);
 }
 
 void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,const unsigned short y)
@@ -761,6 +763,13 @@ void Board::CopyFrom(const ThreadIASimpleBoard & data)
 void Board::SetOrigin(Board & data)
 {
     data.CopyTo(origin);
+}
+
+Board Board::GetOrigin()
+{
+    Board temp;
+    temp.CopyFrom(origin);
+    return temp;
 }
 
 void Board::StartBlack()

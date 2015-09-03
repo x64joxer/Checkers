@@ -9,13 +9,13 @@
 #include "IA/IADecisionTree.h"
 #include "IA/IATreeExpander.h"
 #include "Traces/Traces.h"
-#include "ThreadIA/ThreadIATreeExpander.h"
-#include "ThreadIA/ThreadIATreeExpander.cpp"
+//#include "ThreadIA/ThreadIATreeExpander.h"
+//#include "ThreadIA/ThreadIATreeExpander.cpp"
 //Tests
-#include "ThreadIA/ThreadIABoardQueue.h"
-#include "ThreadIA/ThreadIABoardQueue.cpp"
-#include "ThreadIA/ThreadIAMove.h"
-#include "ThreadIA/ThreadIAMove.cpp"
+//#include "ThreadIA/ThreadIABoardQueue.h"
+//#include "ThreadIA/ThreadIABoardQueue.cpp"
+//#include "ThreadIA/ThreadIAMove.h"
+//#include "ThreadIA/ThreadIAMove.cpp"
 
 namespace Ui {
 class MainWindow;
