@@ -1,19 +1,21 @@
 #include "ThreadIA/ThreadIATreeExpander.h"
 
-ThreadIATreeExpander::ThreadIATreeExpander()
+template <unsigned long int MQueue, unsigned long int sQueue>
+ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
     : trace(false),
-    queueSize(5000),
+    queueSize(MQueue),
     lastQueueElement(0),
     firstQueueElement(0),
 
-    doNotForgetQueueSize(100),
+    doNotForgetQueueSize(sQueue/500),
     lastDoNotForgetQueueElement(0)
 
 {
 
 }
 
-void ThreadIATreeExpander::Expand(Board board, unsigned int howManySteps)
+template <unsigned long int MQueue, unsigned long int sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(Board board, unsigned int howManySteps, ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
     queue[0] = board;
     unsigned int step = 0;
@@ -51,7 +53,14 @@ void ThreadIATreeExpander::Expand(Board board, unsigned int howManySteps)
     if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };
 }
 
-bool ThreadIATreeExpander::ExpandWhite(Board board, unsigned int stepNumber)
+template <unsigned long int MQueue, unsigned long int sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)
+{
+
+}
+
+template <unsigned long int MQueue, unsigned long int sQueue>
+bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int stepNumber)
 {
     if (trace) { Traces() << "\n" << "LOG: void IATreeExpander::ExpandWhite(IADecisionTree *treePointer)"; };
 
@@ -372,7 +381,8 @@ bool ThreadIATreeExpander::ExpandWhite(Board board, unsigned int stepNumber)
     return 0;
 }
 
-bool ThreadIATreeExpander::ExpandBlack(Board board, unsigned int stepNumber)
+template <unsigned long int MQueue, unsigned long int sQueue>
+bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int stepNumber)
 {
     if (trace) Traces() << "\n" << "LOG: void IATreeExpander::ExpandBlack(IADecisionTree *treePointer)";
 

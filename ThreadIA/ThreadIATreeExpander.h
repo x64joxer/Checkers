@@ -4,14 +4,17 @@
 #include "Board.h"
 #include "Traces/Traces.h"
 #include "IA/IAPossibleMoves.h"
+#include "ThreadIA/ThreadIABoardQueue.h"
 
+template <unsigned long int MQueue, unsigned long int sQueue>
 class ThreadIATreeExpander
 {
     public:
        ThreadIATreeExpander();
 
-       void Expand(Board board, unsigned int howManySteps);
+       void Expand(Board board, unsigned int howManySteps, ThreadIABoardQueue<MQueue> &mainBoardQueue);
     private:
+       void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
        bool ExpandWhite(Board board, unsigned int stepNumber = 1);
        bool ExpandBlack(Board board, unsigned int stepNumber = 1);
 
@@ -20,11 +23,11 @@ class ThreadIATreeExpander
        const unsigned long int queueSize;
        unsigned long int lastQueueElement;
        unsigned long int firstQueueElement;
-       Board queue[5000];
+       Board queue[sQueue];
 
        const unsigned long int doNotForgetQueueSize;
        unsigned long int lastDoNotForgetQueueElement;
-       Board doNotForgetQueue[100];
+       Board doNotForgetQueue[sQueue/500];
 };
 
 #endif // THREADIATREEEXPANDER_H
