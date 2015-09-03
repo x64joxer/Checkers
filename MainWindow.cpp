@@ -181,10 +181,47 @@ void MainWindow::Init()
     qDebug() << id2;
     qDebug() << "dfdf"; */
 
-    board->StartBlack();
-    ThreadIATreeExpander expander;
+    //board->StartBlack();
+    //ThreadIATreeExpander expander;
 
-     expander.Expand(*board,800);
+     //expander.Expand(*board,800);
+
+    Traces::TurnOnTraces();
+    Board example;
+    Board example2;
+            example2 =  std::string("| | | | | | | | |") +
+                               std::string("| | | | | | | |w|") +
+                               std::string("| | | | | | | |w|") +
+                               std::string("| | | | |b| | | |") +
+                               std::string("| | | | | | | | |") +
+                               std::string("| | | | | | | | |") +
+                               std::string("| | | | | | | | |") +
+                               std::string("| | | | | | | | |");
+            example2.printDebug();
+
+    ThreadIABoardQueue<15> queuetest;
+
+    //5 elements
+    queuetest.PushBack(example);
+    queuetest.PushBack(example);
+    queuetest.PushBack(example);
+    queuetest.PushBack(example);
+    queuetest.PushBack(example);
+
+    //Take first
+    queuetest.PopFront();
+    queuetest.PopFront();
+
+    queuetest.PushBack(example);
+    queuetest.PushBack(example2);
+
+    queuetest.PopFront();
+    queuetest.PopFront();
+    queuetest.PopFront();
+    queuetest.PopFront();
+    example = queuetest.PopFront();
+
+    example.printDebug();
 
 
 }

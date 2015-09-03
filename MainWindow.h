@@ -10,6 +10,9 @@
 #include "IA/IATreeExpander.h"
 #include "Traces/Traces.h"
 #include "ThreadIA/ThreadIATreeExpander.h"
+//Tests
+#include "ThreadIA/ThreadIABoardQueue.h"
+#include "ThreadIA/ThreadIABoardQueue.cpp"
 
 namespace Ui {
 class MainWindow;

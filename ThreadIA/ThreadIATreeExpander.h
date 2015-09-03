@@ -8,8 +8,9 @@
 class ThreadIATreeExpander
 {
     public:
-        ThreadIATreeExpander();
-        void Expand(Board board, unsigned int howManySteps);
+       ThreadIATreeExpander();
+
+       void Expand(Board board, unsigned int howManySteps);
     private:
        bool ExpandWhite(Board board, unsigned int stepNumber = 1);
        bool ExpandBlack(Board board, unsigned int stepNumber = 1);
