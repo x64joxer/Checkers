@@ -7,7 +7,7 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
     lastQueueElement(0),
     firstQueueElement(0),
 
-    doNotForgetQueueSize(sQueue/500),
+    doNotForgetQueueSize(sQueue/50),
     lastDoNotForgetQueueElement(0)
 
 {

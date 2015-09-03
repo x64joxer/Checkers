@@ -27,7 +27,7 @@ class ThreadIATreeExpander
 
        const unsigned long int doNotForgetQueueSize;
        unsigned long int lastDoNotForgetQueueElement;
-       Board doNotForgetQueue[sQueue/500];
+       Board doNotForgetQueue[sQueue/50];
 };
 
 #endif // THREADIATREEEXPANDER_H

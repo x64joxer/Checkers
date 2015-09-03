@@ -9,10 +9,11 @@ class ThreadIABoardQueue
 {
     public:
         ThreadIABoardQueue();
+        ~ThreadIABoardQueue();
         Board PopFront();
         inline void PushBack(Board &board);
     private:
-        Board queue[size];
+        Board *queue;
         unsigned long int first;
         unsigned long int last;
         unsigned long int numberOfElements;

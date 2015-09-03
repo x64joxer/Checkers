@@ -182,12 +182,12 @@ void MainWindow::Init()
     qDebug() << "dfdf"; */
 
     //board->StartBlack();
-    ThreadIABoardQueue<80000> queuetest;
-//    ThreadIATreeExpander<300000,5000> expander;
+    ThreadIABoardQueue<90000> queuetest;
+    ThreadIATreeExpander<90000,5000> expander;
 
-  //   expander.Expand(*board,800,queuetest);
+    expander.Expand(*board,800,queuetest);
 
-  /*  Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
     Board example;
     Board example2;
             example2 =  std::string("| | | | | | | | |") +
@@ -222,7 +222,7 @@ void MainWindow::Init()
     queuetest.PopFront();
     example = queuetest.PopFront();
 
-    example.printDebug();*/
+    example.printDebug();
 
 
 }

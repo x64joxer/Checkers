@@ -6,6 +6,7 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
     first = 0;
     last = 0;
     numberOfElements = 0;
+    queue = new Board[size];
 }
 
 template <unsigned long int size>
@@ -79,4 +80,10 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
     {
         Traces() << "\n" << "ERROR: No more free cells!";
     };
+}
+
+template <unsigned long int size>
+ThreadIABoardQueue<size>::~ThreadIABoardQueue()
+{
+    delete [] queue;
 }
