@@ -758,6 +758,11 @@ void Board::CopyFrom(const ThreadIASimpleBoard & data)
     };
 }
 
+void Board::SetOrigin(Board & data)
+{
+    data.CopyTo(origin);
+}
+
 void Board::StartBlack()
 {
     blackWhite = 0;

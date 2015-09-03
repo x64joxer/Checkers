@@ -58,6 +58,7 @@ class Board
         bool operator ==(Board );
         void CopyTo(ThreadIASimpleBoard & data);
         void CopyFrom(const ThreadIASimpleBoard & data);
+        void SetOrigin(Board & data);
 
         void StartBlack();
         void StartWhite();

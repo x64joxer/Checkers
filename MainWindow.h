@@ -14,6 +14,8 @@
 //Tests
 #include "ThreadIA/ThreadIABoardQueue.h"
 #include "ThreadIA/ThreadIABoardQueue.cpp"
+#include "ThreadIA/ThreadIAMove.h"
+#include "ThreadIA/ThreadIAMove.cpp"
 
 namespace Ui {
 class MainWindow;

@@ -3,7 +3,7 @@
 IATreeExpander::IATreeExpander()
 {
     singleThread = true;
-    numberOfSteps = 1000;
+    numberOfSteps = 9000;
     maxJobs = 8;
     numberOfJobs = 2;
     numberOfJobsToGet = 2;

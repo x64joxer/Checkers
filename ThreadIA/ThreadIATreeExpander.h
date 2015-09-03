@@ -12,7 +12,7 @@ class ThreadIATreeExpander
     public:
        ThreadIATreeExpander();
 
-       void Expand(Board board, unsigned int howManySteps, ThreadIABoardQueue<MQueue> &mainBoardQueue);
+       void Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue);
     private:
        void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
        bool ExpandWhite(Board board, unsigned int stepNumber = 1);
@@ -20,7 +20,7 @@ class ThreadIATreeExpander
 
        bool trace;
 
-       const unsigned long int queueSize;
+       const unsigned long int queueSize;       
        unsigned long int lastQueueElement;
        unsigned long int firstQueueElement;
        Board queue[sQueue];

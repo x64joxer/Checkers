@@ -12,6 +12,8 @@ class ThreadIABoardQueue
         ~ThreadIABoardQueue();
         Board PopFront();
         inline void PushBack(Board &board);
+        inline void PushBackDoNotForget(Board &board);
+        unsigned long int Size();
     private:
         Board *queue;
         unsigned long int first;

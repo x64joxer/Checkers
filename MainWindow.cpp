@@ -33,7 +33,10 @@ void MainWindow::Init()
 
     checkerArea->SetBoard(board);
 
-    //Traces::TurnOnTraces();
+    Traces::TurnOnTraces();
+    ThreadIAMove<900000> move;
+    move.operator ()(board);
+
     Traces() << "\n" << "Start Traces!!";
 
     //board->SetWhitePawnPos(1,1,4);
@@ -181,13 +184,16 @@ void MainWindow::Init()
     qDebug() << id2;
     qDebug() << "dfdf"; */
 
-    //board->StartBlack();
+    //Traces::TurnOnTraces();
+
+   /* board->StartBlack();
     ThreadIABoardQueue<90000> queuetest;
+    queuetest.PushBack(*board);
     ThreadIATreeExpander<90000,5000> expander;
 
-    expander.Expand(*board,800,queuetest);
+    expander.Expand(4000,3000,queuetest);
 
-    Traces::TurnOnTraces();
+
     Board example;
     Board example2;
             example2 =  std::string("| | | | | | | | |") +
@@ -198,12 +204,12 @@ void MainWindow::Init()
                                std::string("| | | | | | | | |") +
                                std::string("| | | | | | | | |") +
                                std::string("| | | | | | | | |");
-            example2.printDebug();
+            example2.printDebug();*/
 
 
 
     //5 elements
-    queuetest.PushBack(example);
+   /* queuetest.PushBack(example);
     queuetest.PushBack(example);
     queuetest.PushBack(example);
     queuetest.PushBack(example);
@@ -222,7 +228,7 @@ void MainWindow::Init()
     queuetest.PopFront();
     example = queuetest.PopFront();
 
-    example.printDebug();
+    example.printDebug();*/
 
 
 }

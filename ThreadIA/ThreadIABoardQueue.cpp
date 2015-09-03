@@ -83,6 +83,18 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 }
 
 template <unsigned long int size>
+inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
+{
+    //TODO
+}
+
+template <unsigned long int size>
+unsigned long int ThreadIABoardQueue<size>::Size()
+{
+    return numberOfElements;
+}
+
+template <unsigned long int size>
 ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
