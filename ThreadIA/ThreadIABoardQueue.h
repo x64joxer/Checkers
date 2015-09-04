@@ -1,6 +1,7 @@
 #ifndef THREADIABOARDQUEUE_H
 #define THREADIABOARDQUEUE_H
 
+#include <mutex>
 #include "Board.h"
 #include "Traces/Traces.h"
 
@@ -25,6 +26,9 @@ class ThreadIABoardQueue
 
         Board *doNotForgetqueue;
         unsigned long int doNotForgetnumberOfElements;
+
+        std::mutex mutex;
+        bool mutex_flag;
 };
 
 #endif // THREADIABOARDQUEUE_H

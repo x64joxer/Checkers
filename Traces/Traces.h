@@ -26,7 +26,7 @@ class Traces
         Traces& operator <<(QString );
         Traces& operator <<(long);
 
-        static unsigned long GetCurrentTime();
+        static void GetCurrentTime();
         static std::string GetCurrentDate();
 
         static void TurnOnTraces();
@@ -46,6 +46,9 @@ class Traces
         std::string CreateNewThreadText();        
         std::string FindFirstFreeId();
         std::string GenerateText(int);        
+
+        static bool timeFlag;
+        static unsigned long int start,stop;
 };
 
 #endif // TRACES_H

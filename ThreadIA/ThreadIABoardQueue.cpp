@@ -10,6 +10,7 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
 
     doNotForgetqueue = new Board[size];
     doNotForgetnumberOfElements =0;
+    mutex_flag = true;
 }
 
 template <unsigned long int size>
@@ -19,17 +20,20 @@ void ThreadIABoardQueue<size>::Clear()
     last = 0;
     numberOfElements = 0;
     doNotForgetnumberOfElements =0;
+    mutex_flag = true;
 }
 
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::First()
 {
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
     return queue[first];
 }
 
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront()
 {
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
     unsigned long int temp = first;
     Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";
     if (numberOfElements>0)
@@ -66,7 +70,8 @@ Board ThreadIABoardQueue<size>::PopFront()
 
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
-{    
+{
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
     Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
 
     if (numberOfElements == 0)
@@ -105,6 +110,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
     Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
     doNotForgetqueue[doNotForgetnumberOfElements] = board;
     ++doNotForgetnumberOfElements;
@@ -113,6 +119,8 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::GetBestResult()
 {
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
+
     double result = 0;
     Board temp;
 
@@ -163,6 +171,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 template <unsigned long int size>
 unsigned long int ThreadIABoardQueue<size>::Size()
 {
+    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
     return numberOfElements;
 }
 

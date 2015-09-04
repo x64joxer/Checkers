@@ -100,10 +100,18 @@ Traces& Traces::operator <<(long data)
     };
 }
 
-unsigned long Traces::GetCurrentTime()
+void Traces::GetCurrentTime()
 {
-    unsigned long milliseconds_since_epoch = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
-    return milliseconds_since_epoch;
+    if (!timeFlag)
+    {
+        start = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+        timeFlag = true;
+    } else
+    {
+        stop = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+        timeFlag = false;
+        qDebug() << "Diff=" << stop - start;
+    };
 }
 
 std::string Traces::GetCurrentDate()
@@ -148,4 +156,6 @@ bool Traces::traceOn = false;
 std::mutex Traces::mutex;
 std::map<unsigned long int,std::string> Traces::theardsId;
 std::set<std::string> Traces::idText;
-
+bool Traces::timeFlag = false;
+unsigned long int Traces::start =0;
+unsigned long int Traces::stop =0;
