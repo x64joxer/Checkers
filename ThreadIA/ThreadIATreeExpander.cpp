@@ -17,6 +17,8 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
 template <unsigned long int MQueue, unsigned long int sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
+    if (trace) { Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)"; };
+
     queue[0] = mainBoardQueue.PopFront();
     unsigned int step = 0;
     unsigned long current;
@@ -32,12 +34,14 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             {
               if (trace) { Traces() << "\n" << "LOG: (treePointer->Black())"; };
               firstQueueElement = current+1;
-              ExpandBlack(queue[current], step);
+              ExpandBlack(queue[current], step);              
+              //lastQueueElement = firstQueueElement;
             } else
             {
               if (trace) { Traces() << "\n" << "LOG: (treePointer->White())"; };
               firstQueueElement = current+1;
               ExpandWhite(queue[current], step);
+              //lastQueueElement = firstQueueElement;
             };
 
             if (trace) { Traces() << "\n" << "LOG: step++"; };
@@ -47,18 +51,31 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             if (step >= howManySteps) break;
 
             //Check if time to transfer data
-            if (frequencyOfTransferData<=lastQueueElement-firstQueueElement)
+            if (lastQueueElement>=firstQueueElement)
             {
-                TransferBoards(mainBoardQueue);
-                queue[0] = mainBoardQueue.PopFront();
-                current = 0;
-                continue;
+                if (frequencyOfTransferData<=lastQueueElement-firstQueueElement)
+                {
+
+                    if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
+                        if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
+                        TransferBoards(mainBoardQueue);
+                        queue[0] = mainBoardQueue.PopFront();
+                        current = 0;
+                        continue;
+                };
             };
 
             ++current;
+
+            if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
+            if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
+            if (trace)  Traces() << "\n" << "LOG:" << current;
         };
 
         if (trace) { Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";};
+
+        if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
+            if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
 
         //Finish job
         if (step >= howManySteps)
@@ -74,21 +91,22 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
             TransferBoards(mainBoardQueue);
             queue[0] = mainBoardQueue.PopFront();
-            lastQueueElement =0;
-            firstQueueElement =0;
 
             if (queue[0].GetNullBoard())
             {
                 if (trace) { Traces() << "\n" << "LOG: No job in global queue. Finishing thread."; };
                 break;
             };
+
+            lastQueueElement =0;
+            firstQueueElement =0;
         }
 
         //New begining
         //firstQueueElement = current;
     };
 
-    if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };
+    if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };    
     TransferBoards(mainBoardQueue);
 }
 
@@ -97,15 +115,19 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
 {
     if (trace) { Traces() << "\n" << "ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";};
 
-    if ((lastQueueElement-firstQueueElement)+1>0)
+    if (lastQueueElement>=firstQueueElement)
     {
-        for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
+        if ((lastQueueElement-firstQueueElement)+1>0)
         {
-            mainBoardQueue.PushBack(queue[i]);
-        };
+            for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
+            {
+                if (trace)  Traces() << "\n" << "LOG: mainBoardQueue.PushBack(queue[i])";
+                mainBoardQueue.PushBack(queue[i]);
+            };
 
-        firstQueueElement =0;
-        lastQueueElement=0;
+            firstQueueElement =0;
+            lastQueueElement=0;
+        };
     };
 
     if (lastDoNotForgetQueueElement>0)
@@ -141,6 +163,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
             if (trace) { Traces() << "\n" << "LOG: There was situation when all black was killed!"; };
             board.printDebug();
+            return 0;
         };
 
         unsigned short i = board.GetPreviousMurder();
@@ -243,6 +266,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
         if (trace) Traces() << "\n" << "LOG: There was situation when all white was killed!";
         board.printDebug();
+        return 0;
     };
 
     //Check possible kills
@@ -463,6 +487,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
 
             if (trace) Traces() << "\n" << "LOG: There was situation when all White was killed!";
             board.printDebug();
+            return 0;
         };
 
         unsigned short i = board.GetPreviousMurder();
@@ -562,6 +587,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
 
         if (trace) Traces() << "\n" << "LOG: There was situation when all Black was killed!";
         board.printDebug();
+        return 0;
     };
 
     //Check possible kills

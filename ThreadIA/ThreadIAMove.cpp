@@ -54,6 +54,7 @@ void ThreadIAMove<QMain>::CreateFirstElements()
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::SetOriginToAll()
 {
+    Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::SetOriginToAll()";
     unsigned long int size = queue.Size();
     Board temp;
 
@@ -63,6 +64,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
         {
             temp = queue.PopFront();
             temp.SetOrigin(temp);
+            temp.StartBlack();
 
             Traces() << "\n" << "LOG: Origin set";
             temp.printDebug();

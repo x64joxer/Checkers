@@ -18,8 +18,8 @@ void MainWindow::Init()
     *board =
             std::string("| | | | | |w| | |") +
             std::string("| | | | |b| | | |") +
-            std::string("| | | |b| |b| |b|") +
-            std::string("| | | | | | | | |") +
+            std::string("| | | |b| | | |b|") +
+            std::string("| | | | |b| |b| |") +
             std::string("| |b| | | | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
