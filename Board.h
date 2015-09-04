@@ -67,6 +67,8 @@ class Board
         bool White();
         bool GetNullBoard();
         void SetNullBoard(const bool flag);
+        bool GetWhitePatchEnd();
+        void SetWhitePatchEnd(const bool flag);
 
     private:
         unsigned short numberOfWhite();
@@ -78,6 +80,7 @@ class Board
 
         unsigned short previousMurder;
         ThreadIASimpleBoard origin;
+        bool whitePatchEnd;
 
         bool blackWhite;
         bool nullBoard;

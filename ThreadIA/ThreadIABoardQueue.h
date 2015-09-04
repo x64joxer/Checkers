@@ -15,6 +15,7 @@ class ThreadIABoardQueue
         inline void PushBackDoNotForget(Board &board);
         Board GetBestResult();
         void Clear();
+        Board First();
         unsigned long int Size();
     private:
         Board *queue;        

@@ -2,7 +2,7 @@
 
 template <unsigned long int MQueue, unsigned long int sQueue>
 ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
-    : trace(true),
+    : trace(false),
     queueSize(MQueue),
     lastQueueElement(0),
     firstQueueElement(0),    
@@ -168,6 +168,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
+           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
            if (++lastQueueElement > queueSize-1)
            {
                if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
@@ -187,6 +188,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            killFlag = true;
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
+           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
            if (++lastQueueElement > queueSize-1)
            {
                if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
@@ -208,6 +210,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
+              if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
               if (++lastQueueElement > queueSize-1)
               {
                   if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
@@ -226,6 +229,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
+              if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
               if (++lastQueueElement > queueSize-1)
               {
                   if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
@@ -237,9 +241,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
        };
 
        if (!killFlag)
-       {
+       {           
            board.SetPreviousMurder(12);
            board.StartBlack();
+           board.SetWhitePatchEnd(true);
            ExpandBlack(board);
        };
 
@@ -341,9 +346,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
     };
     //If no kills check other steps
     if (!killFlag)
-    {
-        if (trace) Traces() << "\n" << "LOG:  (!killFlag) == true";
+    {        
+        if (trace) Traces() << "\n" << "LOG:  (!killFlag) == true";        
         bool canImove = false;
+        board.SetWhitePatchEnd(true);
 
         //Check possible puts
         for (unsigned short i=0;i<pawnNumber;i++)

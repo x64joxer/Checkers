@@ -40,7 +40,8 @@ void Board::Clear()
     };
 
     SetPreviousMurder(12);
-    SetNullBoard(false);
+    SetNullBoard(false);    
+    whitePatchEnd = true;
 }
 
 void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,const unsigned short y)
@@ -744,6 +745,18 @@ void Board::clearBlack()
     {
         black[i].dead = true;
     };
+}
+
+bool Board::GetWhitePatchEnd()
+{
+    Traces() << "\n" << "bool Board::GetWhitePatchEnd() " << int (whitePatchEnd);
+    return whitePatchEnd;
+}
+
+void Board::SetWhitePatchEnd(const bool flag)
+{
+    Traces() << "\n" << "void Board::SetWhitePatchEnd(const bool flag) " << int (flag);
+    whitePatchEnd = flag;
 }
 
 void Board::CopyTo(ThreadIASimpleBoard & data)

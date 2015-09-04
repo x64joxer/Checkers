@@ -13,6 +13,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     //Create first elements
     Board temp = *boardWsk;
     temp.StartWhite();
+    temp.SetWhitePatchEnd(false);
 
     queue.PushBack(temp);
     CreateFirstElements();
@@ -63,8 +64,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
         for (unsigned int i=0;i<size;i++)
         {
             temp = queue.PopFront();
-            temp.SetOrigin(temp);
-            temp.StartBlack();
+            temp.SetOrigin(temp);          
 
             Traces() << "\n" << "LOG: Origin set";
             temp.printDebug();

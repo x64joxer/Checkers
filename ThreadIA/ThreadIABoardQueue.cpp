@@ -22,6 +22,12 @@ void ThreadIABoardQueue<size>::Clear()
 }
 
 template <unsigned long int size>
+Board ThreadIABoardQueue<size>::First()
+{
+    return queue[first];
+}
+
+template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront()
 {
     unsigned long int temp = first;
