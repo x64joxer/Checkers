@@ -22,7 +22,6 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
     queue[0] = mainBoardQueue.PopFront();
     unsigned int step = 0;
     unsigned long current;
-    bool finish = false;
 
     while (step < howManySteps)
     {
@@ -67,15 +66,9 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
             ++current;
 
-            if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
-            if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
-            if (trace)  Traces() << "\n" << "LOG:" << current;
         };
 
         if (trace) { Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";};
-
-        if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
-            if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
 
         //Finish job
         if (step >= howManySteps)
@@ -101,9 +94,6 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             lastQueueElement =0;
             firstQueueElement =0;
         }
-
-        //New begining
-        //firstQueueElement = current;
     };
 
     if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };    

@@ -52,7 +52,7 @@ Board ThreadIABoardQueue<size>::PopFront()
         return queue[temp];
     };
 
-    Traces() << "\n" << "ERROR: No elements to get!";
+    Traces() << "\n" << "LOG: No elements to get!";
     Board temp_null;
     temp_null.SetNullBoard(true);
     return temp_null;

@@ -28,7 +28,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         ThreadIATreeExpander<QMain,5000> expander;
 
-        expander.Expand(100,3000,queue);
+        expander.Expand(9000,3000,queue);
 
         temp = queue.GetBestResult();
 
