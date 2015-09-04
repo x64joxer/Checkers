@@ -285,23 +285,32 @@ void CheckerArea::TakeMouseReleaseEvent(QMouseEvent *event)
                     } //Error here
                     else
                     {
-                        Traces() << "\n" << "cursorState = WaitForIA";
-                        previousBoard = *board;
-                        StartThinking();                     
+                        if (board->GetNumberOfWhite()>0)
+                        {
+                            Traces() << "\n" << "cursorState = WaitForIA";
+                            previousBoard = *board;
+                            StartThinking();
+                        } else cursorState = Free;
                     };
                 }
                 else
                 {
-                    Traces() << "\n" << "cursorState = WaitForIA";
-                    previousBoard = *board;
-                    StartThinking();
+                    if (board->GetNumberOfWhite()>0)
+                    {
+                        Traces() << "\n" << "cursorState = WaitForIA";
+                        previousBoard = *board;
+                        StartThinking();
+                    } else cursorState = Free;
                 };
             } else
             {
-                Traces() << "\n" << "cursorState = WaitForIA";
-                board->SetBlackPawnPos(grabbed,x,y);   
-                previousBoard = *board;
-                StartThinking();
+                if (board->GetNumberOfWhite()>0)
+                {
+                    Traces() << "\n" << "cursorState = WaitForIA";
+                    board->SetBlackPawnPos(grabbed,x,y);
+                    previousBoard = *board;
+                    StartThinking();
+                } else cursorState = Free;
             }
         } else
         {
