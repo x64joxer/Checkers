@@ -41,8 +41,9 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         boardWsk->printDebug();
 
 
-        *flag = true;
-    };
+        *flag = true;        
+    };    
+    qDebug() << "Stop" << Traces::GetCurrentTime();
 }
 
 template  <unsigned long int QMain>

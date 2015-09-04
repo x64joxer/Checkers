@@ -100,6 +100,12 @@ Traces& Traces::operator <<(long data)
     };
 }
 
+unsigned long Traces::GetCurrentTime()
+{
+    unsigned long milliseconds_since_epoch = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+    return milliseconds_since_epoch;
+}
+
 std::string Traces::GetCurrentDate()
 {
     std::string result;

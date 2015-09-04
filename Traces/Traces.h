@@ -23,10 +23,11 @@ class Traces
         Traces();
 
         //Traces& operator <<(std::string);
-        Traces& operator <<(QString);
+        Traces& operator <<(QString );
         Traces& operator <<(long);
 
-        std::string GetCurrentDate();
+        static unsigned long GetCurrentTime();
+        static std::string GetCurrentDate();
 
         static void TurnOnTraces();
         static void TurnOffTraces();      
