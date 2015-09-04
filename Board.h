@@ -65,6 +65,8 @@ class Board
         void StartWhite();
         bool Black();
         bool White();
+        bool GetNullBoard();
+        void SetNullBoard(const bool flag);
 
     private:
         unsigned short numberOfWhite();
@@ -78,6 +80,7 @@ class Board
         ThreadIASimpleBoard origin;
 
         bool blackWhite;
+        bool nullBoard;
 
         Pawn white[12];
         Pawn black[12];        

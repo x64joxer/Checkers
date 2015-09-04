@@ -20,7 +20,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
     queue[0] = mainBoardQueue.PopFront();
     unsigned int step = 0;
     unsigned long current;
-    bool flag = false;
+    bool finish = false;
 
     while (step < howManySteps)
     {
@@ -58,20 +58,34 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             ++current;
         };
 
-        if (trace) { Traces() << "\n" << "LOG: END";};
+        if (trace) { Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";};
+
+        //Finish job
+        if (step >= howManySteps)
+        {
+            if (trace) { Traces() << "\n" << "LOG: (step >= howManySteps) finihing job!"; };
+            break;
+        };
 
         //No jobs take more from global queue
         if (step < howManySteps)
         {
-            if (trace) { Traces() << "\n" << "LOG: No jobs, taking fom globas queue"; };
+            if (trace) { Traces() << "\n" << "LOG: No jobs. Taking fom global queue"; };
+
+            TransferBoards(mainBoardQueue);
             queue[0] = mainBoardQueue.PopFront();
+            lastQueueElement =0;
+            firstQueueElement =0;
+
+            if (queue[0].GetNullBoard())
+            {
+                if (trace) { Traces() << "\n" << "LOG: No job in global queue. Finishing thread."; };
+                break;
+            };
         }
 
-        //Finish job
-        if (step >= howManySteps) break;
-
         //New begining
-        firstQueueElement = current;
+        //firstQueueElement = current;
     };
 
     if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };

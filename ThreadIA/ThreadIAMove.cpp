@@ -17,24 +17,31 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     queue.PushBack(temp);
     CreateFirstElements();
 
-    //Set origin to all
-    SetOriginToAll();
+    //Can not move or all black killed
+    if (queue.Size() == 0)
+    {
+        *flag = true;
+    } else
+    {
+        //Set origin to all
+        SetOriginToAll();
 
-    ThreadIATreeExpander<QMain,5000> expander;
+        ThreadIATreeExpander<QMain,5000> expander;
 
-    expander.Expand(100,3000,queue);
+        expander.Expand(100,3000,queue);
 
-    temp = queue.GetBestResult();
+        temp = queue.GetBestResult();
 
-    queue.Clear();
-    *boardWsk = temp.GetOrigin();
+        queue.Clear();
+        *boardWsk = temp.GetOrigin();
 
-    Traces() << "\n" << "LOG: Best board set:";
-    temp.printDebug();
-    boardWsk->printDebug();
+        Traces() << "\n" << "LOG: Best board set:";
+        temp.printDebug();
+        boardWsk->printDebug();
 
 
-    *flag = true;
+        *flag = true;
+    };
 }
 
 template  <unsigned long int QMain>
@@ -50,13 +57,16 @@ void ThreadIAMove<QMain>::SetOriginToAll()
     unsigned long int size = queue.Size();
     Board temp;
 
-    for (unsigned int i=0;i<size;i++)
+    if (size>0)
     {
-        temp = queue.PopFront();
-        temp.SetOrigin(temp);
+        for (unsigned int i=0;i<size;i++)
+        {
+            temp = queue.PopFront();
+            temp.SetOrigin(temp);
 
-        Traces() << "\n" << "LOG: Origin set";
-        temp.printDebug();
-        queue.PushBack(temp);
-    }
+            Traces() << "\n" << "LOG: Origin set";
+            temp.printDebug();
+            queue.PushBack(temp);
+        }
+    };
 }

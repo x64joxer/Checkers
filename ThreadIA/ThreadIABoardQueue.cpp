@@ -49,7 +49,9 @@ Board ThreadIABoardQueue<size>::PopFront()
     };
 
     Traces() << "\n" << "ERROR: No elements to get!";
-    return Board();
+    Board temp_null;
+    temp_null.SetNullBoard(true);
+    return temp_null;
 }
 
 template <unsigned long int size>

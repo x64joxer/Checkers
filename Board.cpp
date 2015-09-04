@@ -40,6 +40,7 @@ void Board::Clear()
     };
 
     SetPreviousMurder(12);
+    SetNullBoard(false);
 }
 
 void Board::SetWhitePawnPos(const unsigned short number,const unsigned short x,const unsigned short y)
@@ -790,4 +791,14 @@ bool Board::Black()
 bool Board::White()
 {
     return blackWhite;
+}
+
+bool Board::GetNullBoard()
+{
+    return nullBoard;
+}
+
+void Board::SetNullBoard(const bool flag)
+{
+    nullBoard = flag;
 }

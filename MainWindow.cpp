@@ -15,15 +15,15 @@ void MainWindow::Init()
     board = new Board();
     checkerArea = new CheckerArea(this);
 
-    /**board =
-            std::string("| | | | | | | | |") +
-            std::string("| | | | |w| | | |") +
-            std::string("| | | | | | | | |") +
+    *board =
+            std::string("| | | | | |w| | |") +
             std::string("| | | | |b| | | |") +
+            std::string("| | | |b| |b| |b|") +
+            std::string("| | | | | | | | |") +
             std::string("| |b| | | | | | |") +
             std::string("| | | | | | | | |") +
             std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |");*/
+            std::string("| | | | | | | | |");
 
     //board->RemoveWhitePawn(10);
     //Traces::TurnOnTraces();
