@@ -17,10 +17,13 @@ class ThreadIABoardQueue
         void Clear();
         unsigned long int Size();
     private:
-        Board *queue;
+        Board *queue;        
         unsigned long int first;
         unsigned long int last;
         unsigned long int numberOfElements;
+
+        Board *doNotForgetqueue;
+        unsigned long int doNotForgetnumberOfElements;
 };
 
 #endif // THREADIABOARDQUEUE_H

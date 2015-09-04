@@ -5,8 +5,11 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
 {
     first = 0;
     last = 0;
-    numberOfElements = 0;
+    numberOfElements = 0;    
     queue = new Board[size];
+
+    doNotForgetqueue = new Board[size];
+    doNotForgetnumberOfElements =0;
 }
 
 template <unsigned long int size>
@@ -15,6 +18,7 @@ void ThreadIABoardQueue<size>::Clear()
     first = 0;
     last = 0;
     numberOfElements = 0;
+    doNotForgetnumberOfElements =0;
 }
 
 template <unsigned long int size>
@@ -95,18 +99,21 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
-    //TODO
+    Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
+    doNotForgetqueue[doNotForgetnumberOfElements] = board;
+    ++doNotForgetnumberOfElements;
 }
 
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::GetBestResult()
 {
-    double result;
+    double result = 0;
     Board temp;
 
     if (numberOfElements>0)
     {
         result = queue[first].GetPercentageResult();
+        temp = queue[first];
         PopFront();
 
         if (numberOfElements>0)
@@ -117,6 +124,28 @@ Board ThreadIABoardQueue<size>::GetBestResult()
                 {
                     result =  queue[i].GetPercentageResult();
                     temp = queue[i];
+                };
+            };
+        };
+    }
+
+    if (doNotForgetnumberOfElements>0)
+    {
+        result = doNotForgetqueue[0].GetPercentageResult();
+        temp = doNotForgetqueue[0];
+
+        Traces() << "\n" << "LOG: Origin of doNotForgetqueue[0]";
+        doNotForgetqueue[0].GetOrigin().printDebug();
+
+
+        if (doNotForgetnumberOfElements>1)
+        {
+            for (unsigned long int i=1;i<doNotForgetnumberOfElements;i++)
+            {
+                if (result>doNotForgetqueue[i].GetPercentageResult())
+                {
+                    result =  doNotForgetqueue[i].GetPercentageResult();
+                    temp = doNotForgetqueue[i];
                 };
             };
         };
@@ -135,4 +164,5 @@ template <unsigned long int size>
 ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
+    delete [] doNotForgetqueue;
 }

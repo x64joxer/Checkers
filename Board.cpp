@@ -427,7 +427,10 @@ unsigned short Board::GetResult()
 
 double Board::GetPercentageResult()
 {
-    Traces() << "\n" << "LOG: Board::GetPercentageResult() = " << (double)numberOfBlack() / (double)numberOfWhite();
+    Traces() << "\n" << "LOG: Board::GetPercentageResult()";
+    if (numberOfWhite() == 0) return 12;
+    if (numberOfBlack() == 0) return 0;
+    Traces() << "\n" << "LOG: Result = " << (double)numberOfBlack() / (double)numberOfWhite();
     return (double)numberOfBlack() / (double)numberOfWhite();
 }
 
