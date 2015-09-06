@@ -7,38 +7,6 @@ Board::Board()
 
 void Board::Clear()
 {
-    bool flag = 0;
-
-    unsigned short counter =0;
-    for (int y = 0;y<3;y++)
-    {
-        for (int x = 0;x<8;x++)
-        {
-            if (flag)
-            {
-                white[counter] = Pawn(x,y,0,0);
-                counter++;
-            };
-            flag = !flag;
-        };
-        flag = !flag;
-    };
-
-    counter =0;
-    for (int y = 5;y<8;y++)
-    {
-        for (int x = 0;x<8;x++)
-        {
-            if (flag)
-            {
-                black[counter] = Pawn(x,y,0,0);
-                counter++;
-            };
-            flag = !flag;
-        };
-        flag = !flag;
-    };
-
     SetPreviousMurder(12);
     SetNullBoard(false);    
     whitePatchEnd = true;
