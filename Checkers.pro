@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     CheckerArea.cpp \
     Board.cpp \
     Pawn.cpp \
-    Logs.cpp \
     SinglePath.cpp \
     PawnPos.cpp \
     PossibleMoves.cpp \
@@ -36,7 +35,6 @@ HEADERS  += MainWindow.h \
     CheckerArea.h \
     Board.h \
     Pawn.h \
-    Logs.h \
     SinglePath.h \
     PawnPos.h \
     PossibleMoves.h \
