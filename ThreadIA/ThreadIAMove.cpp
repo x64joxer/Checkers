@@ -27,9 +27,31 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         //Set origin to all
         SetOriginToAll();
 
-        ThreadIATreeExpander<QMain,5000> expander;
+        //ThreadIATreeExpander<QMain,5000> expander;
 
-        expander.Expand(9000,3000,queue);
+        ThreadIATreeExpander<QMain,5000> expander1;
+        ThreadIATreeExpander<QMain,5000> expander2;
+
+        expander1.mainBoardQueue_2 = &queue;
+        expander2.mainBoardQueue_2 = &queue;
+
+
+        std::thread job1(&ThreadIATreeExpander<QMain,5000>::ExpandWithoutQueue,
+                         &expander1,
+                         1000,
+                         3000
+                         );
+
+        std::thread job2(&ThreadIATreeExpander<QMain,5000>::ExpandWithoutQueue,
+                         &expander1,
+                         1000,
+                         3000
+                         );
+
+        job1.join();
+        job2.join();
+
+        //expander.Expand(9000,3000,queue);
 
         temp = queue.GetBestResult();
 
@@ -43,7 +65,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         *flag = true;        
     };    
-    Traces::GetCurrentTime();
+  Traces::GetCurrentTime();
 }
 
 template  <unsigned long int QMain>

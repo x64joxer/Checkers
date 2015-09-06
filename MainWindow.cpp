@@ -33,7 +33,7 @@ void MainWindow::Init()
 
     checkerArea->SetBoard(board);
 
-    //Traces::TurnOnTraces();
+  // Traces::TurnOnTraces();
    /* ThreadIAMove<900000> move;
     move.operator ()(board);*/
 

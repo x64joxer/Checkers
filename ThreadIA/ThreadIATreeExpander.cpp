@@ -15,6 +15,12 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData)
+{
+    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2);
+}
+
+template <unsigned long int MQueue, unsigned long int sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
     if (trace) { Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)"; };
@@ -98,6 +104,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
     if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };    
     TransferBoards(mainBoardQueue);
+
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>

@@ -27,7 +27,7 @@ class ThreadIABoardQueue
         Board *doNotForgetqueue;
         unsigned long int doNotForgetnumberOfElements;
 
-        std::mutex mutex;
+        std::mutex *mutex;
         bool mutex_flag;
 };
 
