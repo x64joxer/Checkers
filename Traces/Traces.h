@@ -26,7 +26,7 @@ class Traces
         Traces& operator <<(QString );
         Traces& operator <<(long);
 
-        static void GetCurrentTime();
+        static unsigned long int GetCurrentTime();
         static std::string GetCurrentDate();
 
         static void TurnOnTraces();

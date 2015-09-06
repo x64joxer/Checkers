@@ -62,7 +62,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         *flag = true;        
     };    
-  Traces::GetCurrentTime();
+  //Traces::GetCurrentTime();
 }
 
 template  <unsigned long int QMain>

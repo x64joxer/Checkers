@@ -100,7 +100,7 @@ Traces& Traces::operator <<(long data)
     };
 }
 
-void Traces::GetCurrentTime()
+unsigned long int Traces::GetCurrentTime()
 {
     if (!timeFlag)
     {
@@ -109,9 +109,12 @@ void Traces::GetCurrentTime()
     } else
     {
         stop = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
-        timeFlag = false;
+        timeFlag = false;       
         qDebug() << "Diff=" << stop - start;
-    };
+        return stop - start;
+    };    
+
+    return 0;
 }
 
 std::string Traces::GetCurrentDate()

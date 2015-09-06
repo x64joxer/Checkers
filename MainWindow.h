@@ -6,16 +6,9 @@
 #include <QMainWindow>
 #include "CheckerArea.h"
 #include "Board.h"
-#include "IA/IADecisionTree.h"
-#include "IA/IATreeExpander.h"
 #include "Traces/Traces.h"
-//#include "ThreadIA/ThreadIATreeExpander.h"
-//#include "ThreadIA/ThreadIATreeExpander.cpp"
-//Tests
-//#include "ThreadIA/ThreadIABoardQueue.h"
-//#include "ThreadIA/ThreadIABoardQueue.cpp"
-//#include "ThreadIA/ThreadIAMove.h"
-//#include "ThreadIA/ThreadIAMove.cpp"
+#include "Tests/PerformanceTests.h"
+
 
 namespace Ui {
 class MainWindow;

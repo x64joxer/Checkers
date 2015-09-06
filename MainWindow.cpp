@@ -12,6 +12,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::Init()
 {
+    {
+        PerformanceTests performanceTests;
+        performanceTests.Make();
+    };
+
     board = new Board();
     checkerArea = new CheckerArea(this);
 

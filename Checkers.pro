@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     ThreadIA/ThreadIASimpleBoard.cpp \
     ThreadIA/ThreadIATreeExpander.cpp \
     ThreadIA/ThreadIABoardQueue.cpp \
-    ThreadIA/ThreadIAMove.cpp
+    ThreadIA/ThreadIAMove.cpp \
+    Tests/PerformanceTests.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -46,7 +47,8 @@ HEADERS  += MainWindow.h \
     ThreadIA/ThreadIASimpleBoard.h \
     ThreadIA/ThreadIATreeExpander.h \
     ThreadIA/ThreadIABoardQueue.h \
-    ThreadIA/ThreadIAMove.h
+    ThreadIA/ThreadIAMove.h \
+    Tests/PerformanceTests.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui
