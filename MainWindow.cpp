@@ -12,10 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::Init()
 {
+    #ifdef PERFORMANCE_TESTS
     {
         PerformanceTests performanceTests;
        performanceTests.Make();
     };
+    #endif
 
 
     //START APP
@@ -34,6 +36,8 @@ void MainWindow::Init()
 
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
+
+    Traces::TurnOnTraces();
 
     Traces() << "\n" << "Start Traces!!";
 }

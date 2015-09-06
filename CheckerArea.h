@@ -8,7 +8,6 @@
 #include <QMouseEvent>
 #include <thread>
 #include <atomic>
-#include <functional>
 #include "Board.h"
 #include "PossibleMoves.h"
 #include "IA/IATreeExpander.h"

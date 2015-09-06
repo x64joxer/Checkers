@@ -223,9 +223,8 @@ void CheckerArea::StartThinking()
 
     Traces() << "\n" << "LOG: Before";
     copy.printDebug();
-    //std::thread tempJob(&IATreeExpander::Move,&jobExpander, board, &endIaJobFlag, &currentPercentOfSteps );
     Traces::GetCurrentTime();
-    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 1, 3000, 9000);
+    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 2, 3000, 1000);
     tempJob.detach();
     iaJob = std::move(tempJob);
     waitForIATimer->start();

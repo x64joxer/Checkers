@@ -12,7 +12,7 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
     doNotForgetnumberOfElements =0;
     mutex_flag = true;
 
-    mutex = new std::mutex();
+   // mutex = new std::mutex();
 }
 
 template <unsigned long int size>
@@ -28,14 +28,15 @@ void ThreadIABoardQueue<size>::Clear()
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::First()
 {
-    if (mutex_flag) std::unique_lock<std::mutex> guard(mutex);
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     return queue[first];
 }
 
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront()
-{
-    if (mutex_flag) std::unique_lock<std::mutex> guard(*mutex);
+{    
+    std::lock_guard<std::mutex> guard(mutex_guard);
     unsigned long int temp = first;
     Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";
     if (numberOfElements>0)
@@ -61,19 +62,21 @@ Board ThreadIABoardQueue<size>::PopFront()
         Traces() << "\n" << "LOG: first " << first;
         Traces() << "\n" << "LOG: last " << last;
         Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
+
+        queue[temp].printDebug();
         return queue[temp];
     };
 
     Traces() << "\n" << "LOG: No elements to get!";
     Board temp_null;
-    temp_null.SetNullBoard(true);
+    temp_null.SetNullBoard(true);    
     return temp_null;
 }
 
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 {
-    if (mutex_flag) std::unique_lock<std::mutex> guard(*mutex);
+
     Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
 
     if (numberOfElements == 0)
@@ -107,12 +110,13 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
     {
         Traces() << "\n" << "ERROR: No more free cells!";
     };
+
 }
 
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
-    if (mutex_flag) std::unique_lock<std::mutex> guard(*mutex);
+    std::lock_guard<std::mutex> guard(mutex_guard);
     Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
     doNotForgetqueue[doNotForgetnumberOfElements] = board;
     ++doNotForgetnumberOfElements;
@@ -121,8 +125,6 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::GetBestResult()
 {
-    if (mutex_flag) std::unique_lock<std::mutex> guard(*mutex);
-
     double result = 0;
     Board temp;
 
@@ -173,8 +175,9 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 template <unsigned long int size>
 unsigned long int ThreadIABoardQueue<size>::Size()
 {
-    if (mutex_flag) std::unique_lock<std::mutex> guard(*mutex);
+    std::lock_guard<std::mutex> guard(mutex_guard);
     return numberOfElements;
+
 }
 
 template <unsigned long int size>
@@ -182,5 +185,5 @@ ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
     delete [] doNotForgetqueue;
-    delete mutex;
+    //delete mutex;
 }
