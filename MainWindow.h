@@ -9,6 +9,7 @@
 #include "Board.h"
 #include "Traces/Traces.h"
 #include "Tests/PerformanceTests.h"
+#include "Tests/FunctionTests.h"
 
 
 namespace Ui {

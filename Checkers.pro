@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     ThreadIA/ThreadIATreeExpander.cpp \
     ThreadIA/ThreadIABoardQueue.cpp \
     ThreadIA/ThreadIAMove.cpp \
-    Tests/PerformanceTests.cpp
+    Tests/PerformanceTests.cpp \
+    Tests/FunctionTests.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -48,7 +49,8 @@ HEADERS  += MainWindow.h \
     ThreadIA/ThreadIATreeExpander.h \
     ThreadIA/ThreadIABoardQueue.h \
     ThreadIA/ThreadIAMove.h \
-    Tests/PerformanceTests.h
+    Tests/PerformanceTests.h \
+    Tests/FunctionTests.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui

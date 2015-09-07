@@ -19,6 +19,11 @@ void MainWindow::Init()
     };
     #endif
 
+    {
+       FunctionTests functionTests;
+       functionTests.Make();
+    };
+
 
     //START APP
     board = new Board();
