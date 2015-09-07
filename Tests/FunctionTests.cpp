@@ -16,18 +16,18 @@ void FunctionTests::Test01()
     std::atomic_bool endIaJobFlag;
     std::atomic<int> currentPercentOfSteps;
     Board *board = new Board();
-    Board wrongBoard;
+    Board goodBoard;
 
-    wrongBoard =
+    goodBoard =
 
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |") +
-    std::string("| | | | | | | | |");
+            std::string("| |w| |w| |w| |w|") +
+            std::string("|w| |w| |w| |w| |") +
+            std::string("| | | |w| |w| |w|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("|b| |w| |b| |b| |") +
+            std::string("| |b| |b| |b| |b|") +
+            std::string("|b| |b| |b| |b| |");
 
 
     Traces::TurnOnTraces();
@@ -53,7 +53,7 @@ void FunctionTests::Test01()
             Traces::TurnOnTraces();
         };
 
-        if (*board == wrongBoard)
+        if (!(*board == goodBoard))
         {
             Traces() << "\n" << "ERROR: Test01() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
