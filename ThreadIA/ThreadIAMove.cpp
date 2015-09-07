@@ -23,8 +23,13 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     queue.PushBack(temp);
     CreateFirstElements();    
 
-
-    //Can not move or all black killed
+    //When all black killed
+    if (queue.First().GetNumberOfBlack() == 0)
+    {
+        *boardWsk = queue.First();
+        *flag = true;
+    } else
+    //Can not move or all black killed    
     if (queue.Size() == 0)
     {
         *flag = true;

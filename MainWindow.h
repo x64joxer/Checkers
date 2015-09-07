@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #define QT_NO_DEBUG_OUTPUT
-#define PERFORMANCE_TESTS
-#define FUNCTION_TESTS_OFF
+#define PERFORMANCE_TESTS_OFF
+#define FUNCTION_TESTS
 
 #include <QMainWindow>
 #include "CheckerArea.h"

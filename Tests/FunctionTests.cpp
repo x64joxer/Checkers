@@ -9,6 +9,7 @@ void FunctionTests::Make()
 {
     Test01();
     Test02();
+    Test03();
 }
 
 void FunctionTests::Test01()
@@ -71,7 +72,7 @@ void FunctionTests::Test01()
 
 void FunctionTests::Test02()
 {
-    Traces() << "\n" << "FunctionTests::Test01()";
+    Traces() << "\n" << "FunctionTests::Test02()";
     std::atomic_bool endIaJobFlag;
     std::atomic<int> currentPercentOfSteps;
     Board *board = new Board();
@@ -121,6 +122,64 @@ void FunctionTests::Test02()
     };
 
     Traces() << "\n" << "LOG: End Test02()";
+
+    Traces::TurnOffTraces();
+
+    delete board;
+}
+
+void FunctionTests::Test03()
+{
+    Traces() << "\n" << "FunctionTests::Test03()";
+    std::atomic_bool endIaJobFlag;
+    std::atomic<int> currentPercentOfSteps;
+    Board *board = new Board();
+    Board goodBoard;
+
+    goodBoard =
+
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | |W| | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | |W| | | | | |");
+
+
+    Traces::TurnOnTraces();
+
+    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    {
+        Traces() << "\n" << "FunctionTests::Test03() for number of thread = " << numOfThreads;
+
+        *board =
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | |W| | | | |") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | | | | |") +
+                std::string("|w| | | | | | | |") +
+                std::string("| |b| | | | | |w|") +
+                std::string("| | | | | | | | |");
+        {
+            ThreadIAMove<900000> worker;
+
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+
+        };
+
+        if (!(*board == goodBoard))
+        {
+            Traces() << "\n" << "ERROR: Test03() Wrong result for number of threads = " << numOfThreads;
+            board->printDebug();
+            goodBoard.printDebug();
+
+        };
+    };
+
+    Traces() << "\n" << "LOG: End Test03()";
 
     Traces::TurnOffTraces();
 

@@ -42,7 +42,7 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
-    Traces::TurnOffTraces();
+    Traces::TurnOnTraces();
 
     Traces() << "\n" << "Start Traces!!";
 }
