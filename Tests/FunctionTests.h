@@ -12,6 +12,7 @@ class FunctionTests
         FunctionTests();
         void Make();
         void Test01();
+        void Test02();
 };
 
 #endif // FUNCTIONTESTS_H

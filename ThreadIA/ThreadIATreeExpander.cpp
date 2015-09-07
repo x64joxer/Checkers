@@ -27,12 +27,14 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
     threadNumber = numThread;
 
-    queue[0] = mainBoardQueue.PopFront();
+    queue[0] = mainBoardQueue.PopFront(threadNumber);
     unsigned int step = 0;
     unsigned long current;
 
     while (step < howManySteps)
     {
+        if (queue[firstQueueElement].GetNullBoard()) break;
+
         for (current = firstQueueElement; current <= lastQueueElement; )
         {            
 
@@ -66,14 +68,26 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
                     if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
                         if (trace)  Traces() << "\n" << "LOG:" << lastQueueElement;
                         TransferBoards(mainBoardQueue);
-                        queue[0] = mainBoardQueue.PopFront();
+                        queue[0] = mainBoardQueue.PopFront(threadNumber);
                         current = 0;
+
+                        if (queue[0].GetNullBoard())
+                        {
+                            if (trace) { Traces() << "\n" << "LOG: Everyone is waiting! No jobs"; };
+                            break;
+                        };
                         continue;
                 };
             };
 
             ++current;
 
+        };
+
+        if (queue[firstQueueElement].GetNullBoard())
+        {
+            if (trace) { Traces() << "\n" << "LOG: Everyone is waiting! No jobs"; };
+            break;
         };
 
         if (trace) { Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";};
@@ -91,7 +105,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             if (trace) { Traces() << "\n" << "LOG: No jobs. Taking fom global queue"; };
 
             TransferBoards(mainBoardQueue);
-            queue[0] = mainBoardQueue.PopFront();
+            queue[0] = mainBoardQueue.PopFront(threadNumber);
 
             if (queue[0].GetNullBoard())
             {
@@ -138,6 +152,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
        lastDoNotForgetQueueElement = 0;
     };
 
+    mainBoardQueue.NotifyRest();
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>

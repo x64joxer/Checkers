@@ -35,12 +35,34 @@ Board ThreadIABoardQueue<size>::First()
 }
 
 template <unsigned long int size>
-Board ThreadIABoardQueue<size>::PopFront()
+Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 {    
-    Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";
+    Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    
+    {
+        std::lock_guard<std::mutex> guard(mutex_guard);
+        SetWorkerFlag(false, num);
+    }
 
     std::unique_lock<std::mutex> guard(mutex_guard);
-    condition_var.wait(guard,[this] { return !Empty();} );
+    condition_var.wait(guard,[this]
+    {
+        return (!Empty()) | (!workersFlags) ;}
+    );
+
+    if (num>0)
+    {
+            if (numberOfElements>0)
+            {
+                SetWorkerFlag(true, num);
+            } else
+            if (!workersFlags)
+            {
+                Traces() << "\n" << "LOG: No active workers! Finishing!";                
+                Board temp_null;
+                temp_null.SetNullBoard(true);
+                return temp_null;
+            };
+    };
 
     unsigned long int temp = first;    
 
@@ -123,10 +145,12 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
-    std::lock_guard<std::mutex> guard(mutex_guard);
     Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
+    mutex_guard.lock();
     doNotForgetqueue[doNotForgetnumberOfElements] = board;
     ++doNotForgetnumberOfElements;
+    mutex_guard.unlock();
+    condition_var.notify_all();
 }
 
 template <unsigned long int size>
@@ -139,7 +163,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
     {
         result = queue[first].GetPercentageResult();
         temp = queue[first];
-        PopFront();
+        PopFront(0);
 
         if (numberOfElements>0)
         {
@@ -188,6 +212,12 @@ unsigned long int ThreadIABoardQueue<size>::Size()
 }
 
 template <unsigned long int size>
+void ThreadIABoardQueue<size>::NotifyRest()
+{
+    condition_var.notify_all();
+}
+
+template <unsigned long int size>
 ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
@@ -200,8 +230,17 @@ void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned shor
 {
     if (number>0)
     {
-        unsigned short val = 65535;
-        if (!flag) { val-= pow(2, number); };
-        workersFlags = workersFlags & val;
+        unsigned short val;
+
+        if (!flag)
+        {
+            val = 65535;
+            val-= pow(2, number);
+            workersFlags = workersFlags & val;
+        } else
+        {
+            val = pow(2, number);
+            workersFlags = workersFlags | val;
+        };
     };
 }

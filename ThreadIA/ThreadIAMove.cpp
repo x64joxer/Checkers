@@ -13,7 +13,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     const unsigned short maxThreads = 5;
     std::thread iaThread[maxThreads];
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
-    unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;
+    unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;    
 
     //Create first elements
     Board temp = *boardWsk;
@@ -69,6 +69,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::CreateFirstElements()
 {
+    Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
     ThreadIATreeExpander<QMain,36> expander;
     expander.Expand(1,100,queue,0);
 }
@@ -84,7 +85,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
     {
         for (unsigned int i=0;i<size;i++)
         {
-            temp = queue.PopFront();
+            temp = queue.PopFront(0);
             temp.SetOrigin(temp);          
 
             Traces() << "\n" << "LOG: Origin set";

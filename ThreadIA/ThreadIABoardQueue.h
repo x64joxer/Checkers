@@ -12,12 +12,13 @@ class ThreadIABoardQueue
     public:
         ThreadIABoardQueue();
         ~ThreadIABoardQueue();
-        Board PopFront();
+        Board PopFront(const unsigned short num);
         inline void PushBack(Board &board);
         inline void PushBackDoNotForget(Board &board);
         Board GetBestResult();
         void Clear();
         Board First();
+        void NotifyRest();
         unsigned long int Size();
     private:
         bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
