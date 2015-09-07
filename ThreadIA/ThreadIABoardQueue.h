@@ -2,6 +2,7 @@
 #define THREADIABOARDQUEUE_H
 
 #include <mutex>
+#include <condition_variable>
 #include "Board.h"
 #include "Traces/Traces.h"
 
@@ -19,6 +20,8 @@ class ThreadIABoardQueue
         Board First();
         unsigned long int Size();
     private:
+        bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
+
         Board *queue;        
         unsigned long int first;
         unsigned long int last;
@@ -29,6 +32,7 @@ class ThreadIABoardQueue
 
         std::mutex mutex_guard;
         bool mutex_flag;
+        std::condition_variable condition_var;
 };
 
 #endif // THREADIABOARDQUEUE_H

@@ -36,9 +36,13 @@ Board ThreadIABoardQueue<size>::First()
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront()
 {    
-    std::lock_guard<std::mutex> guard(mutex_guard);
-    unsigned long int temp = first;
     Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";
+
+    std::unique_lock<std::mutex> guard(mutex_guard);
+    condition_var.wait(guard,[this] { return !Empty();} );
+
+    unsigned long int temp = first;    
+
     if (numberOfElements>0)
     {
         Traces() << "\n" << "LOG: (numberOfElements>0)";
@@ -64,6 +68,7 @@ Board ThreadIABoardQueue<size>::PopFront()
         Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
 
         queue[temp].printDebug();
+        guard.unlock();
         return queue[temp];
     };
 
@@ -111,6 +116,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
         Traces() << "\n" << "ERROR: No more free cells!";
     };
 
+    condition_var.notify_all();
 }
 
 template <unsigned long int size>
