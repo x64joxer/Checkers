@@ -6,6 +6,7 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue()
     first = 0;
     last = 0;
     numberOfElements = 0;    
+    workersFlags = 0;
     queue = new Board[size];
 
     doNotForgetqueue = new Board[size];
@@ -192,4 +193,15 @@ ThreadIABoardQueue<size>::~ThreadIABoardQueue()
     delete [] queue;
     delete [] doNotForgetqueue;
     //delete mutex;
+}
+
+template <unsigned long int size>
+void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned short number)
+{
+    if (number>0)
+    {
+        unsigned short val = 65535;
+        if (!flag) { val-= pow(2, number); };
+        workersFlags = workersFlags & val;
+    };
 }

@@ -21,6 +21,7 @@ class ThreadIABoardQueue
         unsigned long int Size();
     private:
         bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
+        void SetWorkerFlag(const bool flag,const unsigned short number);
 
         Board *queue;        
         unsigned long int first;
@@ -33,6 +34,7 @@ class ThreadIABoardQueue
         std::mutex mutex_guard;
         bool mutex_flag;
         std::condition_variable condition_var;
+        unsigned short workersFlags;
 };
 
 #endif // THREADIABOARDQUEUE_H

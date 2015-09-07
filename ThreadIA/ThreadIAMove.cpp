@@ -40,7 +40,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             iaThread[i] = std::move(std::thread(&ThreadIATreeExpander<QMain,5000>::ExpandWithoutQueue,
                                                 &expander[i],
                                                 numberOfSteps,
-                                                refreshMainQueue
+                                                refreshMainQueue,
+                                                i
                                                 ));
 
         };
@@ -69,7 +70,7 @@ template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::CreateFirstElements()
 {
     ThreadIATreeExpander<QMain,36> expander;
-    expander.Expand(1,100,queue);
+    expander.Expand(1,100,queue,0);
 }
 
 template  <unsigned long int QMain>

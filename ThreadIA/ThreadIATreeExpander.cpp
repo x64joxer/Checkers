@@ -15,15 +15,17 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData)
+void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread)
 {
-    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2);
+    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread);
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)
-{
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread)
+{    
     if (trace) { Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)"; };
+
+    threadNumber = numThread;
 
     queue[0] = mainBoardQueue.PopFront();
     unsigned int step = 0;
