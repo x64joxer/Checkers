@@ -55,7 +55,7 @@ void FunctionTests::Test01()
 
         if (*board == wrongBoard)
         {
-            Traces() << "\n" << "ERROR: Wrong result for number of threads = " << numOfThreads;
+            Traces() << "\n" << "ERROR: Test01() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
 
         };

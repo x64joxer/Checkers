@@ -49,6 +49,7 @@ class Traces
 
         static bool timeFlag;
         static unsigned long int start,stop;
+        static std::string traceFolder;
 };
 
 #endif // TRACES_H

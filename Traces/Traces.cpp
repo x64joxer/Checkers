@@ -134,9 +134,9 @@ std::string Traces::GetCurrentDate()
 }
 
 void Traces::StringToFile(std::string log)
-{    
+{
     static std::ofstream logFile;
-    logFile.open (GetThreadText().c_str(),std::ofstream::in | std::ofstream::app);
+    logFile.open (traceFolder + GetThreadText().c_str(),std::ofstream::in | std::ofstream::app);
 
     if (log == "\n") log += GetThreadText() + "[" + GetCurrentDate() + "]";
 
@@ -162,3 +162,4 @@ std::set<std::string> Traces::idText;
 bool Traces::timeFlag = false;
 unsigned long int Traces::start =0;
 unsigned long int Traces::stop =0;
+std::string Traces::traceFolder = "traces/";
