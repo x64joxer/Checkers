@@ -39,18 +39,6 @@ void MainWindow::Init()
                 std::string("| |b| |b| |b| |b|") +
                 std::string("|b| |b| |b| |b| |");
 
-
-    *board =
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("| | | | |B| | | |") +
-            std::string("| | | | | | | | |") +
-            std::string("|w| | | | | | | |") +
-            std::string("| | | |W| |b| |w|") +
-            std::string("|b| | | | | | | |");
-
-
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
