@@ -7,7 +7,7 @@ FunctionTests::FunctionTests()
 
 void FunctionTests::Make()
 {
-    //Test01();
+    Test01();
     Test02();
 }
 

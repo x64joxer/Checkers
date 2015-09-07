@@ -602,19 +602,24 @@ bool Board::operator ==(Board data)
       return false;
     };
 
+    bool flag;
+
     if (GetNumberOfWhite()>0)
     {
         for (unsigned short int i=0;i<GetNumberOfWhite();i++)
         {
-            if (GetWhitePawnPos(i) != data.GetWhitePawnPos(i))
+            flag = false;
+            for (unsigned short int i2=0;i2<GetNumberOfWhite();i2++)
             {
-                return 0;
+                if (!(GetWhitePawnPos(i) != data.GetWhitePawnPos(i2)))
+                {
+                    if (GetWhitePawnPons(i)==data.GetWhitePawnPons(i2))
+                    {
+                      flag = true;
+                    };
+                };
             };
-
-            if (GetWhitePawnPons(i)!=data.GetWhitePawnPons(i))
-            {
-              return 0;
-            };
+            if (!flag) return false;
         };
     };
 
@@ -622,18 +627,20 @@ bool Board::operator ==(Board data)
     {
         for (unsigned short int i=0;i<GetNumberOfBlack();i++)
         {
-            if (GetBlackPawnPos(i) != data.GetBlackPawnPos(i))
+             flag = false;
+            for (unsigned short int i2=0;i2<GetNumberOfBlack();i2++)
             {
-                return 0;
+                if (!(GetBlackPawnPos(i) != data.GetBlackPawnPos(i2)))
+                {
+                    if (GetBlackPawnPons(i)==data.GetBlackPawnPons(i2))
+                    {
+                      flag = true;
+                     };
+                };
             };
-
-            if (GetBlackPawnPons(i) != data.GetBlackPawnPons(i))
-            {
-              return 0;
-            };
+            if (!flag) return false;
         };
     };
-
     return 1;
 }
 
