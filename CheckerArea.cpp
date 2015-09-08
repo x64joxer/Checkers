@@ -221,10 +221,14 @@ void CheckerArea::StartThinking()
     repaint();    
     Board copy = *board;
 
-    Traces() << "\n" << "LOG: Before";
+    bool temp = Traces::GetTraceFlag();
+    Traces::TurnOnTraces();
+    Traces() << "\n" << "LOG: Before";    
     copy.printDebug();
+    if (!temp) Traces::TurnOffTraces();
+
     Traces::GetCurrentTime();
-    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 4, 3000, 1000);
+    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 4, 3000, 19000);
     tempJob.detach();
     iaJob = std::move(tempJob);
     waitForIATimer->start();

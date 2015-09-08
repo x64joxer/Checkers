@@ -159,6 +159,9 @@ Board ThreadIABoardQueue<size>::GetBestResult()
     double result = 0;
     Board temp;
 
+    qDebug() << "Number of eleents" << numberOfElements;
+    qDebug() << "Number of do not forget eleents" << doNotForgetnumberOfElements;
+
     if (numberOfElements>0)
     {
         result = queue[first].GetPercentageResult();
