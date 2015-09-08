@@ -3,7 +3,7 @@
 
 #define QT_NO_DEBUG_OUTPUT
 #define PERFORMANCE_TESTS_OFF
-#define FUNCTION_TESTS
+#define FUNCTION_TESTS_OFF
 
 #include <QMainWindow>
 #include "CheckerArea.h"
@@ -25,7 +25,10 @@ class MainWindow : public QMainWindow
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-    private:
+private slots:
+    void on_actionTraces_triggered();
+
+private:
         Ui::MainWindow *ui;
         CheckerArea *checkerArea;
         Board *board;

@@ -20,9 +20,16 @@
      <x>0</x>
      <y>0</y>
      <width>710</width>
-     <height>20</height>
+     <height>31</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuPreferences">
+    <property name="title">
+     <string>Pre&amp;ferences</string>
+    </property>
+    <addaction name="actionTraces"/>
+   </widget>
+   <addaction name="menuPreferences"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -33,6 +40,14 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionTraces">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Traces</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

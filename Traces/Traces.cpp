@@ -154,6 +154,11 @@ void Traces::TurnOffTraces()
     traceOn = false;
 }
 
+bool Traces::GetTraceFlag()
+{
+    return traceOn;
+}
+
 std::string Traces::patchAndNameFile ="";
 bool Traces::traceOn = false;
 std::mutex Traces::mutex;

@@ -42,9 +42,7 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
-    Traces::TurnOnTraces();
-
-    Traces() << "\n" << "Start Traces!!";
+    Traces::TurnOffTraces();
 }
 
 void MainWindow::resizeEvent( QResizeEvent * event )
@@ -58,4 +56,15 @@ MainWindow::~MainWindow()
     delete checkerArea;
     delete board;
     delete ui;
+}
+
+void MainWindow::on_actionTraces_triggered()
+{
+    if (Traces::GetTraceFlag())
+    {
+        Traces::TurnOffTraces();
+    } else
+    {
+        Traces::TurnOnTraces();
+    };
 }

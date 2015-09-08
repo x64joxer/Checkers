@@ -30,7 +30,8 @@ class Traces
         static std::string GetCurrentDate();
 
         static void TurnOnTraces();
-        static void TurnOffTraces();      
+        static void TurnOffTraces();
+        static bool GetTraceFlag();
 
     private:
         static std::string patchAndNameFile;
