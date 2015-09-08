@@ -10,6 +10,7 @@ void FunctionTests::Make()
     Test01();
     Test02();
     Test03();
+    Test04();
 }
 
 void FunctionTests::Test01()
@@ -55,7 +56,7 @@ void FunctionTests::Test01()
             //Traces::TurnOnTraces();
         };
 
-        if (!(*board == goodBoard))
+        if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test01() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
@@ -112,7 +113,7 @@ void FunctionTests::Test02()
 
         };
 
-        if (!(*board == goodBoard))
+        if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test02() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
@@ -170,7 +171,7 @@ void FunctionTests::Test03()
 
         };
 
-        if (!(*board == goodBoard))
+        if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test03() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
@@ -180,6 +181,73 @@ void FunctionTests::Test03()
     };
 
     Traces() << "\n" << "LOG: End Test03()";
+
+    Traces::TurnOffTraces();
+
+    delete board;
+}
+
+void FunctionTests::Test04()
+{
+    Traces() << "\n" << "FunctionTests::Test04()";
+    std::atomic_bool endIaJobFlag;
+    std::atomic<int> currentPercentOfSteps;
+    Board *board = new Board();
+    Board goodBoard;
+    Board goodBoard_2;
+
+    goodBoard =
+    std::string("| |w| |w| | | |w|") +
+    std::string("|w| | | |w| |w| |") +
+    std::string("| | | | | |w| |w|") +
+    std::string("| | | | | | | | |") +
+    std::string("| |b| | | |w| | |") +
+    std::string("|b| | | | | |b| |") +
+    std::string("| |b| | | |b| |b|") +
+    std::string("|b| | | |b| |b| |");
+
+    goodBoard_2 =
+    std::string("| |w| |w| | | |w|") +
+    std::string("|w| | | |w| |w| |") +
+    std::string("| | | |w| | | |w|") +
+    std::string("| | | | | | | | |") +
+    std::string("| |b| |w| | | | |") +
+    std::string("|b| | | | | |b| |") +
+    std::string("| |b| | | |b| |b|") +
+    std::string("|b| | | |b| |b| |");
+
+    Traces::TurnOnTraces();
+
+    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    {
+        Traces() << "\n" << "FunctionTests::Test04() for number of thread = " << numOfThreads;
+
+        *board =
+                std::string("| |w| |w| | | |w|") +
+                std::string("|w| | | |w| |w| |") +
+                std::string("| | | |w| |w| |w|") +
+                std::string("| | | | |b| | | |") +
+                std::string("| |b| | | | | | |") +
+                std::string("|b| | | | | |b| |") +
+                std::string("| |b| | | |b| |b|") +
+                std::string("|b| | | |b| |b| |");
+        {
+            ThreadIAMove<900000> worker;
+
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+
+        };
+
+        if ((*board != goodBoard)&&(*board != goodBoard_2))
+        {
+            Traces() << "\n" << "ERROR: Test04() Wrong result for number of threads = " << numOfThreads;
+            board->printDebug();
+            goodBoard.printDebug();
+
+        };
+    };
+
+    Traces() << "\n" << "LOG: End Test04()";
 
     Traces::TurnOffTraces();
 

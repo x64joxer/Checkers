@@ -644,6 +644,11 @@ bool Board::operator ==(Board data)
     return 1;
 }
 
+bool Board::operator !=(Board data)
+{
+    return !(*this==data);
+}
+
 unsigned short Board::numberOfWhite()
 {
     unsigned short size = 0;

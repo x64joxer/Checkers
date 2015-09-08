@@ -56,6 +56,7 @@ class Board
         Board & operator =(char *);
         Board & operator =(std::string);
         bool operator ==(Board );
+        bool operator !=(Board );
         void CopyTo(ThreadIASimpleBoard & data);
         void CopyFrom(const ThreadIASimpleBoard & data);
         void SetOrigin(Board & data);
