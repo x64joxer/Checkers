@@ -159,6 +159,15 @@ bool Traces::GetTraceFlag()
     return traceOn;
 }
 
+void Traces::RemoveThreadID()
+{
+    std::lock_guard<std::mutex> guard(mutex);
+    if (theardsId.find(GetThreadId()) != theardsId.map::end())
+    {
+        theardsId.erase(theardsId.find(GetThreadId()));
+    };
+}
+
 std::string Traces::patchAndNameFile ="";
 bool Traces::traceOn = false;
 std::mutex Traces::mutex;

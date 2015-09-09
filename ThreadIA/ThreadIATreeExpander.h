@@ -13,7 +13,7 @@ class ThreadIATreeExpander
        ThreadIATreeExpander();
 
        void Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread);
-       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread);
+       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread);       
        ThreadIABoardQueue<MQueue> * mainBoardQueue_2;
     private:
        void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
@@ -31,7 +31,7 @@ class ThreadIATreeExpander
        unsigned long int lastDoNotForgetQueueElement;
        Board doNotForgetQueue[sQueue/50];
 
-       unsigned short threadNumber;
+       unsigned short threadNumber;              
 };
 
 #endif // THREADIATREEEXPANDER_H

@@ -32,6 +32,7 @@ class Traces
         static void TurnOnTraces();
         static void TurnOffTraces();
         static bool GetTraceFlag();
+        static void RemoveThreadID();
 
     private:
         static std::string patchAndNameFile;
@@ -41,7 +42,7 @@ class Traces
         static std::map<unsigned long int,std::string> theardsId;
         static std::set<std::string> idText;
 
-        unsigned long int GetThreadId();
+        static unsigned long int GetThreadId();
         bool IsOnTheList();
         std::string GetThreadText();
         std::string CreateNewThreadText();        
