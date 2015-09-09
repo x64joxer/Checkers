@@ -10,7 +10,6 @@
 #include <atomic>
 #include "Board.h"
 #include "PossibleMoves.h"
-#include "IA/IATreeExpander.h"
 #include "ThreadIA/ThreadIAMove.h"
 #include "ThreadIA/ThreadIAMove.cpp"
 
@@ -49,7 +48,6 @@ class CheckerArea : public QWidget
         std::thread iaJob;
         std::atomic_bool endIaJobFlag;
         std::atomic<int> currentPercentOfSteps;
-        IATreeExpander jobExpander;
         ThreadIAMove<900000> jobExpander2;
 
         QTimer *waitForIATimer;

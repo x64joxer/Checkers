@@ -3,16 +3,12 @@
 
 #include <ostream>
 #include <chrono>
-#include <cstdio>
-#include <cstdlib>
 #include <thread>
 #include <mutex>
 #include <iostream>
 #include <fstream>
 #include <qdebug.h>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
 #include <sstream>
 #include <set>
 #include <QString>

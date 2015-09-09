@@ -18,13 +18,9 @@ SOURCES += main.cpp\
     CheckerArea.cpp \
     Board.cpp \
     Pawn.cpp \
-    SinglePath.cpp \
     PawnPos.cpp \
     PossibleMoves.cpp \
-    IA/IADecisionTree.cpp \
     IA/IAPossibleMoves.cpp \
-    IA/IATreeExpander.cpp \
-    IA/IABoardQueue.cpp \
     Traces/Traces.cpp \
     ThreadIA/ThreadIASimpleBoard.cpp \
     ThreadIA/ThreadIATreeExpander.cpp \
@@ -37,13 +33,9 @@ HEADERS  += MainWindow.h \
     CheckerArea.h \
     Board.h \
     Pawn.h \
-    SinglePath.h \
     PawnPos.h \
     PossibleMoves.h \
-    IA/IADecisionTree.h \
     IA/IAPossibleMoves.h \
-    IA/IATreeExpander.h \
-    IA/IABoardQueue.h \
     Traces/Traces.h \
     ThreadIA/ThreadIASimpleBoard.h \
     ThreadIA/ThreadIATreeExpander.h \

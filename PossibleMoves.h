@@ -2,7 +2,6 @@
 #define POSSIBLEMOVES_H
 
 #include <list>
-#include "SinglePath.h"
 #include "Board.h"
 
 class PossibleMoves
