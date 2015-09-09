@@ -274,9 +274,7 @@ bool PossibleMoves::IsKill(const unsigned short number, const unsigned short x, 
 
 bool PossibleMoves::OutOfBoard(const unsigned short x, const unsigned short y)
 {
-    if (x<0) return 1;
     if (x>7) return 1;
-    if (y<0) return 1;
     if (y>7) return 1;
 
     return 0;

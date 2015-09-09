@@ -373,7 +373,7 @@ void CheckerArea::CheckStatus()
 //███████╗ ╚████╔╝ ███████╗██║ ╚████║   ██║   ███████║
 //╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 
-void CheckerArea::paintEvent(QPaintEvent *event)
+void CheckerArea::paintEvent(QPaintEvent *)
 {
     Paint();
 }

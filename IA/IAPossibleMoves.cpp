@@ -267,9 +267,7 @@ bool IAPossibleMoves::IsKillBlack(const unsigned short number, const unsigned sh
 
 bool IAPossibleMoves::OutOfBoardBlack(const unsigned short x, const unsigned short y)
 {
-    if (x<0) return 1;
     if (x>7) return 1;
-    if (y<0) return 1;
     if (y>7) return 1;
 
     return 0;
@@ -708,9 +706,7 @@ bool IAPossibleMoves::IsKillWhite(const unsigned short number, const unsigned sh
 
 bool IAPossibleMoves::OutOfBoardWhite(const unsigned short x, const unsigned short y)
 {
-    if (x<0) return 1;
     if (x>7) return 1;
-    if (y<0) return 1;
     if (y>7) return 1;
 
     return 0;

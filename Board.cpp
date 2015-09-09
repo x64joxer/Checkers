@@ -257,7 +257,10 @@ bool Board::SetWhitePawnPons(const unsigned short number, const bool flag)
     {
         Pawn &ref = white[number];
         ref.pons = flag;
+        return 0;
     };
+
+    return 1;
 }
 
 bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
@@ -269,7 +272,10 @@ bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
     {
         Pawn &ref = black[number];
         ref.pons = flag;
+        return 0;
     };
+
+    return 1;
 }
 
 bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
@@ -370,7 +376,7 @@ void Board::RemovePawnFrom(const unsigned short x, const unsigned short y)
 
 void Board::SetPreviousMurder(const unsigned short number)
 {
-    if ((number>=0)&&(number<=12))
+    if (number<=12)
     {
         previousMurder = number;
     } else
@@ -521,6 +527,8 @@ Board & Board::operator =(char* data)
 
         };
     };
+
+    return *this;
 }
 
 
@@ -588,6 +596,8 @@ Board & Board::operator =(std::string data)
 
         };
     };
+
+    return *this;
 }
 
 bool Board::operator ==(Board data)

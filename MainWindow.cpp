@@ -14,7 +14,7 @@ void MainWindow::Init()
 {
     #ifdef PERFORMANCE_TESTS
     {
-        PerformanceTests performanceTests;
+       PerformanceTests performanceTests;
        performanceTests.Make();
     };
     #endif
@@ -45,7 +45,7 @@ void MainWindow::Init()
     Traces::TurnOffTraces();
 }
 
-void MainWindow::resizeEvent( QResizeEvent * event )
+void MainWindow::resizeEvent( QResizeEvent *)
 {
     checkerArea->move(0,30);
     checkerArea->resize(width(),height()-30);
