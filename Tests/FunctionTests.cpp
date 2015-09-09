@@ -11,6 +11,7 @@ void FunctionTests::Make()
     Test02();
     Test03();
     Test04();
+    Test05();
 }
 
 void FunctionTests::Test01()
@@ -243,11 +244,47 @@ void FunctionTests::Test04()
             Traces() << "\n" << "ERROR: Test04() Wrong result for number of threads = " << numOfThreads;
             board->printDebug();
             goodBoard.printDebug();
-
         };
     };
 
     Traces() << "\n" << "LOG: End Test04()";
+
+    Traces::TurnOffTraces();
+
+    delete board;
+}
+
+void FunctionTests::Test05()
+{
+    Traces() << "\n" << "FunctionTests::Test05()";
+    std::atomic_bool endIaJobFlag;
+    std::atomic<int> currentPercentOfSteps;
+    Board *board = new Board();
+
+    Traces::TurnOnTraces();
+
+    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    {
+        Traces() << "\n" << "FunctionTests::Test05() for number of thread = " << numOfThreads;
+
+        *board =
+            std::string("| |B| | | | | |w|") +
+            std::string("| | | | | | | | |") +
+            std::string("| | | | | | | |w|") +
+            std::string("| | | | |w| | | |") +
+            std::string("| | | | | | | |b|") +
+            std::string("| | |w| | | | | |") +
+            std::string("| | | | | | | |b|") +
+            std::string("|b| | | |b| | | |");
+
+        {
+            ThreadIAMove<900000> worker;
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+        };
+
+    };
+
+    Traces() << "\n" << "LOG: End Test05()";
 
     Traces::TurnOffTraces();
 
