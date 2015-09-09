@@ -47,7 +47,7 @@ class Traces
         std::string GetThreadText();
         std::string CreateNewThreadText();        
         std::string FindFirstFreeId();
-        std::string GenerateText(int);        
+        static std::string GenerateText(int);
 
         static bool timeFlag;
         static unsigned long int start,stop;

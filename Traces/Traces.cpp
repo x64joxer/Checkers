@@ -164,6 +164,7 @@ void Traces::RemoveThreadID()
     std::lock_guard<std::mutex> guard(mutex);
     if (theardsId.find(GetThreadId()) != theardsId.map::end())
     {
+        idText.erase(theardsId[GetThreadId()]);
         theardsId.erase(theardsId.find(GetThreadId()));
     };
 }
