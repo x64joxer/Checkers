@@ -21,6 +21,12 @@ void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howMa
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue)
+{
+    mainBoardQueue_2 = mainBoardQueue;
+}
+
+template <unsigned long int MQueue, unsigned long int sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread)
 {
     if (trace) { Traces() << "\n" << "LOG: EXPAND START"; };

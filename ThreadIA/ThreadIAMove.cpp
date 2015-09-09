@@ -6,7 +6,6 @@ ThreadIAMove<QMain>::ThreadIAMove()
 
 }
 
-
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo)
 {
@@ -41,7 +40,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         //Start threads
         for (unsigned short i=1;i<=numberOfThreads;i++)
         {
-            expander[i].mainBoardQueue_2 = &queue;
+            expander[i].SetMainBoardQueue(&queue);
             iaThread[i] = std::move(std::thread(&ThreadIATreeExpander<QMain,5000>::ExpandWithoutQueue,
                                                 &expander[i],
                                                 numberOfSteps,
