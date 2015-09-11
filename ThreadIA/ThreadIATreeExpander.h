@@ -12,8 +12,8 @@ class ThreadIATreeExpander
     public:
        ThreadIATreeExpander();
 
-       void Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread);
-       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread);       
+       void Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps);
+       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps);
        void SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue);
     private:
        void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);

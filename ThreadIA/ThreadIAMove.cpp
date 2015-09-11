@@ -45,7 +45,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
                                                 &expander[i],
                                                 numberOfSteps,
                                                 refreshMainQueue,
-                                                i
+                                                i,
+                                                percentSteps
                                                 ));
 
         };
@@ -74,8 +75,8 @@ template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::CreateFirstElements()
 {
     Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
-    ThreadIATreeExpander<QMain,36> expander;
-    expander.Expand(1,100,queue,0);
+    ThreadIATreeExpander<QMain,36> expander;    
+    expander.Expand(1,100,queue,0, NULL);
 }
 
 template  <unsigned long int QMain>

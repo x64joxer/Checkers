@@ -15,9 +15,9 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread)
+void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps)
 {
-    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread);
+    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread, percentSteps);
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
@@ -27,7 +27,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::SetMainBoardQueue(ThreadIABoardQueue<
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread)
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps)
 {
     if (trace) { Traces() << "\n" << "LOG: EXPAND START"; };
     if (trace) { Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)"; };
@@ -89,6 +89,20 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
             ++current;
 
+            //Update status
+            if (numThread == 1)
+            {
+                if (percentSteps)
+                {
+                    if (step == 0)
+                    {
+                        *percentSteps = (step+1) / (howManySteps / 100);
+                    } else
+                    {
+                        *percentSteps = step / (howManySteps / 100);
+                    }
+                };
+            };
         };
 
         if (queue[firstQueueElement].GetNullBoard())

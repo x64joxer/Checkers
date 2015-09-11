@@ -167,8 +167,15 @@ void CheckerArea::PaintPercentageEllipse(QPainter *painter)
                          (height() / size));
 
         int startAngle = 0 * 16;
+        int spanAngle;
 
-        int spanAngle = ((((360*16)) * currentPercentOfSteps) /100);
+        if (currentPercentOfSteps ==0)
+        {
+            spanAngle = ((((360*16)) * currentPercentOfSteps) /100);
+        } else
+        {
+            spanAngle = (((360*16)) * (currentPercentOfSteps+1) /100);
+        };
 
         if (currentPercentOfSteps == 99) spanAngle = 360*16;
 
@@ -219,7 +226,7 @@ void CheckerArea::StartThinking()
     endIaJobFlag = false;
     displayedBoard = 0;
     repaint();    
-    Board copy = *board;
+    Board copy = *board;    
 
     bool temp = Traces::GetTraceFlag();
     Traces::TurnOnTraces();
@@ -228,7 +235,7 @@ void CheckerArea::StartThinking()
     if (!temp) Traces::TurnOffTraces();
 
     Traces::GetCurrentTime();
-    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 4, 3000, 200000);
+    std::thread tempJob(&ThreadIAMove<900000>::operator (),&jobExpander2, board, &endIaJobFlag, &currentPercentOfSteps, 4, 3000, 60000);
     tempJob.detach();
     iaJob = std::move(tempJob);
     waitForIATimer->start();
