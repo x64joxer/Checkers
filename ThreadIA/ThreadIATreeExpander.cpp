@@ -67,9 +67,9 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             if (step >= howManySteps) break;
 
             //Check if time to transfer data
-            if (lastQueueElement>=firstQueueElement)
+            if ((lastQueueElement>=firstQueueElement)||(lastQueueElement>queueSize-100)||(lastDoNotForgetQueueElement>(queueSize/50)-100))
             {
-                if (frequencyOfTransferData<=lastQueueElement-firstQueueElement)
+                if ((frequencyOfTransferData<=lastQueueElement-firstQueueElement)||(lastQueueElement>queueSize-100)||(lastDoNotForgetQueueElement>(queueSize/50)-100))
                 {
 
                     if (trace)  Traces() << "\n" << "LOG:" << firstQueueElement;
@@ -137,6 +137,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             lastQueueElement =0;
             firstQueueElement =0;
         }
+
     };
 
     if (trace) { Traces() << "\n" << "LOG: Number of temporary queue array " << lastQueueElement; };    
