@@ -190,6 +190,18 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToMainQueue(const Board &board)
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board &board)
+{
+    if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
+    {
+        if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
+    } else
+    {
+        doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+    };
+}
+
+template <unsigned long int MQueue, unsigned long int sQueue>
 bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int stepNumber)
 {
     if (trace) Traces() << "\n" << "LOG: void IATreeExpander::ExpandWhite(IADecisionTree *treePointer)";
@@ -203,11 +215,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
     {
         if (board.GetNumberOfBlack() == 0)
         {
-            if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
-            {
-                if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-            };
-            doNotForgetQueue[lastDoNotForgetQueueElement] = board;            
+            AddToDoNotForgetQueue(board);
 
             if (trace) Traces() << "\n" << "LOG: There was situation when all black was killed!";
             board.printDebug();
@@ -302,11 +310,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
     if (board.GetNumberOfWhite() == 0)
     {
-        if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
-        {
-            if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-        };
-        doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+        AddToDoNotForgetQueue(board);
 
         if (trace) Traces() << "\n" << "LOG: There was situation when all white was killed!";
         board.printDebug();
@@ -482,8 +486,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
         {
             if (stepNumber>0)
             {
-                if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-                doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+                AddToDoNotForgetQueue(board);
 
                 if (trace) Traces() << "\n" << "LOG: There was situation when white player can not move!";
                 board.printDebug();
@@ -508,11 +511,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
     {
         if (board.GetNumberOfWhite() == 0)
         {
-            if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
-            {
-                if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-            };
-            doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+            AddToDoNotForgetQueue(board);
 
             if (trace) Traces() << "\n" << "LOG: There was situation when all White was killed!";
             board.printDebug();
@@ -602,8 +601,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
 
     if (board.GetNumberOfBlack() == 0)
     {
-        if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-        doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+        AddToDoNotForgetQueue(board);
 
         if (trace) Traces() << "\n" << "LOG: There was situation when all Black was killed!";
         board.printDebug();
@@ -779,11 +777,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
         {
             if (stepNumber>0)
             {
-                if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
-                {
-                    if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
-                };
-                doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+                AddToDoNotForgetQueue(board);
 
                 if (trace) Traces() << "\n" << "LOG: There was situation when Black player can not move!";
                 board.printDebug();
