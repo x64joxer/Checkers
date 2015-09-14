@@ -33,7 +33,6 @@ class ThreadIABoardQueue
         unsigned long int doNotForgetnumberOfElements;
 
         std::mutex mutex_guard;
-        bool mutex_flag;
         std::condition_variable condition_var;
         unsigned short workersFlags;
 };

@@ -17,6 +17,7 @@ class ThreadIATreeExpander
        void SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue);
     private:
        void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
+       inline void AddToMainQueue(const Board &board);
        bool ExpandWhite(Board board, unsigned int stepNumber = 1);
        bool ExpandBlack(Board board, unsigned int stepNumber = 1);
 

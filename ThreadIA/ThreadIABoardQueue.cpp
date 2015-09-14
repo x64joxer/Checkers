@@ -1,19 +1,15 @@
 #include "ThreadIA/ThreadIABoardQueue.h"
 
 template <unsigned long int size>
-ThreadIABoardQueue<size>::ThreadIABoardQueue()
+ThreadIABoardQueue<size>::ThreadIABoardQueue():
+                          first(0),
+                          last(0),
+                          numberOfElements(0),
+                          workersFlags(0),
+                          doNotForgetnumberOfElements(0)
 {
-    first = 0;
-    last = 0;
-    numberOfElements = 0;    
-    workersFlags = 0;
     queue = new Board[size];
-
     doNotForgetqueue = new Board[size];
-    doNotForgetnumberOfElements =0;
-    mutex_flag = true;
-
-   // mutex = new std::mutex();
 }
 
 template <unsigned long int size>
@@ -22,8 +18,7 @@ void ThreadIABoardQueue<size>::Clear()
     first = 0;
     last = 0;
     numberOfElements = 0;
-    doNotForgetnumberOfElements =0;
-    mutex_flag = true;
+    doNotForgetnumberOfElements =0;    
 }
 
 template <unsigned long int size>
@@ -104,7 +99,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 {
-
+    std::lock_guard<std::mutex> guard(mutex_guard);
     Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
 
     if (numberOfElements == 0)
@@ -116,7 +111,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
        Traces() << "\n" << "LOG: last " << last;
        Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
     } else
-    if (numberOfElements<=size)
+    if (numberOfElements<size)
     {
         Traces() << "\n" << "LOG: if (numberOfElements<=size)";
         if (last==size-1)
@@ -225,7 +220,6 @@ ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
     delete [] doNotForgetqueue;
-    //delete mutex;
 }
 
 template <unsigned long int size>
