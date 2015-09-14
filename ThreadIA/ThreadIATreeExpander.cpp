@@ -207,7 +207,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
             {
                 if (trace) Traces() << "\n" << "ERROR: No free memory cells in main do not forget queue";
             };
-            doNotForgetQueue[lastDoNotForgetQueueElement] = board;
+            doNotForgetQueue[lastDoNotForgetQueueElement] = board;            
 
             if (trace) Traces() << "\n" << "LOG: There was situation when all black was killed!";
             board.printDebug();
@@ -226,12 +226,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
-           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);           
+
+           AddToMainQueue(tempNew);
 
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
@@ -247,11 +244,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
            if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -269,11 +264,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
               if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -288,11 +281,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
               if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -334,12 +325,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            possible.KillHitBottomLeftWhite(i, tempNew);
            killFlag = true;
            tempNew.StartWhite();
-           tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+           tempNew.SetPreviousMurder(i);           
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -353,11 +342,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            killFlag = true;
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -374,11 +361,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -392,11 +377,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -421,11 +404,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                 tempNew.PutWhiteBottomLeftPawn(i);
                 tempNew.StartBlack();
                 tempNew.SetPreviousMurder(12);
-                if (++lastQueueElement > queueSize-1)
-                {
-                    if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                };
-                queue[lastQueueElement] = tempNew;
+
+                AddToMainQueue(tempNew);
+
                 if (trace) Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
                 canImove = true;
@@ -439,11 +420,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                 tempNew.PutWhiteBottomRightPawn(i);
                 tempNew.StartBlack();
                 tempNew.SetPreviousMurder(12);
-                if (++lastQueueElement > queueSize-1)
-                {
-                    if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                };
-                queue[lastQueueElement] = tempNew;
+
+                AddToMainQueue(tempNew);
+
                 if (trace) Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
                 canImove = true;
@@ -463,11 +442,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                     //TO DO {
                         tempNew.StartBlack();
                         tempNew.SetPreviousMurder(12);
-                        if (++lastQueueElement > queueSize-1)
-                        {
-                            if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";                            
-                        };
-                        queue[lastQueueElement] = tempNew;
+
+                        AddToMainQueue(tempNew);
+
                         if (trace) Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
                         canImove = true;
@@ -488,11 +465,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                     //TO DO {
                         tempNew.StartBlack();
                         tempNew.SetPreviousMurder(12);
-                        if (++lastQueueElement > queueSize-1)
-                        {
-                            if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                        };
-                        queue[lastQueueElement] = tempNew;
+
+                        AddToMainQueue(tempNew);
+
                         if (trace) Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
                         canImove = true;
@@ -556,11 +531,8 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
 
            tempNew.StartBlack();
            tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
 
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
@@ -575,11 +547,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            killFlag = true;
            tempNew.StartBlack();
            tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -596,11 +566,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               killFlag = true;
               tempNew.StartBlack();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -614,11 +582,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               killFlag = true;
               tempNew.StartBlack();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -657,11 +623,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            killFlag = true;
            tempNew.StartBlack();
            tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -675,11 +639,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            killFlag = true;
            tempNew.StartBlack();
            tempNew.SetPreviousMurder(i);
-           if (++lastQueueElement > queueSize-1)
-           {
-               if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-           };
-           queue[lastQueueElement] = tempNew;
+
+           AddToMainQueue(tempNew);
+
            if (trace) Traces() << "\n" << "LOG: Result";
            tempNew.printDebug();
        };
@@ -696,11 +658,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               killFlag = true;
               tempNew.StartBlack();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -714,11 +674,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               killFlag = true;
               tempNew.StartBlack();
               tempNew.SetPreviousMurder(i);
-              if (++lastQueueElement > queueSize-1)
-              {
-                  if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-              };
-              queue[lastQueueElement] = tempNew;
+
+              AddToMainQueue(tempNew);
+
               if (trace) Traces() << "\n" << "LOG: Result";
               tempNew.printDebug();
           };
@@ -743,11 +701,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                 tempNew.PutBlackTopLeftPawn(i);
                 tempNew.StartWhite();
                 tempNew.SetPreviousMurder(12);
-                if (++lastQueueElement > queueSize-1)
-                {
-                    if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                };
-                queue[lastQueueElement] = tempNew;
+
+                AddToMainQueue(tempNew);
+
                 if (trace) Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
                 canImove = true;
@@ -761,11 +717,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                 tempNew.PutBlackTopRightPawn(i);
                 tempNew.StartWhite();
                 tempNew.SetPreviousMurder(12);
-                if (++lastQueueElement > queueSize-1)
-                {
-                    if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                };
-                queue[lastQueueElement] = tempNew;
+
+                AddToMainQueue(tempNew);
+
                 if (trace) Traces() << "\n" << "LOG: Result";
                 tempNew.printDebug();
                 canImove = true;
@@ -785,11 +739,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                     //TO DO {
                         tempNew.StartWhite();
                         tempNew.SetPreviousMurder(12);
-                        if (++lastQueueElement > queueSize-1)
-                        {
-                            if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                        };
-                        queue[lastQueueElement] = tempNew;
+
+                        AddToMainQueue(tempNew);
+
                         if (trace) Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
                         canImove = true;
@@ -810,11 +762,9 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                     //TO DO {
                         tempNew.StartWhite();
                         tempNew.SetPreviousMurder(12);
-                        if (++lastQueueElement > queueSize-1)
-                        {
-                            if (trace) Traces() << "\n" << "ERROR: No free memory cells in main queue";
-                        };
-                        queue[lastQueueElement] = tempNew;
+
+                        AddToMainQueue(tempNew);
+
                         if (trace) Traces() << "\n" << "LOG: Result";
                         tempNew.printDebug();
                         canImove = true;
