@@ -1,6 +1,7 @@
 #ifndef CHECKERAREA_H
 #define CHECKERAREA_H
 
+#include <QDir>
 #include <QGraphicsEllipseItem>
 #include <QWidget>
 #include <QTimer>

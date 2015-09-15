@@ -12,6 +12,7 @@
 #include <sstream>
 #include <set>
 #include <QString>
+#include <QDir>
 
 class Traces
 {
@@ -29,6 +30,7 @@ class Traces
         static void TurnOffTraces();
         static bool GetTraceFlag();
         static void RemoveThreadID();
+        static void SetTraceFolder(const QString &dir);
 
     private:
         static std::string patchAndNameFile;
@@ -38,6 +40,7 @@ class Traces
         static std::map<unsigned long int,std::string> theardsId;
         static std::set<std::string> idText;
 
+        static void CreateTraceFolder();
         static unsigned long int GetThreadId();
         bool IsOnTheList();
         std::string GetThreadText();

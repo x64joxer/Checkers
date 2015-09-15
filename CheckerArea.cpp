@@ -29,8 +29,7 @@ CheckerArea::CheckerArea(QWidget *parent) :
     displayedBoard = 0;
     waitForIATimer = new QTimer();
     waitForIATimer->setInterval(50);
-    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));
-
+    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));        
 }
 
 //███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗

@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::Init()
 {
+    Traces::SetTraceFolder("trace");
+
     #ifdef PERFORMANCE_TESTS
     {
        PerformanceTests performanceTests;
