@@ -16,6 +16,7 @@ class ThreadIABoardQueue
         inline void PushBack(Board &board);
         inline void PushBackDoNotForget(Board &board);
         Board GetBestResult();
+        void GetBestResult(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board &best);
         void Clear();
         Board First();
         void NotifyRest();

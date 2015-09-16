@@ -178,8 +178,11 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 
     if (doNotForgetnumberOfElements>0)
     {
-        result = doNotForgetqueue[0].GetPercentageResult();
-        temp = doNotForgetqueue[0];
+        if (result == 0)
+        {
+            result = doNotForgetqueue[0].GetPercentageResult();
+            temp = doNotForgetqueue[0];
+        };
 
         Traces() << "\n" << "LOG: Origin of doNotForgetqueue[0]";
         doNotForgetqueue[0].GetOrigin().printDebug();
@@ -199,6 +202,51 @@ Board ThreadIABoardQueue<size>::GetBestResult()
     }
 
     return temp;
+}
+
+template <unsigned long int size>
+void ThreadIABoardQueue<size>::GetBestResult(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board &best)
+{
+    double result = 0;
+    Board temp;
+
+    qDebug() << "Number of eleents" << numberOfElements;
+    qDebug() << "Number of do not forget eleents" << doNotForgetnumberOfElements;
+
+
+    if (make)
+    {
+        result = queue[start].GetPercentageResult();
+        temp = queue[start];
+
+        for (int i = start; i<-stop; i++)
+        {
+            if (result>queue[i].GetPercentageResult())
+            {
+                result =  queue[i].GetPercentageResult();
+                temp = queue[i];
+            };
+        };
+    };
+
+    if (make2)
+    {
+        if (!make)
+        {
+            result = doNotForgetqueue[start2].GetPercentageResult();
+            temp = doNotForgetqueue[start2];
+        };
+
+        for (int i = start2; i<-stop2; i++)
+        {
+            if (result>doNotForgetqueue[i].GetPercentageResult())
+            {
+                result =  doNotForgetqueue[i].GetPercentageResult();
+                temp = doNotForgetqueue[i];
+            };
+        };
+    };
+
 }
 
 template <unsigned long int size>
