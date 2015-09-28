@@ -10,6 +10,8 @@ class ProgramVariables
         static unsigned short GetNumberOfThreads();
         static unsigned short GetMaxNumberOfThreads();
 
+        static void SetNumberOfThreads(const unsigned short num);
+
     private:
         static unsigned short InitMaxThreads();
 

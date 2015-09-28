@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow
 
 private slots:
     void on_actionTraces_triggered();
+    void SetNumOfThreads(QAction* action);
 
 private:
         Ui::MainWindow *ui;
@@ -34,6 +35,7 @@ private:
         Board *board;
 
         void Init();
+        void FillThreadsListMenu();
         void resizeEvent ( QResizeEvent *);
 
 };

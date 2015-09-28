@@ -14,6 +14,10 @@ void MainWindow::Init()
 {
     Traces::SetTraceFolder("trace");
 
+    FillThreadsListMenu();
+
+    connect(ui->menuNumber_of_threads,SIGNAL(triggered(QAction*)),this,SLOT(SetNumOfThreads(QAction*)));
+
     #ifdef PERFORMANCE_TESTS
     {
        PerformanceTests performanceTests;
@@ -47,6 +51,22 @@ void MainWindow::Init()
     Traces::TurnOffTraces();
 }
 
+void MainWindow::FillThreadsListMenu()
+{
+    ui->menuNumber_of_threads->clear();
+
+    for (int i=1;i<=ProgramVariables::GetMaxNumberOfThreads();i++)
+    {
+        if (i!=ProgramVariables::GetNumberOfThreads())
+        {
+            ui->menuNumber_of_threads->addAction(QString::number(i));
+        } else
+        {
+            ui->menuNumber_of_threads->addAction(QString::number(i) + " <<");
+        };
+    }
+}
+
 void MainWindow::resizeEvent( QResizeEvent *)
 {
     checkerArea->move(0,30);
@@ -58,6 +78,17 @@ MainWindow::~MainWindow()
     delete checkerArea;
     delete board;
     delete ui;
+}
+
+void MainWindow::SetNumOfThreads(QAction* action)
+{
+    QString act = action->text().remove('&');
+            act = act.remove('>');
+            act = act.remove('<');
+
+
+    ProgramVariables::SetNumberOfThreads(act.toInt());
+    FillThreadsListMenu();
 }
 
 void MainWindow::on_actionTraces_triggered()

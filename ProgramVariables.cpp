@@ -19,6 +19,11 @@ unsigned short ProgramVariables::GetMaxNumberOfThreads()
     return maxNumbeOfThreads;
 }
 
+void ProgramVariables::SetNumberOfThreads(const unsigned short num)
+{
+    numbeOfThreads = num;
+}
+
 unsigned short ProgramVariables::GetNumberOfThreads()
 {
     return numbeOfThreads;
