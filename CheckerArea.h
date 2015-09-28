@@ -13,6 +13,7 @@
 #include "PossibleMoves.h"
 #include "ThreadIA/ThreadIAMove.h"
 #include "ThreadIA/ThreadIAMove.cpp"
+#include "ProgramVariables.h"
 
 namespace Ui {
 class CheckerArea;
