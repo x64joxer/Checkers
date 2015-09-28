@@ -28,6 +28,7 @@ class ThreadIATreeExpander
        const unsigned long int queueSize;       
        unsigned long int lastQueueElement;
        unsigned long int firstQueueElement;
+       unsigned long int numberOfElements;
        Board queue[sQueue];
 
        const unsigned long int doNotForgetQueueSize;

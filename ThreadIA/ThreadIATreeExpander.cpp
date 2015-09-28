@@ -7,7 +7,8 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
     lastQueueElement(0),
     firstQueueElement(0),    
     doNotForgetQueueSize(sQueue/50),
-    lastDoNotForgetQueueElement(0)
+    lastDoNotForgetQueueElement(0),
+    numberOfElements(0)
 
 {
 
@@ -34,6 +35,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
     threadNumber = numThread;
 
     queue[0] = mainBoardQueue.PopFront(threadNumber);
+    if (!queue[firstQueueElement].GetNullBoard()) numberOfElements++;
     unsigned int step = 0;
     unsigned long current;
 
@@ -49,11 +51,13 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             {
               if (trace) Traces() << "\n" << "LOG: (treePointer->Black())";
               firstQueueElement = current+1;
+              numberOfElements--;
               ExpandBlack(queue[current], step);                            
             } else
             {
               if (trace) Traces() << "\n" << "LOG: (treePointer->White())";
               firstQueueElement = current+1;
+              numberOfElements--;
               ExpandWhite(queue[current], step);              
             };
 
@@ -149,19 +153,23 @@ template <unsigned long int MQueue, unsigned long int sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
     if (trace) Traces() << "\n" << "ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";
+    Traces() << "\n" << "LOG: numberOfElements=" << numberOfElements;
 
-    if (lastQueueElement>=firstQueueElement)
+    if (numberOfElements>0)
     {
-        if ((lastQueueElement-firstQueueElement)+1>0)
+        if (lastQueueElement>=firstQueueElement)
         {
-            for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
+            if ((lastQueueElement-firstQueueElement)+1>0)
             {
-                if (trace)  Traces() << "\n" << "LOG: mainBoardQueue.PushBack(queue[i])";
-                mainBoardQueue.PushBack(queue[i]);
-            };
+                for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
+                {
+                    if (trace)  Traces() << "\n" << "LOG: mainBoardQueue.PushBack(queue[i])";
+                    mainBoardQueue.PushBack(queue[i]);
+                };
 
-            firstQueueElement =0;
-            lastQueueElement=0;
+                firstQueueElement =0;
+                lastQueueElement=0;
+            };
         };
     };
 
@@ -186,6 +194,9 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToMainQueue(const Board &board)
     } else
     {
         queue[lastQueueElement] = board;
+        if (trace) Traces() << "\n" << "LOG: AddToMainQueue numberOfElements=" << numberOfElements;
+        numberOfElements= numberOfElements + 1;
+        if (trace) Traces() << "\n" << "LOG: AddToMainQueue numberOfElements=" << numberOfElements;
     };
 }
 

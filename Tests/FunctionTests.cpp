@@ -36,7 +36,7 @@ void FunctionTests::Test01()
 
     Traces::TurnOnTraces();
 
-    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    for (unsigned short numOfThreads=2;numOfThreads<3;numOfThreads++)
     {
         Traces() << "\n" << "FunctionTests::Test01() for number of thread = " << numOfThreads;
 
