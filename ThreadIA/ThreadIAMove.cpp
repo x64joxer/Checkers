@@ -63,7 +63,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         {
         //NEW METHOD
         //qDebug() << "New method";
-        unsigned int minElements = 100;        
+        unsigned int minElements = 2000;
         unsigned short numOfThreads = numberOfThreads;
 
         if (queue.Size() / minElements >= queue.SizeDoNotForget() / minElements)

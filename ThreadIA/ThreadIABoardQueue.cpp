@@ -233,8 +233,6 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
             {
                 result =  queue[i].GetPercentageResult();
                 temp = queue[i];
-                Traces() << "\n" << "LOG: New best result";
-                temp.printDebug();
             };
         };
     };
@@ -250,8 +248,6 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
             Traces() << "\n" << "LOG: !make = false";
             result = doNotForgetqueue[start2].GetPercentageResult();
             temp = doNotForgetqueue[start2];            
-
-            Traces() << "\n" << "LOG: Current best result";
             temp.printDebug();
         };
 
@@ -263,7 +259,6 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
             {
                 result =  doNotForgetqueue[i].GetPercentageResult();
                 temp = doNotForgetqueue[i];
-                Traces() << "\n" << "LOG: New best result";
                 temp.printDebug();
             };
         };
