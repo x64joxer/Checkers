@@ -21,7 +21,7 @@ void PerformanceTests::Test01()
 
     unsigned long int result[4];
 
-    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    for (unsigned short numOfThreads=1;numOfThreads<=ProgramVariables::GetMaxNumberOfThreads();numOfThreads++)
     {
         *board =
                     std::string("| |w| |w| |w| |w|") +

@@ -3,6 +3,7 @@
 
 #include "ThreadIA/ThreadIAMove.h"
 #include "Traces/Traces.h"
+#include "ProgramVariables.h"
 
 class PerformanceTests
 {
