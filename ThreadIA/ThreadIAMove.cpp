@@ -9,7 +9,7 @@ ThreadIAMove<QMain>::ThreadIAMove()
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo)
 {
-    const unsigned short maxThreads = 5;
+    const unsigned short maxThreads = numberOfThreads + 1;
     std::thread iaThread[maxThreads];
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
     unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;    
