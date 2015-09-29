@@ -16,6 +16,7 @@ class FunctionTests
         void Test03();
         void Test04();
         void Test05();
+        void Test06();
 };
 
 #endif // FUNCTIONTESTS_H

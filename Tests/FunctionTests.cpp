@@ -12,6 +12,7 @@ void FunctionTests::Make()
     Test03();
     Test04();
     Test05();
+    Test06();
 }
 
 void FunctionTests::Test01()
@@ -36,7 +37,7 @@ void FunctionTests::Test01()
 
     Traces::TurnOnTraces();
 
-    for (unsigned short numOfThreads=2;numOfThreads<3;numOfThreads++)
+    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
     {
         Traces() << "\n" << "FunctionTests::Test01() for number of thread = " << numOfThreads;
 
@@ -290,3 +291,41 @@ void FunctionTests::Test05()
 
     delete board;
 }
+
+void FunctionTests::Test06()
+{
+    Traces() << "\n" << "FunctionTests::Test06()";
+    std::atomic_bool endIaJobFlag;
+    std::atomic<int> currentPercentOfSteps;
+    Board *board = new Board();
+
+    Traces::TurnOnTraces();
+
+    for (unsigned short numOfThreads=1;numOfThreads<5;numOfThreads++)
+    {
+        Traces() << "\n" << "FunctionTests::Test06() for number of thread = " << numOfThreads;
+
+        *board =
+                std::string("| | | | | | | |w|") +
+                std::string("| | |B| | | | | |") +
+                std::string("| | | | | | | |w|") +
+                std::string("| | | | | | | | |") +
+                std::string("| | | | | |b| |b|") +
+                std::string("|b| |w| | | |b| |") +
+                std::string("| | | | | | | | |") +
+                std::string("|b| |b| |b| | | |");
+
+        {
+            ThreadIAMove<900000> worker;
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+        };
+
+    };
+
+    Traces() << "\n" << "LOG: End Test06()";
+
+    Traces::TurnOffTraces();
+
+    delete board;
+}
+
