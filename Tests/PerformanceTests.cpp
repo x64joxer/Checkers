@@ -12,14 +12,17 @@ void PerformanceTests::Make()
 
 void PerformanceTests::Test01()
 {
-    qDebug() << "PerformanceTests::Test01()";
+    Traces::TurnOnTraces();
+    Traces() << "\n" << "PerformanceTests::Test01()";
+    Traces::TurnOffTraces();
+
     std::atomic_bool endIaJobFlag;
     std::atomic<int> currentPercentOfSteps;
     Board *board = new Board();
 
     Traces::TurnOffTraces();
 
-    unsigned long int result[4];
+    unsigned long int result[ProgramVariables::GetMaxNumberOfThreads()];
 
     for (unsigned short numOfThreads=1;numOfThreads<=ProgramVariables::GetMaxNumberOfThreads();numOfThreads++)
     {
@@ -38,13 +41,17 @@ void PerformanceTests::Test01()
             Traces::GetCurrentTime();
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 20000);
             result[numOfThreads-1] = Traces::GetCurrentTime();
-        };
+        };    
     };
 
-    for (int i=1;i<4;i++)
+    Traces::TurnOnTraces();
+    Traces() << "\n" << "LOG: Performance result:";
+
+    for (int i=1;i<ProgramVariables::GetMaxNumberOfThreads();i++)
     {
-        qDebug() << "Nuber of threads: " << i+1 << " result" << double(result[0])/ double(result[i]);
+        Traces() << "\n" << "LOG: Number of threads: " << i+1 << " result: " << QString::number(double(result[0])/ double(result[i]));
     };
+    Traces::TurnOffTraces();
 
     delete board;
 }
