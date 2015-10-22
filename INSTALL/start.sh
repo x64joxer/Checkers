@@ -17,7 +17,7 @@ instance_1_server=192.168.0.12
 instance_2_server=192.168.0.13
 
 cp $autostart_script Checkers
-cp /home/x64joxer/build-cos-Desktop_Qt_5_5_0_GCC_64bit-Debug/cos Checkers/Checkers
+cp /media/BIG_DISC/programowanie/PROJEKTY/Checkers/build-Checkers-Desktop_Qt_5_5_0_GCC_64bit-Debug/* Checkers/
 
 servers=("$instance_1_server" "$instance_2_server" "$instance_3_server" "$instance_4_server" "$instance_5_server" "$instance_6_server" "$instance_7_server" "$instance_8_server" "$instance_9_server" )
 i=1
