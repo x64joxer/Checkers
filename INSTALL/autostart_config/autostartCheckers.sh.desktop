@@ -1,0 +1,19 @@
+[Desktop Entry]
+Comment[pl_PL]=
+Comment=
+Exec=/home/x64joxer/Checkers/autostartCheckers.sh
+GenericName[pl_PL]=
+GenericName=
+Icon=system-run
+MimeType=
+Name[pl_PL]=
+Name=
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
