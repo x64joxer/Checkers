@@ -29,5 +29,18 @@ unsigned short ProgramVariables::GetNumberOfThreads()
     return numbeOfThreads;
 }
 
+
+bool ProgramVariables::IsWorker()
+{
+    return isWorker;
+}
+
+void ProgramVariables::SetWorker(const bool flag)
+{
+    isWorker = flag;
+}
+
+
+bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;

@@ -18,7 +18,7 @@ if [ "$(pidof Checkers)" ]
   then
      sleep 10 	
   else
-     /home/x64joxer/Checkers/Checkers &	    	
+     /home/x64joxer/Checkers/Checkers --worker &    	
      sleep 10       
 fi
 
