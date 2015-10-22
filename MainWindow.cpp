@@ -6,7 +6,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    Init();
+
+    if (ProgramVariables::IsWorker())
+    {
+
+    } else
+    {
+        Init();
+    };
 }
 
 
@@ -48,7 +55,12 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
-    Traces::TurnOffTraces();
+    server = new ServerTCP(this);
+    Traces::TurnOnTraces();
+
+    server->StartLisning(QHostAddress::Any,6000);
+
+
 }
 
 void MainWindow::FillThreadsListMenu()
@@ -73,13 +85,6 @@ void MainWindow::resizeEvent( QResizeEvent *)
     checkerArea->resize(width(),height()-30);
 }
 
-MainWindow::~MainWindow()
-{
-    delete checkerArea;
-    delete board;
-    delete ui;
-}
-
 void MainWindow::SetNumOfThreads(QAction* action)
 {
     QString act = action->text().remove('&');
@@ -100,4 +105,12 @@ void MainWindow::on_actionTraces_triggered()
     {
         Traces::TurnOnTraces();
     };
+}
+
+MainWindow::~MainWindow()
+{
+    delete checkerArea;
+    delete board;
+    delete server;
+    delete ui;
 }

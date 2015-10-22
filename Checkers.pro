@@ -6,6 +6,7 @@
 
 QT       += core gui
 CONFIG += c++11
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +29,8 @@ SOURCES += main.cpp\
     ThreadIA/ThreadIAMove.cpp \
     Tests/PerformanceTests.cpp \
     Tests/FunctionTests.cpp \
-    ProgramVariables.cpp
+    ProgramVariables.cpp \
+    TCP/ServerTCP.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -44,7 +46,8 @@ HEADERS  += MainWindow.h \
     ThreadIA/ThreadIAMove.h \
     Tests/PerformanceTests.h \
     Tests/FunctionTests.h \
-    ProgramVariables.h
+    ProgramVariables.h \
+    TCP/ServerTCP.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui

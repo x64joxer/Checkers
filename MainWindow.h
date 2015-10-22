@@ -11,6 +11,7 @@
 #include "Traces/Traces.h"
 #include "Tests/PerformanceTests.h"
 #include "Tests/FunctionTests.h"
+#include "TCP/ServerTCP.h"
 
 
 namespace Ui {
@@ -33,6 +34,7 @@ private:
         Ui::MainWindow *ui;
         CheckerArea *checkerArea;
         Board *board;
+        ServerTCP *server;
 
         void Init();
         void FillThreadsListMenu();
