@@ -4,7 +4,7 @@ ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
 {
 
     tcpServer = new QTcpServer(this);
-    connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection));
+    connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 }
 
 bool ServerTCP::StartLisning(const QHostAddress&adress =QHostAddress::Any,quint16 port = 0)
@@ -17,12 +17,13 @@ bool ServerTCP::StartLisning(const QHostAddress&adress =QHostAddress::Any,quint1
 }
 
 void ServerTCP::newConnection()
-{
-    Traces() << "\n" << "LOG: Connection witch new client!";
-
+{    
     QTcpSocket * tempClientConnection;
     tempClientConnection = tcpServer->nextPendingConnection();
     clientConnection.push_back(tempClientConnection);
+
+    Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
+
     connect(tempClientConnection,SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
 }
 

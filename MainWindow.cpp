@@ -9,7 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (ProgramVariables::IsWorker())
     {
-
+        Traces::SetTraceFolder("trace");
+        Traces::TurnOnTraces();
+        workerTCP = new WorkerTCP(this);
+        workerTCP->ConnectToServer("192.168.0.4",6000);
     } else
     {
         Init();
@@ -112,5 +115,6 @@ MainWindow::~MainWindow()
     delete checkerArea;
     delete board;
     delete server;
+    delete workerTCP;
     delete ui;
 }

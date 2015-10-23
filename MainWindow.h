@@ -12,6 +12,7 @@
 #include "Tests/PerformanceTests.h"
 #include "Tests/FunctionTests.h"
 #include "TCP/ServerTCP.h"
+#include "TCP/WorkerTCP.h"
 
 
 namespace Ui {
@@ -35,6 +36,7 @@ private:
         CheckerArea *checkerArea;
         Board *board;
         ServerTCP *server;
+        WorkerTCP *workerTCP;
 
         void Init();
         void FillThreadsListMenu();
