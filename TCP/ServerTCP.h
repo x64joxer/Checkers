@@ -18,6 +18,8 @@ class ServerTCP : public QObject
     private slots:
         void newConnection();
         void newDataFromClient();
+        void ConnectionError(QAbstractSocket::SocketError socketError);
+        void Disconnected();
 
     private:
         QTcpServer *tcpServer;

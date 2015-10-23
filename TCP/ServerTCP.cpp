@@ -25,6 +25,38 @@ void ServerTCP::newConnection()
     Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
 
     connect(tempClientConnection,SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
+    connect(tempClientConnection,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
+    connect(tempClientConnection,SIGNAL(disconnected()),this,SLOT(Disconnected()));
+}
+
+void ServerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
+{
+    switch (socketError) {
+    case QAbstractSocket::RemoteHostClosedError:
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        Traces() << "\n" << "ERROR:The host was not found. Please check the host name and port settings";
+        break;
+    case QAbstractSocket::ConnectionRefusedError:
+        Traces() << "\n" << "LOG:The connection was refused by the peer" ;
+        break;
+    default:
+        Traces() << "\n" << "ERROR:The following error occurred:";
+    }
+}
+
+void ServerTCP::Disconnected()
+{
+    foreach (QTcpSocket *var, clientConnection)
+    {
+        if (var->state() == QAbstractSocket::UnconnectedState)
+        {
+            Traces() << "\n" << "ERROR: Worker disconnected :" << var->peerAddress().toString() << ":" << var->peerPort();
+            clientConnection.removeOne(var);
+
+            break;
+        }
+    }
 }
 
 void ServerTCP::newDataFromClient()
