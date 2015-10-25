@@ -13,6 +13,7 @@
 #include "Tests/FunctionTests.h"
 #include "TCP/ServerTCP.h"
 #include "TCP/WorkerTCP.h"
+#include "TCP/PeerQueue.h"
 
 
 namespace Ui {
@@ -37,6 +38,7 @@ private:
         Board *board;
         ServerTCP *server;
         WorkerTCP *workerTCP;
+        PeerQueue  peerQueue;
 
         void Init();
         void FillThreadsListMenu();

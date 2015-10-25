@@ -2,7 +2,7 @@
 
 ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
 {
-
+    peerQueue = NULL;
     tcpServer = new QTcpServer(this);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 }
@@ -16,13 +16,18 @@ bool ServerTCP::StartLisning(const QHostAddress&adress =QHostAddress::Any,quint1
     }
 }
 
+void ServerTCP::SetPeerQueue(PeerQueue *peers)
+{
+    peerQueue = peers;
+}
+
 void ServerTCP::newConnection()
 {    
     QTcpSocket * tempClientConnection;
     tempClientConnection = tcpServer->nextPendingConnection();
-    clientConnection.push_back(tempClientConnection);
-
     Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
+    clientConnection.push_back(tempClientConnection);
+    peerQueue->AddPeer(tempClientConnection->peerAddress(), tempClientConnection->peerPort());
 
     connect(tempClientConnection,SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
     connect(tempClientConnection,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
@@ -51,9 +56,10 @@ void ServerTCP::Disconnected()
     {
         if (var->state() == QAbstractSocket::UnconnectedState)
         {
-            Traces() << "\n" << "ERROR: Worker disconnected :" << var->peerAddress().toString() << ":" << var->peerPort();
+            Traces() << "\n" << "LOG: Worker disconnected :" << var->peerAddress().toString() << ":" << var->peerPort();
             clientConnection.removeOne(var);
-
+            peerQueue->RemovePeer(var->peerAddress(), var->peerPort());
+            var->deleteLater();
             break;
         }
     }
@@ -66,7 +72,7 @@ void ServerTCP::newDataFromClient()
     foreach (QTcpSocket *var, clientConnection)
     {
         if (var->isReadable())
-        {
+        {            
             var->read(data,100);
             break;
         }

@@ -4,6 +4,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "Traces/Traces.h"
+#include "TCP/PeerQueue.h"
 
 class ServerTCP : public QObject
 {
@@ -13,6 +14,7 @@ class ServerTCP : public QObject
 
     explicit ServerTCP(QObject *parent = 0);
     bool StartLisning(const QHostAddress&,quint16);
+    void SetPeerQueue(PeerQueue *peers);
     ~ServerTCP();
 
     private slots:
@@ -24,6 +26,7 @@ class ServerTCP : public QObject
     private:
         QTcpServer *tcpServer;
         QList<QTcpSocket*> clientConnection;
+        PeerQueue *peerQueue;
 };
 
 #endif // SERVERTCP_H

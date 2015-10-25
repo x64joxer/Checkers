@@ -61,7 +61,9 @@ void MainWindow::Init()
     server = new ServerTCP(this);
     Traces::TurnOnTraces();
 
+    server->SetPeerQueue(&peerQueue);
     server->StartLisning(QHostAddress::Any,6000);
+
 
 
 }

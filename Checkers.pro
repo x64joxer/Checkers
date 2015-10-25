@@ -31,7 +31,10 @@ SOURCES += main.cpp\
     Tests/FunctionTests.cpp \
     ProgramVariables.cpp \
     TCP/ServerTCP.cpp \
-    TCP/WorkerTCP.cpp
+    TCP/WorkerTCP.cpp \
+    TCP/MessageHandler.cpp \
+    TCP/Peers.cpp \
+    TCP/PeerQueue.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -49,7 +52,10 @@ HEADERS  += MainWindow.h \
     Tests/FunctionTests.h \
     ProgramVariables.h \
     TCP/ServerTCP.h \
-    TCP/WorkerTCP.h
+    TCP/WorkerTCP.h \
+    TCP/MessageHandler.h \
+    TCP/Peers.h \
+    TCP/PeerQueue.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui
