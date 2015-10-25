@@ -69,11 +69,10 @@ void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
 }
 
 void WorkerTCP::ReadDataFromServer()
-{
-    Traces() << "\n" << "LOG: New data from server";
-    char *data  = new char[100];
-    tcpSocket->read(data,100);
-
+{    
+    char *data  = new char[tcpSocket->bytesAvailable()];
+    tcpSocket->read(data,tcpSocket->bytesAvailable());
+    Traces() << "\n" << "LOG: New data from server: " << QString(data);
     delete [] data;
 }
 

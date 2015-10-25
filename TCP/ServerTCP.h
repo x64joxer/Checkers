@@ -15,6 +15,7 @@ class ServerTCP : public QObject
     explicit ServerTCP(QObject *parent = 0);
     bool StartLisning(const QHostAddress&,quint16);
     void SetPeerQueue(PeerQueue *peers);
+    void SendMessage(QHostAddress ho, int po, char* data);
     ~ServerTCP();
 
     private slots:

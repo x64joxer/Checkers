@@ -32,6 +32,8 @@ private slots:
     void on_actionTraces_triggered();
     void SetNumOfThreads(QAction* action);
 
+    void on_actionTest_message_triggered();
+
 private:
         Ui::MainWindow *ui;
         CheckerArea *checkerArea;

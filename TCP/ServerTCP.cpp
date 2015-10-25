@@ -21,6 +21,19 @@ void ServerTCP::SetPeerQueue(PeerQueue *peers)
     peerQueue = peers;
 }
 
+void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
+{
+    foreach (QTcpSocket *var, clientConnection)
+    {
+        if ((var->peerAddress() == ho)/*&&(var->peerPort() == po)*/)
+        {
+            Traces() << "\n" << "LOG: Sending data to peer " << ho.toString() << ":" << po;
+            var->write(data);
+            break;
+        }
+    }
+}
+
 void ServerTCP::newConnection()
 {    
     QTcpSocket * tempClientConnection;

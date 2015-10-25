@@ -120,3 +120,11 @@ MainWindow::~MainWindow()
     delete workerTCP;
     delete ui;
 }
+
+void MainWindow::on_actionTest_message_triggered()
+{
+
+    Traces() << "\n" << "LOG: Sending data";
+    server->SendMessage(QHostAddress("::ffff:192.168.0.12"),43858,"Testmessage");
+    server->SendMessage(QHostAddress("::ffff:192.168.0.13"),48739,"Testmessage");
+}
