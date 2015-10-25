@@ -31,6 +31,9 @@ void WorkerTCP::Reconnect()
 void WorkerTCP::Connected()
 {
     Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
+
+    char * temp = "czesc";
+    tcpSocket->write(temp);
 }
 
 void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
@@ -67,6 +70,7 @@ void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
 
 void WorkerTCP::ReadDataFromServer()
 {
+    Traces() << "\n" << "LOG: New data from server";
     char *data  = new char[100];
     tcpSocket->read(data,100);
 

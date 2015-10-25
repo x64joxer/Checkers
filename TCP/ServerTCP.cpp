@@ -71,15 +71,14 @@ void ServerTCP::newDataFromClient()
 
     foreach (QTcpSocket *var, clientConnection)
     {
-        if (var->isReadable())
+        if (var->bytesAvailable()>0)
         {            
-            var->read(data,100);
-
+            var->read(data,var->bytesAvailable());
+            Traces() << "\n" << "LOG: Data from worker " << var->peerAddress().toString() << ":" << var->peerPort() << ":" << QString(data);
+            peerQueue->AddData(var->peerAddress(),var->peerPort(),data);
             break;
         }
     }
-
-    Traces() << "\n" << "LOG: Data from worker: " << QString(data);
 
     delete [] data;
 }
