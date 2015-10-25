@@ -56,3 +56,51 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
             Traces() << "\n" << "ERROR: Peer not exist!";
         };
 }
+
+void PeerQueue::AddData(QHostAddress ho, int po,char *data)
+{
+    Peers temp;
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, &temp, ho, po](Peers &n){
+                                 if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                 {
+                                    temp = n;
+                                    flag = true;
+                                 };
+                                 });
+
+    if (flag)
+    {
+        temp.AddData(data);
+        Traces() << "\n" << "LOG: Data added to peer.";
+    } else
+    {
+        Traces() << "\n" << "ERROR: Peer not exist!";
+    };
+}
+
+void PeerQueue::GetData(QHostAddress ho, int po,char *data)
+{
+    Peers temp;
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, &temp, ho, po](Peers &n){
+                                 if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                 {
+                                    temp = n;
+                                    flag = true;
+                                 };
+                                 });
+
+    if (flag)
+    {
+        temp.GetData(data);
+        Traces() << "\n" << "LOG: Data transfered from peer.";
+    } else
+    {
+        Traces() << "\n" << "ERROR: Peer not exist!";
+    };
+}

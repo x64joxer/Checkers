@@ -74,13 +74,13 @@ void ServerTCP::newDataFromClient()
         if (var->isReadable())
         {            
             var->read(data,100);
+
             break;
         }
     }
 
     Traces() << "\n" << "LOG: Data from worker: " << QString(data);
-    //DATA ANALYSE
-    //ui->textReceiced->setText(QString(data));
+
     delete [] data;
 }
 
