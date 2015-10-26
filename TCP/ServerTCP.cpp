@@ -38,14 +38,6 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
 
 }
 
-void ServerTCP::Start()
-{
-    while(true)
-    {
-
-    }
-}
-
 void ServerTCP::newConnection()
 {    
     QTcpSocket * tempClientConnection;

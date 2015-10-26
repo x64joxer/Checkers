@@ -30,30 +30,28 @@ class MainWindow : public QMainWindow
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
-private slots:
-    void on_actionTraces_triggered();
-    void SetNumOfThreads(QAction* action);
+    private slots:
+        void on_actionTraces_triggered();
+        void SetNumOfThreads(QAction* action);
+        void on_actionTest_message_triggered();
 
-    void on_actionTest_message_triggered();
+    signals:
+        void Start();
 
-signals:
-    void Start();
+    private:
+            Ui::MainWindow *ui;
+            CheckerArea *checkerArea;
+            Board *board;
+            ServerTCP *server;
+            WorkerTCP *workerTCP;
+            PeerQueue  peerQueue;
+            MessageHandler handler;
+            std::thread handlerThread;
+            MessageForwarder *messageForwarder;
 
-private:
-        Ui::MainWindow *ui;
-        CheckerArea *checkerArea;
-        Board *board;
-        ServerTCP *server;        
-        WorkerTCP *workerTCP;
-        PeerQueue  peerQueue;
-        MessageHandler handler;
-        std::thread handlerThread;
-        MessageForwarder *messageForwarder;        
-
-        void Init();
-        void FillThreadsListMenu();
-        void resizeEvent ( QResizeEvent *);
-
+            void Init();
+            void FillThreadsListMenu();
+            void resizeEvent ( QResizeEvent *);
 };
 
 #endif // MAINWINDOW_H

@@ -20,7 +20,6 @@ class ServerTCP : public QObject
     ~ServerTCP();
 
     public slots:
-        void Start();
         void SendMessage(QHostAddress ho, int po, char* data);
 
     private slots:
