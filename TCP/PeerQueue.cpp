@@ -2,7 +2,7 @@
 
 PeerQueue::PeerQueue()
 {
-
+    server = NULL;
 }
 
 bool PeerQueue::PeerExist(QHostAddress ho, int po)
@@ -99,6 +99,32 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
     {
         temp.GetData(data);
         Traces() << "\n" << "LOG: Data transfered from peer.";
+    } else
+    {
+        Traces() << "\n" << "ERROR: Peer not exist!";
+    };
+}
+
+void PeerQueue::SendMessage(QHostAddress ho, int po, char* data)
+{
+    Peers temp;
+    bool flag = false;
+
+    Traces() << "\n" << "LOG: Start searching";
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, &temp, ho, po](Peers &n){
+                                 if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                 {
+                                    temp = n;
+                                    flag = true;
+                                 };
+                                 });
+
+    if (flag)
+    {
+        Traces() << "\n" << "LOG: Exist";
+        server->SendMessage(ho, po, data);
+        Traces() << "\n" << "LOG: Data sended to peer.";
     } else
     {
         Traces() << "\n" << "ERROR: Peer not exist!";

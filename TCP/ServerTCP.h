@@ -6,6 +6,8 @@
 #include "Traces/Traces.h"
 #include "TCP/PeerQueue.h"
 
+class PeerQueue;
+
 class ServerTCP : public QObject
 {
     Q_OBJECT

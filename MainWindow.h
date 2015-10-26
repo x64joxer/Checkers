@@ -14,6 +14,7 @@
 #include "TCP/ServerTCP.h"
 #include "TCP/WorkerTCP.h"
 #include "TCP/PeerQueue.h"
+#include "TCP/MessageHandler.h"
 
 
 namespace Ui {
@@ -41,6 +42,8 @@ private:
         ServerTCP *server;
         WorkerTCP *workerTCP;
         PeerQueue  peerQueue;
+        MessageHandler handler;
+        std::thread handlerThread;
 
         void Init();
         void FillThreadsListMenu();

@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
         Traces::SetTraceFolder("trace");
         Traces::TurnOnTraces();
         workerTCP = new WorkerTCP(this);
-        workerTCP->ConnectToServer("192.168.0.4",6000);
+        workerTCP->ConnectToServer("192.168.0.4",6000);        
     } else
     {
         Init();
@@ -63,8 +63,9 @@ void MainWindow::Init()
 
     server->SetPeerQueue(&peerQueue);
     server->StartLisning(QHostAddress::Any,6000);
-
-
+    handler.server = server;
+    handler.peerQueue = &peerQueue;
+    handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
 
 }
 

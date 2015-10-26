@@ -32,8 +32,8 @@ void WorkerTCP::Connected()
 {
     Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
 
-    char * temp = "czesc";
-    tcpSocket->write(temp);
+    //char * temp = "czesc";
+   // tcpSocket->write(temp);
 }
 
 void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
