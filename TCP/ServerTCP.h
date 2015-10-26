@@ -20,6 +20,9 @@ class ServerTCP : public QObject
     void SendMessage(QHostAddress ho, int po, char* data);
     ~ServerTCP();
 
+    public slots:
+        void Start();
+
     private slots:
         void newConnection();
         void newDataFromClient();
@@ -28,7 +31,7 @@ class ServerTCP : public QObject
 
     private:
         QTcpServer *tcpServer;
-        QList<QTcpSocket*> clientConnection;
+        QList<QTcpSocket*> clientConnection;        
         PeerQueue *peerQueue;
 };
 

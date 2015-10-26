@@ -8,13 +8,12 @@
 class MessageHandler
 {
     public:
-        MessageHandler();
-        ServerTCP *server;
-        PeerQueue *peerQueue;
+        MessageHandler();        
         void Start();
+        void SetPeerQueue(PeerQueue *wsk) { peerQueue = wsk; }
 
     private:
-
+        PeerQueue *peerQueue;
 
 };
 

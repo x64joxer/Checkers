@@ -6,6 +6,7 @@
 #define FUNCTION_TESTS_OFF
 
 #include <QMainWindow>
+#include <QThread>
 #include "CheckerArea.h"
 #include "Board.h"
 #include "Traces/Traces.h"
@@ -15,6 +16,7 @@
 #include "TCP/WorkerTCP.h"
 #include "TCP/PeerQueue.h"
 #include "TCP/MessageHandler.h"
+#include "TCP/MessageForwarder.h"
 
 
 namespace Ui {
@@ -35,15 +37,20 @@ private slots:
 
     void on_actionTest_message_triggered();
 
+signals:
+    void Start();
+
 private:
         Ui::MainWindow *ui;
         CheckerArea *checkerArea;
         Board *board;
-        ServerTCP *server;
+        ServerTCP *server;        
         WorkerTCP *workerTCP;
         PeerQueue  peerQueue;
         MessageHandler handler;
         std::thread handlerThread;
+        MessageForwarder *messageForwarder;
+        QThread *forwarderThread;
 
         void Init();
         void FillThreadsListMenu();

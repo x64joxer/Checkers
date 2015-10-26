@@ -58,13 +58,22 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
-    server = new ServerTCP(this);
+    server = new ServerTCP();
+
+    messageForwarder = new MessageForwarder();
+    messageForwarder->SetServer(server);
+    messageForwarder->SetPeerQueue(&peerQueue);
+    forwarderThread = new QThread(this);
+    messageForwarder->moveToThread(forwarderThread);
+    forwarderThread->start();
+    connect(this,SIGNAL(Start()),messageForwarder,SLOT(Start()));
+    emit Start();
+
     Traces::TurnOnTraces();
 
     server->SetPeerQueue(&peerQueue);
     server->StartLisning(QHostAddress::Any,6000);
-    handler.server = server;
-    handler.peerQueue = &peerQueue;
+    handler.SetPeerQueue(&peerQueue);
     handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
 
 }
@@ -119,6 +128,7 @@ MainWindow::~MainWindow()
     delete board;
     delete server;
     delete workerTCP;
+    delete forwarderThread;
     delete ui;
 }
 

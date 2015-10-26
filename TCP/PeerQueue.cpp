@@ -123,7 +123,7 @@ void PeerQueue::SendMessage(QHostAddress ho, int po, char* data)
     if (flag)
     {
         Traces() << "\n" << "LOG: Exist";
-        server->SendMessage(ho, po, data);
+
         Traces() << "\n" << "LOG: Data sended to peer.";
     } else
     {
