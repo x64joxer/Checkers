@@ -12,7 +12,8 @@ void MessageForwarder::Start()
         if (!peers->Empty())
         {
             Peers temp = peers->First();
-            server->SendMessage(temp.GetHost(), temp.GetPort(), "Wiadomosc");
+            emit Send(temp.GetHost(), temp.GetPort(), "Wiadomosc");
+
             break;
         };
     };

@@ -60,6 +60,8 @@ void MainWindow::Init()
 
     server = new ServerTCP();
 
+    qRegisterMetaType<QHostAddress >("QHostAddress");
+
     messageForwarder = new MessageForwarder();
     messageForwarder->SetServer(server);
     messageForwarder->SetPeerQueue(&peerQueue);
@@ -67,6 +69,7 @@ void MainWindow::Init()
     messageForwarder->moveToThread(forwarderThread);
     forwarderThread->start();
     connect(this,SIGNAL(Start()),messageForwarder,SLOT(Start()));
+    connect(messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),server,SLOT(SendMessage(QHostAddress,int,char*)));
     emit Start();
 
     Traces::TurnOnTraces();

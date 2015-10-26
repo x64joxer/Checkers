@@ -16,18 +16,19 @@ class ServerTCP : public QObject
 
     explicit ServerTCP(QObject *parent = 0);
     bool StartLisning(const QHostAddress&,quint16);
-    void SetPeerQueue(PeerQueue *peers);
-    void SendMessage(QHostAddress ho, int po, char* data);
+    void SetPeerQueue(PeerQueue *peers);    
     ~ServerTCP();
 
     public slots:
         void Start();
+        void SendMessage(QHostAddress ho, int po, char* data);
 
     private slots:
         void newConnection();
         void newDataFromClient();
         void ConnectionError(QAbstractSocket::SocketError socketError);
         void Disconnected();
+
 
     private:
         QTcpServer *tcpServer;
