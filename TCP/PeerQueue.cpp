@@ -7,8 +7,6 @@ PeerQueue::PeerQueue()
 
 bool PeerQueue::PeerExist(QHostAddress ho, int po)
 {
-    std::lock_guard<std::mutex> guard(mutex_guard);
-
     bool flag = false;
     std::for_each(peers.begin(),peers.end(),
                   [&flag, ho, po](Peers &n){
@@ -115,30 +113,3 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
     };
 }
 
-void PeerQueue::SendMessage(QHostAddress ho, int po, char* data)
-{
-    std::lock_guard<std::mutex> guard(mutex_guard);
-
-    Peers temp;
-    bool flag = false;
-
-    Traces() << "\n" << "LOG: Start searching";
-    std::for_each(peers.begin(),peers.end(),
-                  [&flag, &temp, ho, po](Peers &n){
-                                 if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                 {
-                                    temp = n;
-                                    flag = true;
-                                 };
-                                 });
-
-    if (flag)
-    {
-        Traces() << "\n" << "LOG: Exist";
-
-        Traces() << "\n" << "LOG: Data sended to peer.";
-    } else
-    {
-        Traces() << "\n" << "ERROR: Peer not exist!";
-    };
-}
