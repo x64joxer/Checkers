@@ -7,6 +7,8 @@ PeerQueue::PeerQueue()
 
 bool PeerQueue::PeerExist(QHostAddress ho, int po)
 {
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     bool flag = false;
     std::for_each(peers.begin(),peers.end(),
                   [&flag, ho, po](Peers &n){
@@ -21,6 +23,8 @@ bool PeerQueue::PeerExist(QHostAddress ho, int po)
 
 void PeerQueue::AddPeer(QHostAddress ho, int po)
 {
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     if (!PeerExist(ho,po))
     {
         Peers temp;
@@ -35,6 +39,8 @@ void PeerQueue::AddPeer(QHostAddress ho, int po)
 
 void PeerQueue::RemovePeer(QHostAddress ho, int po)
 {
+        std::lock_guard<std::mutex> guard(mutex_guard);
+
         Peers temp;
         bool flag = false;
 
@@ -59,6 +65,8 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
 
 void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 {
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     Peers temp;
     bool flag = false;
 
@@ -83,6 +91,8 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 
 void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 {
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     Peers temp;
     bool flag = false;
 
@@ -107,6 +117,8 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 
 void PeerQueue::SendMessage(QHostAddress ho, int po, char* data)
 {
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
     Peers temp;
     bool flag = false;
 

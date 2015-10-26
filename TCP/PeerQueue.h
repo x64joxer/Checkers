@@ -3,6 +3,7 @@
 
 #include <list>
 #include <QHostAddress>
+#include <mutex>
 #include "Traces/Traces.h"
 #include "TCP/Peers.h"
 #include "TCP/ServerTCP.h"
@@ -25,6 +26,7 @@ class PeerQueue
     private:
         std::list<Peers> peers;
         ServerTCP *server;
+        std::mutex mutex_guard;
 
 };
 
