@@ -12,14 +12,15 @@ class MessageForwarder : public QObject
     public:
         explicit MessageForwarder(QObject *parent = 0);
         void SetPeerQueue(PeerQueue *wsk) { peers = wsk; }
-        void SetServer(ServerTCP *wsk) { server = wsk; }
+        void SetServer(ServerTCP *wsk) { server = wsk; }                        
+        void SendMessage(QHostAddress ho, int po, char* data);
     signals:
             void Send(QHostAddress ho, int po, char* data);
 
     public slots:
             void Start();
 
-    private:
+    private:            
             ServerTCP *server;
             PeerQueue *peers;
 };

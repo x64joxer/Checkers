@@ -6,7 +6,6 @@
 #define FUNCTION_TESTS_OFF
 
 #include <QMainWindow>
-#include <QThread>
 #include "CheckerArea.h"
 #include "Board.h"
 #include "Traces/Traces.h"
@@ -49,8 +48,7 @@ private:
         PeerQueue  peerQueue;
         MessageHandler handler;
         std::thread handlerThread;
-        MessageForwarder *messageForwarder;
-        QThread *forwarderThread;
+        MessageForwarder *messageForwarder;        
 
         void Init();
         void FillThreadsListMenu();

@@ -6,16 +6,13 @@ MessageForwarder::MessageForwarder(QObject *parent) : QObject(parent)
 }
 
 void MessageForwarder::Start()
-{
-    while(true)
-    {
-        if (!peers->Empty())
-        {
+{    
             Peers temp = peers->First();
-            emit Send(temp.GetHost(), temp.GetPort(), "Wiadomosc");
+            emit Send(temp.GetHost(), temp.GetPort(), "Wiadomosc");   
+}
 
-            break;
-        };
-    };
+void MessageForwarder::SendMessage(QHostAddress ho, int po, char* data)
+{
+    emit Send(ho,po,data);
 }
 

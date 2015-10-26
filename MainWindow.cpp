@@ -65,18 +65,15 @@ void MainWindow::Init()
     messageForwarder = new MessageForwarder();
     messageForwarder->SetServer(server);
     messageForwarder->SetPeerQueue(&peerQueue);
-    forwarderThread = new QThread(this);
-    messageForwarder->moveToThread(forwarderThread);
-    forwarderThread->start();
-    connect(this,SIGNAL(Start()),messageForwarder,SLOT(Start()));
-    connect(messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),server,SLOT(SendMessage(QHostAddress,int,char*)));
-    emit Start();
+
+    connect(messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),server,SLOT(SendMessage(QHostAddress,int,char*)));    
 
     Traces::TurnOnTraces();
 
     server->SetPeerQueue(&peerQueue);
     server->StartLisning(QHostAddress::Any,6000);
     handler.SetPeerQueue(&peerQueue);
+    handler.SetMessageForwarder(messageForwarder);
     handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
 
 }
@@ -130,8 +127,7 @@ MainWindow::~MainWindow()
     delete checkerArea;
     delete board;
     delete server;
-    delete workerTCP;
-    delete forwarderThread;
+    delete workerTCP;    
     delete ui;
 }
 
