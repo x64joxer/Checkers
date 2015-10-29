@@ -11,11 +11,10 @@
 #include "Traces/Traces.h"
 #include "Tests/PerformanceTests.h"
 #include "Tests/FunctionTests.h"
-#include "TCP/ServerTCP.h"
 #include "TCP/WorkerTCP.h"
-#include "TCP/PeerQueue.h"
 #include "TCP/MessageHandler.h"
-#include "TCP/MessageForwarder.h"
+#include "TCP/WorkerAgent.h"
+
 
 
 namespace Ui {
@@ -42,12 +41,12 @@ class MainWindow : public QMainWindow
             Ui::MainWindow *ui;
             CheckerArea *checkerArea;
             Board *board;
-            ServerTCP *server;
+
             WorkerTCP *workerTCP;
-            PeerQueue  peerQueue;
+
             MessageHandler handler;
             std::thread handlerThread;
-            MessageForwarder *messageForwarder;
+
 
             void Init();
             void FillThreadsListMenu();

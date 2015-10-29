@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     TCP/MessageHandler.cpp \
     TCP/Peers.cpp \
     TCP/PeerQueue.cpp \
-    TCP/MessageForwarder.cpp
+    TCP/MessageForwarder.cpp \
+    TCP/WorkerAgent.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -57,7 +58,8 @@ HEADERS  += MainWindow.h \
     TCP/MessageHandler.h \
     TCP/Peers.h \
     TCP/PeerQueue.h \
-    TCP/MessageForwarder.h
+    TCP/MessageForwarder.h \
+    TCP/WorkerAgent.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui

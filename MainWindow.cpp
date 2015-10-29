@@ -58,24 +58,9 @@ void MainWindow::Init()
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
 
-    server = new ServerTCP();
+    WorkerAgent::Init();
 
-    qRegisterMetaType<QHostAddress >("QHostAddress");
-
-    messageForwarder = new MessageForwarder();
-    messageForwarder->SetServer(server);
-    messageForwarder->SetPeerQueue(&peerQueue);
-
-    connect(messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),server,SLOT(SendMessage(QHostAddress,int,char*)));    
-
-    Traces::TurnOnTraces();
-
-    server->SetPeerQueue(&peerQueue);
-    server->StartLisning(QHostAddress::Any,6000);
-    handler.SetPeerQueue(&peerQueue);
-    handler.SetMessageForwarder(messageForwarder);
     handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
-
 }
 
 void MainWindow::FillThreadsListMenu()
@@ -126,7 +111,6 @@ MainWindow::~MainWindow()
 {
     delete checkerArea;
     delete board;
-    delete server;
     delete workerTCP;    
     delete ui;
 }
@@ -135,6 +119,5 @@ void MainWindow::on_actionTest_message_triggered()
 {
 
     Traces() << "\n" << "LOG: Sending data";
-    server->SendMessage(QHostAddress("::ffff:192.168.0.12"),43858,"Testmessage");
-    server->SendMessage(QHostAddress("::ffff:192.168.0.13"),48739,"Testmessage");
+
 }
