@@ -13,8 +13,8 @@ bool PeerQueue::PeerExist(QHostAddress ho, int po)
                                  if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                  {
                                    Traces() << "\n" << "LOG: Peer exist in queue.";
-                                   flag = true;
-                                 };
+                                   flag = true;                                   
+                                 };                                 
                               });
     return flag;
 }
@@ -40,18 +40,20 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
         std::lock_guard<std::mutex> guard(mutex_guard);
 
         bool flag = false;
+        Peers *wsk;
 
         std::for_each(peers.begin(),peers.end(),
-                      [&flag, this, ho, po](Peers &n){
+                      [&wsk, &flag, this, ho, po](Peers &n){
                                          if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                         {
-                                            peers.remove(n);
+                                         {                                            
+                                            wsk = &n;
                                             flag = true;
                                          };
                                      });
 
         if (flag)
         {            
+            peers.remove(*wsk);
             Traces() << "\n" << "LOG: Peer removed from queue.";
         } else
         {
