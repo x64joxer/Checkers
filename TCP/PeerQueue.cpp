@@ -69,10 +69,11 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
     bool flag = false;
 
     std::for_each(peers.begin(),peers.end(),
-                  [&flag, data, ho, po](Peers &n){
+                  [&flag, this, data, ho, po](Peers &n){
                                      if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                      {
                                         n.AddData(data);
+                                        waitingMessages.push_back(&n);
                                         flag = true;
                                      };
                                  });
@@ -87,9 +88,8 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 }
 
 void PeerQueue::GetData(QHostAddress ho, int po,char *data)
-{
+{    
     std::lock_guard<std::mutex> guard(mutex_guard);
-
     Peers temp;
     bool flag = false;
 
@@ -111,3 +111,12 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
     };
 }
 
+void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    Peers *ref = waitingMessages.front();
+    ho = ref->GetHost();
+    po = ref->GetPort();
+    ref->GetData(data);
+    waitingMessages.pop_front();
+}

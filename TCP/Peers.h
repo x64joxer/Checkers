@@ -15,7 +15,7 @@ class Peers
         QHostAddress GetHost();
         int GetPort();
         void AddData(char *dat);
-        void GetData(char *dat);        
+        void GetData(char *dat);
 
         bool operator==(const Peers &);
     private:

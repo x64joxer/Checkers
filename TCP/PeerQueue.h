@@ -23,10 +23,13 @@ class PeerQueue
         void SetServer(ServerTCP *serv) { server = serv; }
         Peers First() { return peers.front(); }
         bool Empty() { return peers.empty(); }
+        void GetFirstMessage(QHostAddress &ho, int &po,char *data);
+        bool IsWaitingmessage() { return waitingMessages.empty(); }
 
     private:
         bool PeerExist(QHostAddress ho, int po);
         std::list<Peers> peers;
+        std::list<Peers *> waitingMessages;
         ServerTCP *server;
         std::mutex mutex_guard;
 

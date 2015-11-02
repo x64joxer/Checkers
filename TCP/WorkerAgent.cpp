@@ -10,7 +10,7 @@ void WorkerAgent::Init()
     qRegisterMetaType<QHostAddress >("QHostAddress");
 
     messageForwarder.SetServer(&server);
-    messageForwarder.SetPeerQueue(&peerQueue);
+    messageForwarder.SetPeerQueue(&peerQueue);    
 
     connect(&messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),&server,SLOT(SendMessage(QHostAddress,int,char*)));
 
