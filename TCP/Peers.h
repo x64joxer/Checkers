@@ -16,6 +16,7 @@ class Peers
         int GetPort();
         void AddData(char *dat);
         void GetData(char *dat);
+        bool IsData() { return !data.empty(); }
 
         bool operator==(const Peers &);
     private:

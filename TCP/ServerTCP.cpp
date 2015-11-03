@@ -41,7 +41,7 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
 void ServerTCP::newConnection()
 {    
     QTcpSocket * tempClientConnection;
-    tempClientConnection = tcpServer->nextPendingConnection();
+    tempClientConnection = tcpServer->nextPendingConnection();    
     Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
     clientConnection.push_back(tempClientConnection);
     peerQueue->AddPeer(tempClientConnection->peerAddress(), tempClientConnection->peerPort());

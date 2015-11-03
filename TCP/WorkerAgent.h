@@ -17,7 +17,7 @@ class WorkerAgent : public QObject
         static bool Empty() { return peerQueue.Empty(); }
         static void SendMessage(QHostAddress ho, int po, char* data) { messageForwarder.SendMessage( ho, po, data); }
         static void GetFirstMessage(QHostAddress &ho, int &po,char *data) { peerQueue.GetFirstMessage(ho,po,data); }
-        bool IsWaitingmessage() { return peerQueue.IsWaitingmessage(); }
+        static bool IsWaitingMessage() { return peerQueue.IsWaitingMessage(); }
     signals:
 
     public slots:

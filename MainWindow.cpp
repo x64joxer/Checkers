@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::Init()
 {
     Traces::SetTraceFolder("trace");
+    Traces::TurnOnTraces();
 
     FillThreadsListMenu();
 

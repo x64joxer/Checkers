@@ -25,8 +25,9 @@ void Peers::AddData(char *dat)
 {
     if (strlen(dat)>0)
     {
-        char *temp = new char[strlen(dat)+1];
-        data.push_back(temp);
+        char *temp = new char[strlen(dat)+1];        
+        strcpy(temp,dat);
+        data.push_back(temp);        
     };
 }
 
@@ -36,9 +37,7 @@ void Peers::GetData(char *dat)
     {
         char *temp = data.front();
         data.pop_front();
-        dat = new char[strlen(temp)+1];
-        strcpy(dat,temp);
-        delete [] temp;
+        strcpy(dat,temp);        
     } else
     {
         Traces() << "\n" << "ERROR: No data!";
