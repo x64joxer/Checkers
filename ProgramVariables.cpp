@@ -43,6 +43,7 @@ void ProgramVariables::SetWorker(const bool flag)
 unsigned long ProgramVariables::GetSecondsSinceEpoch()
 {
     std::time_t result = std::time(nullptr);
+
     return result;
 }
 

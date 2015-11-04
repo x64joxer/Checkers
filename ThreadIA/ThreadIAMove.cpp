@@ -7,12 +7,17 @@ ThreadIAMove<QMain>::ThreadIAMove()
 }
 
 template  <unsigned long int QMain>
-void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo)
+void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, KindOfSteps stepKind)
 {
     const unsigned short maxThreads = numberOfThreads + 1;
     std::thread iaThread[maxThreads];
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
     unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;    
+
+    if (stepKind == KindOfSteps::Time)
+    {
+        numberOfSteps = numberOfStepsToDo;
+    };
 
     //Create first elements
     Board temp = *boardWsk;
@@ -46,7 +51,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
                                                 numberOfSteps,
                                                 refreshMainQueue,
                                                 i,
-                                                percentSteps
+                                                percentSteps,
+                                                stepKind
                                                 ));
 
         };
@@ -55,6 +61,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         {
             iaThread[i].join();
         };
+
+        qDebug() << "Num of elements" << queue.Size();
 
         if (numberOfThreads <2)
         {
@@ -163,7 +171,7 @@ void ThreadIAMove<QMain>::CreateFirstElements()
 {
     Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
     ThreadIATreeExpander<QMain,100> expander;
-    expander.Expand(1,100,queue,0, NULL);
+    expander.Expand(1,100,queue,0, NULL, KindOfSteps::Step);
 }
 
 template  <unsigned long int QMain>

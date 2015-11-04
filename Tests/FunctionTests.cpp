@@ -54,7 +54,7 @@ void FunctionTests::Test01()
         {
             ThreadIAMove<900000> worker;
             //Traces::TurnOffTraces();
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
             //Traces::TurnOnTraces();
         };
 
@@ -111,7 +111,7 @@ void FunctionTests::Test02()
         {
             ThreadIAMove<900000> worker;
 
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
         };
 
@@ -169,7 +169,7 @@ void FunctionTests::Test03()
         {
             ThreadIAMove<900000> worker;
 
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
         };
 
@@ -236,7 +236,7 @@ void FunctionTests::Test04()
         {
             ThreadIAMove<900000> worker;
 
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
         };
 
@@ -280,7 +280,7 @@ void FunctionTests::Test05()
 
         {
             ThreadIAMove<900000> worker;
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
         };
 
     };
@@ -317,7 +317,7 @@ void FunctionTests::Test06()
 
         {
             ThreadIAMove<900000> worker;
-            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000);
+            worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
         };
 
     };

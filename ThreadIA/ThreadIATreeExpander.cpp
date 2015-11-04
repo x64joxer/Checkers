@@ -15,9 +15,9 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander()
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps)
+void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
 {
-    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread, percentSteps);
+    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread, percentSteps, stepKind);
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
@@ -27,7 +27,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::SetMainBoardQueue(ThreadIABoardQueue<
 }
 
 template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps)
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
 {
     if (trace) Traces() << "\n" << "LOG: EXPAND START";
     if (trace) Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)";
@@ -36,7 +36,20 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
 
     queue[0] = mainBoardQueue.PopFront(threadNumber);
     if (!queue[firstQueueElement].GetNullBoard()) numberOfElements++;
-    unsigned int step = 0;
+
+    unsigned long step =0;
+    unsigned long totalStep = howManySteps;
+
+    if (stepKind == KindOfSteps::Step)
+    {
+        step = 0;
+    } else
+    if (stepKind == KindOfSteps::Time)
+    {
+        step = ProgramVariables::GetSecondsSinceEpoch();
+        howManySteps = step + howManySteps;
+    }
+
     unsigned long current;
 
     while (step < howManySteps)
@@ -61,8 +74,15 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
               ExpandWhite(queue[current], step);              
             };
 
-            if (trace) Traces() << "\n" << "LOG: step++";
-            step++;
+            if (stepKind == KindOfSteps::Step)
+            {
+                if (trace) Traces() << "\n" << "LOG: step++";
+                step++;
+            } else
+            if (stepKind == KindOfSteps::Time)
+            {
+                step = ProgramVariables::GetSecondsSinceEpoch();
+            }
 
             //Finish job
             if (step >= howManySteps) break;
@@ -96,12 +116,19 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, uns
             {
                 if (percentSteps)
                 {
-                    if (step == 0)
+                    if (stepKind == KindOfSteps::Step)
                     {
-                        *percentSteps = (step+1) / (howManySteps / 100);
+                        if (step == 0)
+                        {
+                            *percentSteps = (step+1) / (howManySteps / 100);
+                        } else
+                        {
+                            *percentSteps = step / (howManySteps / 100);
+                        }
                     } else
+                    if (stepKind == KindOfSteps::Time)
                     {
-                        *percentSteps = step / (howManySteps / 100);
+                        *percentSteps = (totalStep - (howManySteps - step)) * (100 / totalStep);
                     }
                 };
             };

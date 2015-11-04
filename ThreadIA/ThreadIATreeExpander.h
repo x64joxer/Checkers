@@ -5,16 +5,25 @@
 #include "Traces/Traces.h"
 #include "IA/IAPossibleMoves.h"
 #include "ThreadIA/ThreadIABoardQueue.h"
+#include "ProgramVariables.h"
+
+enum KindOfSteps { Time, Step };
 
 template <unsigned long int MQueue, unsigned long int sQueue>
 class ThreadIATreeExpander
 {
     public:
-       ThreadIATreeExpander();
+       ThreadIATreeExpander();       
+       void Expand(unsigned long howManySteps,
+                   unsigned int frequencyOfTransferData,
+                   ThreadIABoardQueue<MQueue> &mainBoardQueue,
+                   const unsigned short numThread,
+                   std::atomic<int> *percentSteps,
+                   KindOfSteps stepKind);
 
-       void Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps);
-       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps);
+       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind);
        void SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue);
+
     private:
        void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
        inline void AddToMainQueue(const Board &board);
