@@ -12,6 +12,7 @@ class ProgramVariables
         static void SetNumberOfThreads(const unsigned short num);
         static bool IsWorker();
         static void SetWorker(const bool flag);
+        static unsigned long GetSecondsSinceEpoch();
 
     private:
         static unsigned short InitMaxThreads();

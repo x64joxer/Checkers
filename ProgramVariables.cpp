@@ -40,6 +40,11 @@ void ProgramVariables::SetWorker(const bool flag)
     isWorker = flag;
 }
 
+unsigned long ProgramVariables::GetSecondsSinceEpoch()
+{
+    std::time_t result = std::time(nullptr);
+    return result;
+}
 
 bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
