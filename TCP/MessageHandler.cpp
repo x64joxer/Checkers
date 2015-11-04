@@ -8,11 +8,6 @@ MessageHandler::MessageHandler()
 
 void MessageHandler::Start()
 {
-   /* while (peerQueue->Empty()) {}
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-    Peers first = peerQueue->First();    
-    messageForwarder->SendMessage(first.GetHost(),first.GetPort(),"Testmessage");*/
-
      while (WorkerAgent::Empty()) {}
      std::this_thread::sleep_for(std::chrono::seconds(10));
      Peers first = WorkerAgent::First();
@@ -26,7 +21,7 @@ void MessageHandler::Start()
      {
 
      }
-    qDebug() << "\n" << "LOG: Takeing message: ";
+
     WorkerAgent::GetFirstMessage(host, port, data);
     Traces() << "\n" << "LOG: New data from worker: " << QString(data);
 

@@ -5,8 +5,3 @@ sudo apt-get update
 sudo apt-get install openssh-server
 sudo ufw allow 22
 
-==========================
-  Set autostart Checkers
-==========================
-
-sudo cp /tmp/autostartCheckers.sh /etc/init.d/;sudo cd /etc/init.d/;sudo chmod +x autostartCheckers.sh;sudo update-rc.d autostartCheckers.sh defaults 100

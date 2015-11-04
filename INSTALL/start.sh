@@ -1,9 +1,4 @@
 #!/bin/bash
-#
-# Usage: script <username> <password> <build>
-#
-# Example ./copy_logs_from_production.sh marko hubbabubba current
-#
 
 autostart_script=autostartCheckers.sh.desktop
 autostart_destination=/home/x64joxer/.config/autostart
