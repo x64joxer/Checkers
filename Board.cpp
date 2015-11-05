@@ -162,7 +162,7 @@ void Board::RemoveWhitePawn(const unsigned short number)
     eraseWhite(number);
 }
 
-PawnPos Board::GetWhitePawnPos(const unsigned short number)
+PawnPos Board::GetWhitePawnPos(const unsigned short number) const
 {
     if (number>numberOfWhite()-1)
     {
@@ -175,7 +175,7 @@ PawnPos Board::GetWhitePawnPos(const unsigned short number)
     return PawnPos(0,0);
 }
 
-PawnPos Board::GetBlackPawnPos(const unsigned short number)
+PawnPos Board::GetBlackPawnPos(const unsigned short number) const
 {
     if (number>numberOfBlack()-1)
     {        
@@ -188,7 +188,7 @@ PawnPos Board::GetBlackPawnPos(const unsigned short number)
     return PawnPos(0,0);
 }
 
-bool Board::GetWhitePawnPons(const unsigned short number)
+bool Board::GetWhitePawnPons(const unsigned short number) const
 {
     if (number>numberOfWhite()-1)
     {
@@ -201,7 +201,7 @@ bool Board::GetWhitePawnPons(const unsigned short number)
     return 0;
 }
 
-unsigned short Board::GetWhitePawnNumber(const unsigned short x, const unsigned short y)
+unsigned short Board::GetWhitePawnNumber(const unsigned short x, const unsigned short y) const
 {
     PawnPos temp;
     for (int i =0;i<GetNumberOfWhite();i++)
@@ -218,7 +218,7 @@ unsigned short Board::GetWhitePawnNumber(const unsigned short x, const unsigned 
     return 0;
 }
 
-unsigned short Board::GetBlackPawnNumber(const unsigned short x, const unsigned short y)
+unsigned short Board::GetBlackPawnNumber(const unsigned short x, const unsigned short y) const
 {
     PawnPos temp;
     for (int i =0;i<GetNumberOfBlack();i++)
@@ -235,7 +235,7 @@ unsigned short Board::GetBlackPawnNumber(const unsigned short x, const unsigned 
     return 0;
 }
 
-bool Board::GetBlackPawnPons(const unsigned short number)
+bool Board::GetBlackPawnPons(const unsigned short number) const
 {
     if (number>numberOfBlack()-1)
     {        
@@ -325,12 +325,12 @@ bool Board::IsBlackPawnOnPos(const unsigned short x, const unsigned short y)
     return 0;
 }
 
-unsigned short Board::GetNumberOfWhite()
+unsigned short Board::GetNumberOfWhite() const
 {
    return numberOfWhite();
 }
 
-unsigned short Board::GetNumberOfBlack()
+unsigned short Board::GetNumberOfBlack() const
 {
     return numberOfBlack();
 }
@@ -385,12 +385,12 @@ void Board::SetPreviousMurder(const unsigned short number)
     };
 }
 
-unsigned short Board::GetPreviousMurder()
+unsigned short Board::GetPreviousMurder() const
 {
     return previousMurder;
 }
 
-unsigned short Board::GetResult()
+unsigned short Board::GetResult() const
 {
     unsigned short result;
 
@@ -400,7 +400,7 @@ unsigned short Board::GetResult()
     return result;
 }
 
-double Board::GetPercentageResult()
+double Board::GetPercentageResult() const
 {
     Traces() << "\n" << "LOG: Board::GetPercentageResult()";
     if (numberOfWhite() == 0) return 12;
@@ -659,7 +659,7 @@ bool Board::operator !=(Board data)
     return !(*this==data);
 }
 
-unsigned short Board::numberOfWhite()
+unsigned short Board::numberOfWhite() const
 {
     unsigned short size = 0;
 
@@ -670,7 +670,7 @@ unsigned short Board::numberOfWhite()
     return size;
 }
 
-unsigned short Board::numberOfBlack()
+unsigned short Board::numberOfBlack() const
 {
     unsigned short size = 0;
 
@@ -737,7 +737,7 @@ void Board::clearBlack()
     };
 }
 
-bool Board::GetWhitePatchEnd()
+bool Board::GetWhitePatchEnd() const
 {
     Traces() << "\n" << "bool Board::GetWhitePatchEnd() " << int (whitePatchEnd);
     return whitePatchEnd;
@@ -772,7 +772,7 @@ void Board::SetOrigin(Board & data)
     data.CopyTo(origin);
 }
 
-Board Board::GetOrigin()
+Board Board::GetOrigin() const
 {
     Board temp;
     temp.CopyFrom(origin);
@@ -789,17 +789,17 @@ void Board::StartWhite()
     blackWhite = 1;
 }
 
-bool Board::Black()
+bool Board::Black() const
 {
     return !blackWhite;
 }
 
-bool Board::White()
+bool Board::White() const
 {
     return blackWhite;
 }
 
-bool Board::GetNullBoard()
+bool Board::GetNullBoard() const
 {
     return nullBoard;
 }

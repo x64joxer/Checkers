@@ -29,28 +29,28 @@ class Board
         void PutBlackBottomLeftPawn(const unsigned short number);
         void PutBlackBottomRightPawn(const unsigned short number);
 
-        PawnPos GetWhitePawnPos(const unsigned short number);
-        PawnPos GetBlackPawnPos(const unsigned short number);
+        PawnPos GetWhitePawnPos(const unsigned short number) const;
+        PawnPos GetBlackPawnPos(const unsigned short number) const;
         void RemoveBlackPawn(const unsigned short number);
         void RemoveWhitePawn(const unsigned short number);
-        unsigned short GetWhitePawnNumber(const unsigned short x, const unsigned short y);
-        unsigned short GetBlackPawnNumber(const unsigned short x, const unsigned short y);
-        bool GetWhitePawnPons(const unsigned short number);
-        bool GetBlackPawnPons(const unsigned short number);
+        unsigned short GetWhitePawnNumber(const unsigned short x, const unsigned short y) const;
+        unsigned short GetBlackPawnNumber(const unsigned short x, const unsigned short y) const;
+        bool GetWhitePawnPons(const unsigned short number) const;
+        bool GetBlackPawnPons(const unsigned short number) const;
         bool SetWhitePawnPons(const unsigned short number, const bool flag);
         bool SetBlackPawnPons(const unsigned short number, const bool flag);
         bool IsPawnOnPos(const unsigned short x, const unsigned short y);
         bool IsWhitePawnOnPos(const unsigned short x, const unsigned short y);
         bool IsBlackPawnOnPos(const unsigned short x, const unsigned short y);
-        unsigned short GetNumberOfWhite();
-        unsigned short GetNumberOfBlack();
+        unsigned short GetNumberOfWhite() const;
+        unsigned short GetNumberOfBlack() const;
         void RemovePawnFrom(const unsigned short x, const unsigned short y);
 
         void SetPreviousMurder(const unsigned short number);
-        unsigned short GetPreviousMurder();
+        unsigned short GetPreviousMurder() const;
 
-        unsigned short GetResult();
-        double GetPercentageResult();
+        unsigned short GetResult() const;
+        double GetPercentageResult() const;
         void printDebug();
 
         Board & operator =(char *);
@@ -60,20 +60,20 @@ class Board
         void CopyTo(ThreadIASimpleBoard & data);
         void CopyFrom(const ThreadIASimpleBoard & data);
         void SetOrigin(Board & data);
-        Board GetOrigin();
+        Board GetOrigin() const;
 
         void StartBlack();
         void StartWhite();
-        bool Black();
-        bool White();
-        bool GetNullBoard();
+        bool Black() const;
+        bool White() const;
+        bool GetNullBoard() const;
         void SetNullBoard(const bool flag);
-        bool GetWhitePatchEnd();
+        bool GetWhitePatchEnd() const;
         void SetWhitePatchEnd(const bool flag);
 
     private:
-        unsigned short numberOfWhite();
-        unsigned short numberOfBlack();
+        unsigned short numberOfWhite() const;
+        unsigned short numberOfBlack() const;
         void eraseWhite(unsigned short num);
         void eraseBlack(unsigned short num);
         void clearWhite();
