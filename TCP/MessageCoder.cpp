@@ -62,7 +62,7 @@ void MessageCoder::ClearChar(char *dest, const unsigned int num)
     for (unsigned int i=0;i<num;i++) dest[i] = 0;
 }
 
-void MessageCoder::BoardToChar(const Board &board, char *dest)
+void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)
 {
     KeyValuePairToChar(PREVIOUS_MURDER, board.GetPreviousMurder(), dest);
     KeyValuePairToChar(WHITE_PATCH_END, board.GetWhitePatchEnd(), dest);
@@ -71,64 +71,65 @@ void MessageCoder::BoardToChar(const Board &board, char *dest)
     //Origin
 
     Board temp = board.GetOrigin();
+    std::string prefix = std::to_string(numberOfBoard) + "_";
     PawnPos pawnPos;
     unsigned short num;
 
     num = temp.GetNumberOfBlack();
-    KeyValuePairToChar(ORIGIN_NUMBER_BLACK, num, dest);
+    KeyValuePairToChar(prefix + ORIGIN_NUMBER_BLACK, num, dest);
 
     if (num > 0)
     {
         for (unsigned short i = 0; i<num; i++)
         {
             pawnPos = temp.GetBlackPawnPos(i);
-            KeyValuePairToChar(ORIGIN_BLACK_X + std::to_string(i), pawnPos.X(), dest);
-            KeyValuePairToChar(ORIGIN_BLACK_Y + std::to_string(i), pawnPos.Y(), dest);
-            KeyValuePairToChar(ORIGIN_BLACK_PONS + std::to_string(i), temp.GetBlackPawnPons(i), dest);
+            KeyValuePairToChar(prefix + ORIGIN_BLACK_X + std::to_string(i), pawnPos.X(), dest);
+            KeyValuePairToChar(prefix + ORIGIN_BLACK_Y + std::to_string(i), pawnPos.Y(), dest);
+            KeyValuePairToChar(prefix + ORIGIN_BLACK_PONS + std::to_string(i), temp.GetBlackPawnPons(i), dest);
         }
     }
 
     num = temp.GetNumberOfWhite();
-    KeyValuePairToChar(ORIGIN_NUMBER_WHITE, num, dest);
+    KeyValuePairToChar(prefix + ORIGIN_NUMBER_WHITE, num, dest);
 
     if (num > 0)
     {
         for (unsigned short i = 0; i<12; i++)
         {
             pawnPos = temp.GetWhitePawnPos(i);
-            KeyValuePairToChar(ORIGIN_WHITE_X + std::to_string(i), pawnPos.X(), dest);
-            KeyValuePairToChar(ORIGIN_WHITE_Y + std::to_string(i), pawnPos.Y(), dest);
-            KeyValuePairToChar(ORIGIN_WHITE_PONS + std::to_string(i), temp.GetWhitePawnPons(i), dest);
+            KeyValuePairToChar(prefix + ORIGIN_WHITE_X + std::to_string(i), pawnPos.X(), dest);
+            KeyValuePairToChar(prefix + ORIGIN_WHITE_Y + std::to_string(i), pawnPos.Y(), dest);
+            KeyValuePairToChar(prefix + ORIGIN_WHITE_PONS + std::to_string(i), temp.GetWhitePawnPons(i), dest);
         }
     }
 
     //Board
 
     num = board.GetNumberOfBlack();
-    KeyValuePairToChar(NUMBER_BLACK, num, dest);
+    KeyValuePairToChar(prefix + NUMBER_BLACK, num, dest);
 
     if (num > 0)
     {
         for (unsigned short i = 0; i<num; i++)
         {
             pawnPos = board.GetBlackPawnPos(i);
-            KeyValuePairToChar(BLACK_X + std::to_string(i), pawnPos.X(), dest);
-            KeyValuePairToChar(BLACK_Y + std::to_string(i), pawnPos.Y(), dest);
-            KeyValuePairToChar(BLACK_PONS + std::to_string(i), board.GetBlackPawnPons(i), dest);
+            KeyValuePairToChar(prefix + BLACK_X + std::to_string(i), pawnPos.X(), dest);
+            KeyValuePairToChar(prefix + BLACK_Y + std::to_string(i), pawnPos.Y(), dest);
+            KeyValuePairToChar(prefix + BLACK_PONS + std::to_string(i), board.GetBlackPawnPons(i), dest);
         }
     }
 
     num = board.GetNumberOfWhite();
-    KeyValuePairToChar(NUMBER_WHITE, num, dest);
+    KeyValuePairToChar(prefix + NUMBER_WHITE, num, dest);
 
     if (num > 0)
     {
         for (unsigned short i = 0; i<12; i++)
         {
             pawnPos = board.GetWhitePawnPos(i);
-            KeyValuePairToChar(WHITE_X + std::to_string(i), pawnPos.X(), dest);
-            KeyValuePairToChar(WHITE_Y + std::to_string(i), pawnPos.Y(), dest);
-            KeyValuePairToChar(WHITE_PONS + std::to_string(i), board.GetWhitePawnPons(i), dest);
+            KeyValuePairToChar(prefix + WHITE_X + std::to_string(i), pawnPos.X(), dest);
+            KeyValuePairToChar(prefix + WHITE_Y + std::to_string(i), pawnPos.Y(), dest);
+            KeyValuePairToChar(prefix + WHITE_PONS + std::to_string(i), board.GetWhitePawnPons(i), dest);
         }
     }
 

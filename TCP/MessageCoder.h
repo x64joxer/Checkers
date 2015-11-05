@@ -18,7 +18,7 @@ class MessageCoder
         static void KeyValuePairToChar(const std::string & key, const unsigned long value, char *dest);
         static void KeyValuePairToChar(const std::string & key, const bool value, char *dest);
 
-        static void BoardToChar(const Board &board, char *dest);
+        static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
 
         static void ClearChar(char *dest, const unsigned int num);
 
