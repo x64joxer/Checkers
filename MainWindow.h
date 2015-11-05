@@ -15,6 +15,8 @@
 #include "TCP/MessageHandler.h"
 #include "TCP/WorkerAgent.h"
 
+#include "TCP/MessageCoder.h"
+
 namespace Ui {
 class MainWindow;
 }

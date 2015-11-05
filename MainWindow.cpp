@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::Init()
 {
     Traces::SetTraceFolder("trace");
-    Traces::TurnOffTraces();
+    Traces::TurnOnTraces();
 
     FillThreadsListMenu();
 
@@ -62,6 +62,18 @@ void MainWindow::Init()
     WorkerAgent::Init();
 
     handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
+
+    //Test
+    char *c = new char[2000];
+
+    MessageCoder::ClearChar(c, 2000);
+    MessageCoder::BoardToChar(*board, c);
+
+
+    Traces() << QString(c);
+
+    delete [] c;
+    //Test
 }
 
 void MainWindow::FillThreadsListMenu()
