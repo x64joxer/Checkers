@@ -89,7 +89,7 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 {    
     std::lock_guard<std::mutex> guard(mutex_guard);
-    Peers temp;
+
     bool flag = false;
 
     std::for_each(peers.begin(),peers.end(),
@@ -130,4 +130,30 @@ void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
                                         }
                                      }
                                  });
+}
+
+void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, state, ho, po](Peers &n){
+                                     if (!flag)
+                                     {
+                                         if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                         {
+                                            n.SetState(state);
+                                            flag = true;
+                                         }
+                                     }
+                                 });
+
+    if (flag)
+    {
+        Traces() << "\n" << "LOG: State set";
+    } else
+    {
+        Traces() << "\n" << "ERROR: Peer not exist!";
+    };
 }

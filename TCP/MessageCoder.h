@@ -28,6 +28,7 @@ class MessageCoder
         static void MessageToMap(const char *source, std::map<std::string, std::string> & dest);
 
         //Keys
+        static std::string ACTION;
         static std::string START_WORK;
         static std::string SET_STATE;
 

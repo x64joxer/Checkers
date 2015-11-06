@@ -170,16 +170,18 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
 
 void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest)
 {
-    KeyValuePairToChar(START_WORK, "", dest);
+    KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
 void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
 {
-    KeyValuePairToChar(SET_STATE, "", dest);
+    KeyValuePairToChar(ACTION, SET_STATE, dest);
     KeyValuePairToChar(STATE, stat, dest);
 }
+
+std::string MessageCoder::ACTION = "ACTION";
 
 std::string MessageCoder::START_WORK = "START_WORK";
 std::string MessageCoder::SET_STATE = "SET_STATE";
