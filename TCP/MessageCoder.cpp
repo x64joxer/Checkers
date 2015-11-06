@@ -16,10 +16,9 @@ void MessageCoder::KeyValuePairToChar(const std::string & key, const std::string
         dest[strlen(dest)] = 0;
 
         len = strlen(dest);
-        dest[len] = '>';
+        dest[len] = '>';       
         dest[len+1] = '<';
         dest[len+2] = 0;
-
         len = len +2;
         std::copy(value.begin(), value.end(), dest + strlen(dest));
         len = strlen(dest);
@@ -134,6 +133,17 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
     }
 
 }
+
+void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest)
+{
+    KeyValuePairToChar(START_WORK, "", dest);
+    KeyValuePairToChar(MAX_TIME, respTime, dest);
+    KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
+}
+
+std::string MessageCoder::START_WORK = "START_WORK";
+std::string MessageCoder::MAX_TIME = "MAX_TIME";
+std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
 
 std::string MessageCoder::PREVIOUS_MURDER = "PREVIOUS_MURDER";
 std::string MessageCoder::WHITE_PATCH_END = "WHITE_PATCH_END";

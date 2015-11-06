@@ -19,10 +19,15 @@ class MessageCoder
         static void KeyValuePairToChar(const std::string & key, const bool value, char *dest);
 
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
+        static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest);
 
         static void ClearChar(char *dest, const unsigned int num);
 
         //Keys
+        static std::string START_WORK;
+        static std::string MAX_TIME;
+        static std::string NUM_OF_BOARD;
+
         static std::string PREVIOUS_MURDER;
         static std::string WHITE_PATCH_END;
         static std::string  BLACK_WHITE;
