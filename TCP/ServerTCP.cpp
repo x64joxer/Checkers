@@ -31,8 +31,9 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
         if ((var->peerAddress() == ho)&&(var->peerPort() == po))
         {
             Traces() << "\n" << "LOG: Sending data to peer " << ho.toString() << ":" << po;            
-            var->write(data);
 
+            while(var->waitForBytesWritten()) {}
+            var->write(data);
             while(var->waitForBytesWritten()) {}
 
             delete [] data;

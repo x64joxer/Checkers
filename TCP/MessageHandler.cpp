@@ -8,25 +8,6 @@ MessageHandler::MessageHandler()
 
 void MessageHandler::Start()
 {
-     /*while (WorkerAgent::Empty()) {}
-     std::this_thread::sleep_for(std::chrono::seconds(10));
-     Peers first = WorkerAgent::First();
-     WorkerAgent::SendMessage(first.GetHost(),first.GetPort(),"Testmessage");
-
-     QHostAddress host;
-     int port;
-
-     char * data = new char[100];
-     while(!WorkerAgent::IsWaitingMessage())
-     {
-
-     }
-
-    WorkerAgent::GetFirstMessage(host, port, data);
-    Traces() << "\n" << "LOG: New data from worker: " << QString(data);
-
-    delete [] data;*/
-
     char * data = new char[4048];
     QHostAddress host;
     int port;
@@ -78,18 +59,22 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
         if (state == Peers::STATE::BUSY)
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
+            //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
             MessageCoder::CreateOkMessage("TestID", dest);
             WorkerAgent::SendMessage(ho, po, dest);
+            //delete [] dest IMPORTANT:: Do NOT restore this!!
         } else
         if (state == Peers::STATE::FREE)
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
+            //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
             MessageCoder::CreateOkMessage("TestID", dest);
             WorkerAgent::SendMessage(ho, po, dest);
+            //delete [] dest IMPORTANT:: Do NOT restore this!!
         } else
         {
             Traces() << "\n" << "ERR: Wrong peer state! host:" << ho.toString() << ":" << po;
