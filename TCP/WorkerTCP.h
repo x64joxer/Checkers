@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include <QTimer>
 #include "Traces/Traces.h"
+#include "TCP/MessageCoder.h"
 
 class WorkerTCP : public QObject
 {
@@ -26,10 +27,13 @@ class WorkerTCP : public QObject
         void HandleStateChange(QAbstractSocket::SocketState socketState);
 
     private:        
+        void Init();
+
         QTcpSocket *tcpSocket;
         enum state { WAITING, CONNECTED, ERROR} connection_state;
         QTimer *time;
         QString host;
+        Peers::STATE state;
         int port;
 
 };

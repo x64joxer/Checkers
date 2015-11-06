@@ -10,6 +10,13 @@ WorkerTCP::WorkerTCP(QObject *parent) : QObject(parent)
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));       
     connect(tcpSocket, SIGNAL(stateChanged(AbstractSocket::SocketState)), this, SLOT(HandleStateChange(AbstractSocket::SocketState)));
     connect(tcpSocket,SIGNAL(connected()),this,SLOT(Connected()));
+
+    Init();
+}
+
+void WorkerTCP::Init()
+{
+    state = Peers::STATE::FREE;
 }
 
 void WorkerTCP::ConnectToServer(const QString ho,  int po)
@@ -32,8 +39,13 @@ void WorkerTCP::Connected()
 {
     Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
 
-    //char * temp = "czesc";
-   // tcpSocket->write(temp);
+    char * temp = new char[100];
+
+    MessageCoder::ClearChar(temp, 100);
+    MessageCoder::CreateStateMessage(state, temp);
+
+    tcpSocket->write(temp);
+    delete [] temp;
 }
 
 void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
