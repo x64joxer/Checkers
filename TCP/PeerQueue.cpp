@@ -8,13 +8,17 @@ PeerQueue::PeerQueue()
 bool PeerQueue::PeerExist(QHostAddress ho, int po)
 {
     bool flag = false;
+
     std::for_each(peers.begin(),peers.end(),
                   [&flag, ho, po](Peers &n){
-                                 if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                 if (!flag)
                                  {
-                                   Traces() << "\n" << "LOG: Peer exist in queue.";
-                                   flag = true;                                   
-                                 };                                 
+                                     if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                     {
+                                       Traces() << "\n" << "LOG: Peer exist in queue.";
+                                       flag = true;
+                                     }
+                                 }
                               });
     return flag;
 }
@@ -28,6 +32,7 @@ void PeerQueue::AddPeer(QHostAddress ho, int po)
         Peers temp;
         temp.SetPeer(ho,po);
         peers.push_back(temp);
+
         Traces() << "\n" << "LOG: Peer added to queue.";
     } else
     {
@@ -44,11 +49,14 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
 
         std::for_each(peers.begin(),peers.end(),
                       [&wsk, &flag, this, ho, po](Peers &n){
-                                         if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                         {                                            
-                                            wsk = &n;
-                                            flag = true;
-                                         };
+                                         if (!flag)
+                                         {
+                                             if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                             {
+                                                wsk = &n;
+                                                flag = true;
+                                             }
+                                         }
                                      });
 
         if (flag)
@@ -64,17 +72,19 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
 void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
-
     bool flag = false;
 
     std::for_each(peers.begin(),peers.end(),
                   [&flag, this, data, ho, po](Peers &n){
-                                     if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                     if (!flag)
                                      {
-                                        n.AddData(data);
-                                        waitingMessages++;
-                                        flag = true;
-                                     };
+                                         if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                         {
+                                            n.AddData(data);
+                                            waitingMessages++;
+                                            flag = true;
+                                         }
+                                     }
                                  });
 
     if (flag)
@@ -94,11 +104,14 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 
     std::for_each(peers.begin(),peers.end(),
                   [&flag, data, ho, po](Peers &n){
-                                     if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                     if (!flag)
                                      {
-                                        n.GetData(data);
-                                        flag = true;
-                                     };
+                                         if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                         {
+                                            n.GetData(data);
+                                            flag = true;
+                                         }
+                                     }
                                  });
 
     if (flag)
@@ -113,22 +126,21 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
-
     bool flag = false;
 
     std::for_each(peers.begin(),peers.end(),
                   [&flag, this, &data, &ho, &po](Peers &n){
-                                     if (n.IsData())
-                                     {
                                         if (!flag)
                                         {
-                                            flag = true;
-                                            n.GetData(data);                                            
-                                            ho = n.GetHost();
-                                            po = n.GetPort();
-                                            waitingMessages--;
-                                        }
-                                     }
+                                            if (n.IsData())
+                                            {
+                                                flag = true;
+                                                n.GetData(data);
+                                                ho = n.GetHost();
+                                                po = n.GetPort();
+                                                waitingMessages--;
+                                            }
+                                       }
                                  });
 }
 
