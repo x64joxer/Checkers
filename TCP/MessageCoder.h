@@ -22,6 +22,7 @@ class MessageCoder
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
         static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest);
         static void CreateStateMessage(Peers::STATE stat, char *dest);
+        static void CreateOkMessage(const std::string id, char *dest);
 
         static void ClearChar(char *dest, const unsigned int num);
 
@@ -29,6 +30,7 @@ class MessageCoder
 
         //Keys
         static std::string ACTION;
+        static std::string OK;
         static std::string START_WORK;
         static std::string SET_STATE;
 

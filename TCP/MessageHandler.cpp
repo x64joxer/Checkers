@@ -61,7 +61,7 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
     }
     catch (std::out_of_range)
     {
-        Traces() << "\n" << "ERR: Protocol error!";
+        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
     }
 }
 
@@ -78,17 +78,25 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
         if (state == Peers::STATE::BUSY)
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
+            char *dest = new char[4048];
+            MessageCoder::ClearChar(dest,4048);
+            MessageCoder::CreateOkMessage("TestID", dest);
+            WorkerAgent::SendMessage(ho, po, dest);
         } else
         if (state == Peers::STATE::FREE)
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
+            char *dest = new char[4048];
+            MessageCoder::ClearChar(dest,4048);
+            MessageCoder::CreateOkMessage("TestID", dest);
+            WorkerAgent::SendMessage(ho, po, dest);
         } else
         {
-            Traces() << "\n" << "ERR: Wrong peer state!";
+            Traces() << "\n" << "ERR: Wrong peer state! host:" << ho.toString() << ":" << po;
         }
     }
     catch (std::out_of_range)
     {
-        Traces() << "\n" << "ERR: Protocol error!";
+        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
     }
 }

@@ -11,8 +11,8 @@ void MessageForwarder::Start()
             emit Send(temp.GetHost(), temp.GetPort(), "Wiadomosc");   
 }
 
-void MessageForwarder::SendMessage(QHostAddress ho, int po, char* data)
-{
+void MessageForwarder::SendMessage(const QHostAddress ho, const int po, char* data)
+{    
     emit Send(ho,po,data);
 }
 

@@ -2,8 +2,8 @@
 
 ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
 {
-    peerQueue = NULL;
-    tcpServer = new QTcpServer(this);
+    peerQueue = NULL;    
+    tcpServer = new QTcpServer(this);    
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 }
 
@@ -30,12 +30,15 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
     {        
         if ((var->peerAddress() == ho)&&(var->peerPort() == po))
         {
-            Traces() << "\n" << "LOG: Sending data to peer " << ho.toString() << ":" << po;
+            Traces() << "\n" << "LOG: Sending data to peer " << ho.toString() << ":" << po;            
             var->write(data);
+
+            while(var->waitForBytesWritten()) {}
+
+            delete [] data;
             break;
         }
     }
-
 }
 
 void ServerTCP::newConnection()
@@ -43,7 +46,7 @@ void ServerTCP::newConnection()
     QTcpSocket * tempClientConnection;
     tempClientConnection = tcpServer->nextPendingConnection();    
     Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
-    clientConnection.push_back(tempClientConnection);
+    clientConnection.push_back(tempClientConnection);    
     peerQueue->AddPeer(tempClientConnection->peerAddress(), tempClientConnection->peerPort());
 
     connect(tempClientConnection,SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
@@ -76,7 +79,7 @@ void ServerTCP::Disconnected()
             Traces() << "\n" << "LOG: Worker disconnected :" << var->peerAddress().toString() << ":" << var->peerPort();
             clientConnection.removeOne(var);
             peerQueue->RemovePeer(var->peerAddress(), var->peerPort());
-            var->deleteLater();
+            var->deleteLater();            
             break;
         }
     }
@@ -89,7 +92,7 @@ void ServerTCP::newDataFromClient()
     foreach (QTcpSocket *var, clientConnection)
     {
         if (var->bytesAvailable()>0)
-        {            
+        {                        
             var->read(data,var->bytesAvailable());
             Traces() << "\n" << "LOG: Data from worker " << var->peerAddress().toString() << ":" << var->peerPort() << ":" << QString(data);
             peerQueue->AddData(var->peerAddress(),var->peerPort(),data);

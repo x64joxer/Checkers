@@ -15,7 +15,7 @@ class MessageForwarder : public QObject
         void SetServer(ServerTCP *wsk) { server = wsk; }                        
         void SendMessage(QHostAddress ho, int po, char* data);
     signals:
-            void Send(QHostAddress ho, int po, char* data);
+            void Send(const QHostAddress ho, const int po, char* data);
 
     public slots:
             void Start();
