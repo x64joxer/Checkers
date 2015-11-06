@@ -25,6 +25,8 @@ class MessageCoder
 
         static void ClearChar(char *dest, const unsigned int num);
 
+        static void MessageToMap(const char *source, std::map<std::string, std::string> & dest);
+
         //Keys
         static std::string START_WORK;
         static std::string SET_STATE;

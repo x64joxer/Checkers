@@ -61,6 +61,40 @@ void MessageCoder::ClearChar(char *dest, const unsigned int num)
     for (unsigned int i=0;i<num;i++) dest[i] = 0;
 }
 
+void MessageCoder::MessageToMap(const char *source, std::map<std::string, std::string> & dest)
+{
+    unsigned int i = 0;
+    unsigned int begin;
+    unsigned int end;
+    unsigned int begin_val;
+    unsigned int end_val;
+    bool key = false;
+
+    while (source[i] != 0)
+    {
+        if (!key)
+        {
+            if (source[i] == '<') begin = i;
+            if (source[i] == '>')
+            {
+                end = i;
+                key = true;
+            };
+        } else
+        {
+            if (source[i] == '<') begin_val = i;
+            if (source[i] == '>')
+            {
+                end_val = i;
+                key = false;
+                dest[std::string(source + begin + 1, source + end)] = std::string(source + begin_val + 1, source + end_val);
+            };
+        }
+
+        i++;
+    };
+}
+
 void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)
 {
     KeyValuePairToChar(PREVIOUS_MURDER, board.GetPreviousMurder(), dest);
