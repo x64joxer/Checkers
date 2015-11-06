@@ -141,9 +141,18 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
+void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
+{
+    KeyValuePairToChar(SET_STATE, "", dest);
+    KeyValuePairToChar(STATE, stat, dest);
+}
+
 std::string MessageCoder::START_WORK = "START_WORK";
+std::string MessageCoder::SET_STATE = "SET_STATE";
+
 std::string MessageCoder::MAX_TIME = "MAX_TIME";
 std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
+std::string MessageCoder::STATE =  "STATE";
 
 std::string MessageCoder::PREVIOUS_MURDER = "PREVIOUS_MURDER";
 std::string MessageCoder::WHITE_PATCH_END = "WHITE_PATCH_END";

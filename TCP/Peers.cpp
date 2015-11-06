@@ -44,6 +44,16 @@ void Peers::GetData(char *dat)
     };
 }
 
+Peers::STATE Peers::GetState() const
+{
+    return state;
+}
+
+void Peers::SetState(const STATE val)
+{
+    state = val;
+}
+
 bool Peers::operator==(const Peers &data)
 {
     if ((host == data.host)&&(port==data.port)) return true;

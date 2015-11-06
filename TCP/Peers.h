@@ -7,6 +7,8 @@
 #include <string>
 #include "Traces/Traces.h"
 
+
+
 class Peers
 {
     public:
@@ -18,8 +20,16 @@ class Peers
         void GetData(char *dat);
         bool IsData() { return !data.empty(); }
 
+        enum  STATE { BUSY, FREE };
+
+        STATE GetState() const;
+        void SetState(const STATE val);
+
         bool operator==(const Peers &);
+
     private:
+
+        STATE state;
         QHostAddress host;
         int port;
         std::list<char*> data;

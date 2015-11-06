@@ -4,6 +4,7 @@
 #include "Traces/Traces.h"
 #include "Board.h"
 #include "PawnPos.h"
+#include "Peers.h"
 
 class MessageCoder
 {
@@ -20,13 +21,17 @@ class MessageCoder
 
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
         static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest);
+        static void CreateStateMessage(Peers::STATE stat, char *dest);
 
         static void ClearChar(char *dest, const unsigned int num);
 
         //Keys
         static std::string START_WORK;
+        static std::string SET_STATE;
+
         static std::string MAX_TIME;
         static std::string NUM_OF_BOARD;
+        static std::string STATE;
 
         static std::string PREVIOUS_MURDER;
         static std::string WHITE_PATCH_END;
