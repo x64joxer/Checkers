@@ -26,6 +26,13 @@ Board ThreadIABoardQueue<size>::First()
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
 
+    if (Empty())
+    {
+        Board temp;
+        temp.SetNullBoard(true);
+        return temp;
+    }
+
     return queue[first];
 }
 
