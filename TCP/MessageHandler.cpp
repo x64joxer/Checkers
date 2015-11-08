@@ -32,7 +32,13 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
+            if (peerQueue->GetFreeStateNumber() > 0)
+            {
+                if (boardQueue->Size() > 0)
+                {
 
+                }
+            }
         }
     }
 

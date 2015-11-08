@@ -146,6 +146,25 @@ void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
                                  });
 }
 
+void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, this, &ho, &po](Peers &n){
+                                        if (!flag)
+                                        {
+                                            if (n.GetState() == Peers::STATE::FREE)
+                                            {
+                                                flag = true;
+                                                ho = n.GetHost();
+                                                po = n.GetPort();
+                                            }
+                                       }
+                                 });
+}
+
 void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
