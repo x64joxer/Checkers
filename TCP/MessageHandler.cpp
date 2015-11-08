@@ -32,10 +32,29 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
-            if (peerQueue->GetFreeStateNumber() > 0)
-            {
+            Traces() << "\n" << "LOG: Tryning share jobs";
+
+            if (WorkerAgent::GetFreeStateNumber() > 0)
+            {                
                 if (boardQueue->Size() > 0)
-                {
+                {                    
+                    QHostAddress ho;
+                    int po;
+                    WorkerAgent::GetFirstFreePeers(ho, po);
+
+                    Traces() << "\n" << "LOG: Take first board";
+                    Board board = boardQueue->First();
+
+                    if (!board.GetNullBoard())
+                    {
+                        char *data = new char[4048];
+
+                        MessageCoder::ClearChar(data, 4048);
+                        MessageCoder::CreateStartMessage(10, 1, data);                        
+                        MessageCoder::BoardToChar(board, data, 0);
+                        WorkerAgent::SendMessage(ho, po, data);                        
+                        WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);                        
+                    }
 
                 }
             }

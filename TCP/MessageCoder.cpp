@@ -97,6 +97,7 @@ void MessageCoder::MessageToMap(const char *source, std::map<std::string, std::s
 
 void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)
 {
+    Traces() << "\n" << "LOG: MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)";    
     KeyValuePairToChar(PREVIOUS_MURDER, board.GetPreviousMurder(), dest);
     KeyValuePairToChar(WHITE_PATCH_END, board.GetWhitePatchEnd(), dest);
     KeyValuePairToChar(BLACK_WHITE, board.Black(), dest);
@@ -136,18 +137,21 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
         }
     }
 
+
     //Board
 
     num = board.GetNumberOfBlack();
     KeyValuePairToChar(prefix + NUMBER_BLACK, num, dest);
 
+    board.printDebug();
+
     if (num > 0)
     {
         for (unsigned short i = 0; i<num; i++)
-        {
+        {            
             pawnPos = board.GetBlackPawnPos(i);
-            KeyValuePairToChar(prefix + BLACK_X + std::to_string(i), pawnPos.X(), dest);
-            KeyValuePairToChar(prefix + BLACK_Y + std::to_string(i), pawnPos.Y(), dest);
+            KeyValuePairToChar(prefix + BLACK_X + std::to_string(i), pawnPos.X(), dest);            
+            KeyValuePairToChar(prefix + BLACK_Y + std::to_string(i), pawnPos.Y(), dest);           
             KeyValuePairToChar(prefix + BLACK_PONS + std::to_string(i), board.GetBlackPawnPons(i), dest);
         }
     }

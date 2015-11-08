@@ -37,6 +37,30 @@ Board ThreadIABoardQueue<size>::First()
 }
 
 template <unsigned long int size>
+Board ThreadIABoardQueue<size>::PopFirst()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+
+    if (Empty())
+    {
+        Board temp;
+        temp.SetNullBoard(true);
+        return temp;
+    }
+
+    Board temp = queue[first];
+
+    first++;
+    if (first==size)
+    {
+     first = 0;
+    };
+    numberOfElements--;
+
+    return temp;
+}
+
+template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 {    
     Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    
@@ -278,9 +302,10 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
 template <unsigned long int size>
 unsigned long int ThreadIABoardQueue<size>::Size()
 {
+    Traces() << "\n" << "LOG: ThreadIABoardQueue<size>::Size()";
+
     std::lock_guard<std::mutex> guard(mutex_guard);
     return numberOfElements;
-
 }
 
 template <unsigned long int size>

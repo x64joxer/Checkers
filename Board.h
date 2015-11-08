@@ -40,8 +40,8 @@ class Board
         bool SetWhitePawnPons(const unsigned short number, const bool flag);
         bool SetBlackPawnPons(const unsigned short number, const bool flag);
         bool IsPawnOnPos(const unsigned short x, const unsigned short y);
-        bool IsWhitePawnOnPos(const unsigned short x, const unsigned short y);
-        bool IsBlackPawnOnPos(const unsigned short x, const unsigned short y);
+        bool IsWhitePawnOnPos(const unsigned short x, const unsigned short y) const;
+        bool IsBlackPawnOnPos(const unsigned short x, const unsigned short y) const;
         unsigned short GetNumberOfWhite() const;
         unsigned short GetNumberOfBlack() const;
         void RemovePawnFrom(const unsigned short x, const unsigned short y);
@@ -51,7 +51,7 @@ class Board
 
         unsigned short GetResult() const;
         double GetPercentageResult() const;
-        void printDebug();
+        void printDebug() const;
 
         Board & operator =(char *);
         Board & operator =(std::string);

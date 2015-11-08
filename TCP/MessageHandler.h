@@ -15,8 +15,7 @@ class MessageHandler
 {
     public:
         MessageHandler();        
-        void Start();
-        void SetPeerQueue(PeerQueue *wsk) { peerQueue = wsk; }
+        void Start();        
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);
         void StartSharing() { shareJobs = true; }
@@ -26,8 +25,6 @@ class MessageHandler
         void MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
         void TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
 
-
-        PeerQueue *peerQueue;
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<900000> *boardQueue;
         std::atomic<bool> shareJobs;

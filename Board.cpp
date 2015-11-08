@@ -299,7 +299,7 @@ bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
     return 0;
 }
 
-bool Board::IsWhitePawnOnPos(const unsigned short x, const unsigned short y)
+bool Board::IsWhitePawnOnPos(const unsigned short x, const unsigned short y) const
 {
     for (unsigned short i=0;i <numberOfWhite();i++)
     {
@@ -312,7 +312,7 @@ bool Board::IsWhitePawnOnPos(const unsigned short x, const unsigned short y)
     return 0;
 }
 
-bool Board::IsBlackPawnOnPos(const unsigned short x, const unsigned short y)
+bool Board::IsBlackPawnOnPos(const unsigned short x, const unsigned short y) const
 {
     for (unsigned short i=0;i <numberOfBlack();i++)
     {
@@ -409,7 +409,7 @@ double Board::GetPercentageResult() const
     return (double)numberOfBlack() / (double)numberOfWhite();
 }
 
-void Board::printDebug()
+void Board::printDebug() const
 {
     QString line;
     bool flag = 0;

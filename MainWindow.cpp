@@ -58,6 +58,7 @@ void MainWindow::Init()
 
     checkerArea = new CheckerArea(this);
     checkerArea->SetBoard(board);
+    checkerArea->SetMessageHandler(&handler);
 
     WorkerAgent::Init();
 
