@@ -24,6 +24,7 @@ class PeerQueue
         bool Empty() { return peers.empty(); }
         void GetFirstMessage(QHostAddress &ho, int &po,char *data);
         bool IsWaitingMessage() { if (waitingMessages>0) { return 1; } return 0; }
+        unsigned int GetFreeStateNumber() { std::lock_guard<std::mutex> guard(mutex_guard); return freePeers; }
 
         void SetState(const QHostAddress ho, const int po, const Peers::STATE state);
 
