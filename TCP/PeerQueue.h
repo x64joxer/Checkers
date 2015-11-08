@@ -1,12 +1,13 @@
 #ifndef PEERQUEUE_H
 #define PEERQUEUE_H
 
-#include <list>
 #include <QHostAddress>
 #include <mutex>
+#include <list>
 #include "Traces/Traces.h"
 #include "TCP/Peers.h"
 #include "TCP/ServerTCP.h"
+#include "TCP/Peers.h"
 
 class ServerTCP;
 
@@ -33,6 +34,7 @@ class PeerQueue
         unsigned int waitingMessages;
         ServerTCP *server;
         std::mutex mutex_guard;
+        unsigned int freePeers;
 
 };
 

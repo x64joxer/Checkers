@@ -1,6 +1,7 @@
 #include "TCP/PeerQueue.h"
 
 PeerQueue::PeerQueue()
+          : freePeers(0)
 {
     server = NULL;
 }
@@ -52,8 +53,9 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
                                          if (!flag)
                                          {
                                              if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                             {
+                                             {                                                 
                                                 wsk = &n;
+                                                if (n.GetState() == Peers::STATE::FREE) freePeers--;
                                                 flag = true;
                                              }
                                          }
@@ -150,13 +152,15 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
     bool flag = false;
 
     std::for_each(peers.begin(),peers.end(),
-                  [&flag, state, ho, po](Peers &n){
+                  [&flag, this, state, ho, po](Peers &n){
                                      if (!flag)
                                      {
                                          if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                          {
                                             n.SetState(state);
-                                            flag = true;
+
+                                            if (state == Peers::STATE::FREE) freePeers++;
+                                            flag = true;                                            
                                          }
                                      }
                                  });
