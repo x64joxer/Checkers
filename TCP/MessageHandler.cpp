@@ -1,10 +1,16 @@
 #include "TCP/MessageHandler.h"
 
 MessageHandler::MessageHandler()
+               : boardQueue(nullptr),
+                 shareJobs(false)
 {
 
 }
 
+void MessageHandler::SetBoardQueue(ThreadIABoardQueue<900000> *wsk)
+{
+    boardQueue = wsk;
+}
 
 void MessageHandler::Start()
 {
@@ -21,6 +27,12 @@ void MessageHandler::Start()
             WorkerAgent::GetFirstMessage(host, port, data);
             MessageCoder::MessageToMap(data, recMessage);
             MessageInterpreting(host, port, recMessage);
+        }
+
+        //Share jobs
+        if (shareJobs)
+        {
+
         }
     }
 

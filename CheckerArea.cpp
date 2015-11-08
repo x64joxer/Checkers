@@ -30,6 +30,8 @@ CheckerArea::CheckerArea(QWidget *parent) :
     waitForIATimer = new QTimer();
     waitForIATimer->setInterval(50);
     connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));        
+
+    messageHandler = nullptr;
 }
 
 //███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
@@ -55,6 +57,11 @@ void CheckerArea::Paint()
 void CheckerArea::SetBoard(Board *wsk)
 {
     board = wsk;
+}
+
+void CheckerArea::SetMessageHandler(MessageHandler *wsk)
+{
+    messageHandler = wsk;
 }
 
 void CheckerArea::PaintFields(QPainter *painter)
@@ -225,7 +232,9 @@ void CheckerArea::StartThinking()
     endIaJobFlag = false;
     displayedBoard = 0;
     repaint();    
-    Board copy = *board;    
+    Board copy = *board;        
+
+    jobExpander2.SetMessageHandler(messageHandler);
 
     bool temp = Traces::GetTraceFlag();
     Traces::TurnOnTraces();

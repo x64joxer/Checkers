@@ -7,12 +7,19 @@ ThreadIAMove<QMain>::ThreadIAMove()
 }
 
 template  <unsigned long int QMain>
+void ThreadIAMove<QMain>::SetMessageHandler(MessageHandler *wsk)
+{
+    messageHandler = wsk;
+}
+
+template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, KindOfSteps stepKind)
 {
     const unsigned short maxThreads = numberOfThreads + 1;
     std::thread iaThread[maxThreads];
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
     unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;    
+    messageHandler->SetBoardQueue(&queue);
 
     if (stepKind == KindOfSteps::Time)
     {
@@ -42,6 +49,9 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         //Set origin to all
         SetOriginToAll();
 
+        //Start sharing jobs
+        messageHandler->StartSharing();
+
         //Start threads
         for (unsigned short i=1;i<=numberOfThreads;i++)
         {
@@ -61,6 +71,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         {
             iaThread[i].join();
         };
+
+        messageHandler->StopSharing();
 
         qDebug() << "Num of elements" << queue.Size();
 
@@ -163,6 +175,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         *flag = true;        
     };
+
    Traces::RemoveThreadID();
 }
 

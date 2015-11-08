@@ -14,6 +14,7 @@
 #include "ThreadIA/ThreadIAMove.h"
 #include "ThreadIA/ThreadIAMove.cpp"
 #include "ProgramVariables.h"
+#include "TCP/MessageHandler.h"
 
 namespace Ui {
 class CheckerArea;
@@ -26,6 +27,7 @@ class CheckerArea : public QWidget
     public:
         explicit CheckerArea(QWidget *parent = 0);
         void SetBoard(Board *wsk);
+        void SetMessageHandler(MessageHandler *wsk);
         ~CheckerArea();
 
     private:
@@ -51,6 +53,7 @@ class CheckerArea : public QWidget
         std::atomic_bool endIaJobFlag;
         std::atomic<int> currentPercentOfSteps;
         ThreadIAMove<900000> jobExpander2;
+        MessageHandler * messageHandler;
 
         QTimer *waitForIATimer;
 
