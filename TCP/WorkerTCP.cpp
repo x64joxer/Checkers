@@ -44,7 +44,10 @@ void WorkerTCP::Connected()
     MessageCoder::ClearChar(temp, 100);
     MessageCoder::CreateStateMessage(state, temp);
 
+    while (tcpSocket->waitForBytesWritten()) {}
     tcpSocket->write(temp);
+    while (tcpSocket->waitForBytesWritten()) {}
+
     delete [] temp;
 }
 
