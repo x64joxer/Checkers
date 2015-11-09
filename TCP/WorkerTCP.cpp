@@ -87,15 +87,17 @@ void WorkerTCP::ReadDataFromServer()
 {    
     char *data  = new char[tcpSocket->bytesAvailable()];
 
-
-
     tcpSocket->read(data,tcpSocket->bytesAvailable());
-    Traces() << "\n" << "LOG: New data from server: " << QString(data);    
+    Traces() << "\n" << "LOG: New data from server: " << QString(data);
+
+    std::map<std::string, std::string> recMessage;
+    MessageCoder::MessageToMap(data, recMessage);
+    MessageInterpreting(recMessage);
 
     delete [] data;
 }
 
-void WorkerTCP::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> data)
 {
     Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
 
@@ -105,7 +107,7 @@ void WorkerTCP::MessageInterpreting(const QHostAddress ho, const int po, const s
 
         if (action == MessageCoder::START_WORK)
         {
-            TakeStartWork(ho, po, data);
+            TakeStartWork(data);
         } else
         if (action == MessageCoder::OK)
         {
@@ -114,19 +116,17 @@ void WorkerTCP::MessageInterpreting(const QHostAddress ho, const int po, const s
     }
     catch (std::out_of_range)
     {
-        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+        Traces() << "\n" << "ERR: Protocol error!";
     }
 }
 
-void WorkerTCP::TakeStartWork(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 {
     Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
 
     try
     {
         {
-
-
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
             MessageCoder::CreateOkMessage("TestID", dest);
@@ -139,7 +139,7 @@ void WorkerTCP::TakeStartWork(const QHostAddress ho, const int po, const std::ma
     }
     catch (std::out_of_range)
     {
-        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+        Traces() << "\n" << "ERR: Protocol error!";
     }
 }
 

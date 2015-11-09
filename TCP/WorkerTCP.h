@@ -25,9 +25,9 @@ class WorkerTCP : public QObject
         void ConnectionError(QAbstractSocket::SocketError socketError);
         void Connected();
         void HandleStateChange(QAbstractSocket::SocketState socketState);
-        void MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
+        void MessageInterpreting(const std::map<std::string, std::string> data);
 
-        void TakeStartWork(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
+        void TakeStartWork(const std::map<std::string, std::string> data);
 
     private:        
         void Init();
