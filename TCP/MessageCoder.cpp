@@ -174,98 +174,104 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
 
 void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, Board *board)
 {
-    board->SetPreviousMurder(atoi(dest.at(PREVIOUS_MURDER).c_str()));
-    board->SetWhitePatchEnd(atoi(dest.at(WHITE_PATCH_END).c_str()));
-
-    if (atoi(dest.at(BLACK_WHITE).c_str()) == 0)
+    try
     {
-        board->StartBlack();
-    } else
-    {
-        board->StartWhite();
-    }
+        board->SetPreviousMurder(atoi(dest.at(PREVIOUS_MURDER).c_str()));
+        board->SetWhitePatchEnd(atoi(dest.at(WHITE_PATCH_END).c_str()));
 
-    Board origin;
-    std::string prefix = "0_";
-
-    std::string temp;
-    std::string tempX;
-    std::string tempY;
-    std::string tempPons;    
-
-    temp = dest.at(prefix + ORIGIN_NUMBER_BLACK);
-    unsigned short numBlack = atoi(temp.c_str());
-    temp = dest.at(prefix + ORIGIN_NUMBER_WHITE);
-    unsigned short numWhite = atoi(temp.c_str());
-
-    if (numBlack > 0)
-    {
-        for (unsigned short i = 0; i<numBlack; i++)
+        if (atoi(dest.at(BLACK_WHITE).c_str()) == 0)
         {
-            tempX = dest.at(prefix + ORIGIN_BLACK_X + std::to_string(i));
-            tempY = dest.at(prefix + ORIGIN_BLACK_Y + std::to_string(i));
-            tempPons = dest.at(prefix + ORIGIN_BLACK_PONS + std::to_string(i));
+            board->StartBlack();
+        } else
+        {
+            board->StartWhite();
+        }
 
-            origin.AddBlackPawn(atoi(tempX.c_str()),
-                                atoi(tempY.c_str()),
-                                0,
-                                atoi(tempPons.c_str()));            
+        Board origin;
+        std::string prefix = "0_";
+
+        std::string temp;
+        std::string tempX;
+        std::string tempY;
+        std::string tempPons;
+
+        temp = dest.at(prefix + ORIGIN_NUMBER_BLACK);
+        unsigned short numBlack = atoi(temp.c_str());
+        temp = dest.at(prefix + ORIGIN_NUMBER_WHITE);
+        unsigned short numWhite = atoi(temp.c_str());
+
+        if (numBlack > 0)
+        {
+            for (unsigned short i = 0; i<numBlack; i++)
+            {
+                tempX = dest.at(prefix + ORIGIN_BLACK_X + std::to_string(i));
+                tempY = dest.at(prefix + ORIGIN_BLACK_Y + std::to_string(i));
+                tempPons = dest.at(prefix + ORIGIN_BLACK_PONS + std::to_string(i));
+
+                origin.AddBlackPawn(atoi(tempX.c_str()),
+                                    atoi(tempY.c_str()),
+                                    0,
+                                    atoi(tempPons.c_str()));
+            }
+        }
+
+
+        if (numWhite > 0)
+        {
+            for (unsigned short i = 0; i<numWhite; i++)
+            {
+                tempX = dest.at(prefix + ORIGIN_WHITE_X + std::to_string(i));
+                tempY = dest.at(prefix + ORIGIN_WHITE_Y + std::to_string(i));
+                tempPons = dest.at(prefix + ORIGIN_WHITE_PONS + std::to_string(i));
+
+                origin.AddWhitePawn(atoi(tempX.c_str()),
+                                    atoi(tempY.c_str()),
+                                    0,
+                                    atoi(tempPons.c_str()));
+            }
+        }
+
+        board->SetOrigin(origin);
+
+        temp = dest.at(prefix + NUMBER_BLACK);
+        numBlack = atoi(temp.c_str());
+        temp = dest.at(prefix + NUMBER_WHITE);
+        numWhite = atoi(temp.c_str());
+
+        if (numBlack > 0)
+        {
+            for (unsigned short i = 0; i<numBlack; i++)
+            {
+                tempX = dest.at(prefix + BLACK_X + std::to_string(i));
+                tempY = dest.at(prefix + BLACK_Y + std::to_string(i));
+                tempPons = dest.at(prefix + BLACK_PONS + std::to_string(i));
+
+                board->AddBlackPawn(atoi(tempX.c_str()),
+                                    atoi(tempY.c_str()),
+                                    0,
+                                    atoi(tempPons.c_str()));
+            }
+        }
+
+        if (numWhite > 0)
+        {
+            for (unsigned short i = 0; i<numWhite; i++)
+            {
+                tempX = dest.at(prefix + WHITE_X + std::to_string(i));
+                tempY = dest.at(prefix + WHITE_Y + std::to_string(i));
+                tempPons = dest.at(prefix + WHITE_PONS + std::to_string(i));
+
+                board->AddWhitePawn(atoi(tempX.c_str()),
+                                    atoi(tempY.c_str()),
+                                    0,
+                                    atoi(tempPons.c_str()));
+            }
         }
     }
-
-
-    if (numWhite > 0)
+    catch (std::out_of_range)
     {
-        for (unsigned short i = 0; i<numWhite; i++)
-        {
-            tempX = dest.at(prefix + ORIGIN_WHITE_X + std::to_string(i));
-            tempY = dest.at(prefix + ORIGIN_WHITE_Y + std::to_string(i));
-            tempPons = dest.at(prefix + ORIGIN_WHITE_PONS + std::to_string(i));
-
-            origin.AddWhitePawn(atoi(tempX.c_str()),
-                                atoi(tempY.c_str()),
-                                0,
-                                atoi(tempPons.c_str()));
-        }
+        throw;
     }
-
-    board->SetOrigin(origin);
-
-    temp = dest.at(prefix + NUMBER_BLACK);
-    numBlack = atoi(temp.c_str());
-    temp = dest.at(prefix + NUMBER_WHITE);
-    numWhite = atoi(temp.c_str());
-
-    if (numBlack > 0)
-    {
-        for (unsigned short i = 0; i<numBlack; i++)
-        {
-            tempX = dest.at(prefix + BLACK_X + std::to_string(i));
-            tempY = dest.at(prefix + BLACK_Y + std::to_string(i));
-            tempPons = dest.at(prefix + BLACK_PONS + std::to_string(i));
-
-            board->AddBlackPawn(atoi(tempX.c_str()),
-                                atoi(tempY.c_str()),
-                                0,
-                                atoi(tempPons.c_str()));
-        }
-    }
-
-    if (numWhite > 0)
-    {
-        for (unsigned short i = 0; i<numWhite; i++)
-        {
-            tempX = dest.at(prefix + WHITE_X + std::to_string(i));
-            tempY = dest.at(prefix + WHITE_Y + std::to_string(i));
-            tempPons = dest.at(prefix + WHITE_PONS + std::to_string(i));
-
-            board->AddWhitePawn(atoi(tempX.c_str()),
-                                atoi(tempY.c_str()),
-                                0,
-                                atoi(tempPons.c_str()));
-        }
-    }
-
 }
 
 void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest)
