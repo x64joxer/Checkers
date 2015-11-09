@@ -27,6 +27,7 @@ class MessageCoder
         static void ClearChar(char *dest, const unsigned int num);
 
         static void MessageToMap(const char *source, std::map<std::string, std::string> & dest);
+        static void MapToBoard(const std::map<std::string, std::string> & dest, Board *board);
 
         //Keys
         static std::string ACTION;

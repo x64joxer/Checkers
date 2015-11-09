@@ -172,6 +172,96 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
 
 }
 
+void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, Board *board)
+{
+    board->SetPreviousMurder(atoi(dest.at(PREVIOUS_MURDER).c_str()));
+    board->SetWhitePatchEnd(atoi(dest.at(WHITE_PATCH_END).c_str()));
+
+    if (atoi(dest.at(BLACK_WHITE).c_str()) == 0)
+    {
+        board->StartBlack();
+    } else
+    {
+        board->StartWhite();
+    }
+
+    Board origin;
+    std::string prefix = "0";
+
+    std::string tempX;
+    std::string tempY;
+    std::string tempPons;
+
+    unsigned short numBlack = atoi(dest.at(ORIGIN_NUMBER_BLACK).c_str());
+    unsigned short numWhite = atoi(dest.at(ORIGIN_NUMBER_WHITE).c_str());
+
+    if (numBlack > 0)
+    {
+        for (unsigned short i = 0; i<numBlack; i++)
+        {
+            tempX = dest.at(prefix + ORIGIN_BLACK_X + std::to_string(i));
+            tempY = dest.at(dest.at(prefix + ORIGIN_BLACK_Y + std::to_string(i)));
+            tempPons = dest.at(prefix + ORIGIN_BLACK_PONS + std::to_string(i));
+
+            origin.AddBlackPawn(atoi(tempX.c_str()),
+                                atoi(tempY.c_str()),
+                                0,
+                                atoi(tempPons.c_str()));
+        }
+    }
+
+    if (numWhite > 0)
+    {
+        for (unsigned short i = 0; i<numWhite; i++)
+        {
+            tempX = dest.at(prefix + ORIGIN_WHITE_X + std::to_string(i));
+            tempY = dest.at(dest.at(prefix + ORIGIN_WHITE_Y + std::to_string(i)));
+            tempPons = dest.at(prefix + ORIGIN_WHITE_PONS + std::to_string(i));
+
+            origin.AddWhitePawn(atoi(tempX.c_str()),
+                                atoi(tempY.c_str()),
+                                0,
+                                atoi(tempPons.c_str()));
+        }
+    }
+
+    board->SetOrigin(origin);
+
+    numBlack = atoi(dest.at(NUMBER_BLACK).c_str());
+    numWhite = atoi(dest.at(NUMBER_WHITE).c_str());
+
+    if (numBlack > 0)
+    {
+        for (unsigned short i = 0; i<numBlack; i++)
+        {
+            tempX = dest.at(prefix + BLACK_X + std::to_string(i));
+            tempY = dest.at(dest.at(prefix + BLACK_Y + std::to_string(i)));
+            tempPons = dest.at(prefix + BLACK_PONS + std::to_string(i));
+
+            origin.AddBlackPawn(atoi(tempX.c_str()),
+                                atoi(tempY.c_str()),
+                                0,
+                                atoi(tempPons.c_str()));
+        }
+    }
+
+    if (numWhite > 0)
+    {
+        for (unsigned short i = 0; i<numWhite; i++)
+        {
+            tempX = dest.at(prefix + WHITE_X + std::to_string(i));
+            tempY = dest.at(dest.at(prefix + WHITE_Y + std::to_string(i)));
+            tempPons = dest.at(prefix + WHITE_PONS + std::to_string(i));
+
+            origin.AddWhitePawn(atoi(tempX.c_str()),
+                                atoi(tempY.c_str()),
+                                0,
+                                atoi(tempPons.c_str()));
+        }
+    }
+
+}
+
 void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest)
 {
     KeyValuePairToChar(ACTION, START_WORK, dest);

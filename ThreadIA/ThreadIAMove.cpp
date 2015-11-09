@@ -2,6 +2,7 @@
 
 template  <unsigned long int QMain>
 ThreadIAMove<QMain>::ThreadIAMove()
+                    : messageHandler(nullptr)
 {
 
 }
@@ -19,7 +20,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     std::thread iaThread[maxThreads];
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
     unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;    
-    messageHandler->SetBoardQueue(&queue);
+    if (messageHandler) messageHandler->SetBoardQueue(&queue);
 
     if (stepKind == KindOfSteps::Time)
     {
@@ -50,7 +51,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         SetOriginToAll();
 
         //Start sharing jobs
-        messageHandler->StartSharing();
+        if (messageHandler) messageHandler->StartSharing();
 
         //Start threads
         for (unsigned short i=1;i<=numberOfThreads;i++)
@@ -72,7 +73,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             iaThread[i].join();
         };
 
-        messageHandler->StopSharing();
+        if (messageHandler) messageHandler->StopSharing();
 
         qDebug() << "Num of elements" << queue.Size();
 

@@ -39,6 +39,9 @@ class WorkerTCP : public QObject
         Peers::STATE state;
         int port;
 
+        Board *board;
+        unsigned int timeSteps;
+
 };
 
 #endif // WORKERTCP_H

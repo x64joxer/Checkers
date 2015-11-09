@@ -18,6 +18,8 @@ class Board
     public:
         Board();               
         void Clear();
+        void AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons);
+        void AddWhitePawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons);
         void SetWhitePawnPos(const unsigned short number,const unsigned short x, const unsigned short y);
         void SetBlackPawnPos(const unsigned short number,const unsigned short x, const unsigned short y);
         void PutWhiteTopLeftPawn(const unsigned short number);

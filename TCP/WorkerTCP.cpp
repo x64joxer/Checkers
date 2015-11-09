@@ -17,6 +17,7 @@ WorkerTCP::WorkerTCP(QObject *parent) : QObject(parent)
 void WorkerTCP::Init()
 {
     state = Peers::STATE::FREE;
+    board = new Board();
 }
 
 void WorkerTCP::ConnectToServer(const QString ho,  int po)
@@ -106,7 +107,7 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
         std::string action = data.at(MessageCoder::ACTION);
 
         if (action == MessageCoder::START_WORK)
-        {
+        {            
             TakeStartWork(data);
         } else
         if (action == MessageCoder::OK)
@@ -126,7 +127,9 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 
     try
     {
-        {
+            timeSteps = atoi(data.at(MessageCoder::MAX_TIME).c_str());
+
+
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
             MessageCoder::CreateOkMessage("TestID", dest);
@@ -134,8 +137,7 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             tcpSocket->write(dest);
             while (tcpSocket->waitForBytesWritten()) {}
 
-            delete [] dest;
-        };
+            delete [] dest;        
     }
     catch (std::out_of_range)
     {
@@ -146,5 +148,6 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 WorkerTCP::~WorkerTCP()
 {
     delete tcpSocket;
+    delete board;
     delete time;
 }
