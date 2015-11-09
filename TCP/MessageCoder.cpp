@@ -187,11 +187,13 @@ void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
 
 void MessageCoder::CreateOkMessage(const std::string id, char *dest)
 {
-    KeyValuePairToChar(OK, id, dest);
+    KeyValuePairToChar(ACTION, OK, dest);
+    KeyValuePairToChar(MESSAGE_ID, id, dest);
 }
 
 std::string MessageCoder::ACTION = "ACTION";
 std::string MessageCoder::OK = "OK";
+std::string MessageCoder::MESSAGE_ID = "MESSAGE_ID";
 
 std::string MessageCoder::START_WORK = "START_WORK";
 std::string MessageCoder::SET_STATE = "SET_STATE";

@@ -86,9 +86,61 @@ void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
 void WorkerTCP::ReadDataFromServer()
 {    
     char *data  = new char[tcpSocket->bytesAvailable()];
+
+
+
     tcpSocket->read(data,tcpSocket->bytesAvailable());
     Traces() << "\n" << "LOG: New data from server: " << QString(data);    
+
     delete [] data;
+}
+
+void WorkerTCP::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+{
+    Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
+
+    try
+    {
+        std::string action = data.at(MessageCoder::ACTION);
+
+        if (action == MessageCoder::START_WORK)
+        {
+            TakeStartWork(ho, po, data);
+        } else
+        if (action == MessageCoder::OK)
+        {
+
+        }
+    }
+    catch (std::out_of_range)
+    {
+        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+    }
+}
+
+void WorkerTCP::TakeStartWork(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+{
+    Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
+
+    try
+    {
+        {
+
+
+            char *dest = new char[4048];
+            MessageCoder::ClearChar(dest,4048);
+            MessageCoder::CreateOkMessage("TestID", dest);
+            while (tcpSocket->waitForBytesWritten()) {}
+            tcpSocket->write(dest);
+            while (tcpSocket->waitForBytesWritten()) {}
+
+            delete [] dest;
+        };
+    }
+    catch (std::out_of_range)
+    {
+        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+    }
 }
 
 WorkerTCP::~WorkerTCP()
