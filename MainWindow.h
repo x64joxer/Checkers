@@ -3,7 +3,7 @@
 
 #define QT_NO_DEBUG_OUTPUT
 #define PERFORMANCE_TESTS_OFF
-#define FUNCTION_TESTS
+#define FUNCTION_TESTS_OFF
 
 #include <QMainWindow>
 #include "CheckerArea.h"
@@ -46,7 +46,6 @@ class MainWindow : public QMainWindow
 
             MessageHandler handler;
             std::thread handlerThread;
-
 
             void Init();
             void FillThreadsListMenu();

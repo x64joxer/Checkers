@@ -26,15 +26,16 @@ void Board::AddBlackPawn(const unsigned short x, const unsigned short y, const b
     {
         Traces() << "\n" << "ERROR! oard::AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons) Try to set pawn on another pawn!";
     } else
-    if (numberOfBlack() == 12)
+    if (numberOfBlack() > 12)
     {
         Traces() << "\n" << "ERROR! oard::AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons) To many pons!";
     } else
     {
-        black[numberOfBlack()].x = x;
-        black[numberOfBlack()].y = y;
-        black[numberOfBlack()].dead = dead;
-        black[numberOfBlack()].pons = pons;
+        unsigned short num = numberOfBlack();
+        black[num].x = x;
+        black[num].y = y;
+        black[num].dead = dead;
+        black[num].pons = pons;
     }
 }
 
@@ -52,15 +53,16 @@ void Board::AddWhitePawn(const unsigned short x, const unsigned short y, const b
     {
         Traces() << "\n" << "ERROR! oard::AddWhitePawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons) Try to set pawn on another pawn!";
     } else
-    if (numberOfBlack() == 12)
+    if (numberOfBlack() > 12)
     {
         Traces() << "\n" << "ERROR! oard::AddWhitePawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons) To many pons!";
     } else
     {
-        white[numberOfBlack()].x = x;
-        white[numberOfBlack()].y = y;
-        white[numberOfBlack()].dead = dead;
-        white[numberOfBlack()].pons = pons;
+        unsigned short num = numberOfWhite();
+        white[num].x = x;
+        white[num].y = y;
+        white[num].dead = dead;
+        white[num].pons = pons;
     }
 }
 
