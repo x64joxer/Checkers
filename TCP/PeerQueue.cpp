@@ -169,7 +169,7 @@ void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)
 
 unsigned int PeerQueue::GetFreeStateNumber()
 {
-    Traces() << "\n" << "LOG: PeerQueue::GetFreeStateNumber() ";
+    //TEMPORATRY SLEEP Traces() << "\n" << "LOG: PeerQueue::GetFreeStateNumber() ";
     std::lock_guard<std::mutex> guard(mutex_guard);
     return freePeers;
 }

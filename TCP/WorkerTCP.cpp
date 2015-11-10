@@ -126,8 +126,15 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
     Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
 
     try
-    {
+    {            
             timeSteps = atoi(data.at(MessageCoder::MAX_TIME).c_str());
+            MessageCoder::MapToBoard(data, board);
+
+            Traces() << "\n" << "LOG: Board received:";
+            board->printDebug();
+
+            Traces() << "\n" << "LOG: ...witch origin:";
+            board->GetOrigin().printDebug();
 
 
             char *dest = new char[4048];

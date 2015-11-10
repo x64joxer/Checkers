@@ -32,7 +32,7 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
-            Traces() << "\n" << "LOG: Tryning share jobs";
+            //TEMPORATY SLEEP Traces() << "\n" << "LOG: Tryning share jobs";
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
             {                
