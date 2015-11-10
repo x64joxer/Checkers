@@ -78,7 +78,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             unsigned long start = ProgramVariables::GetSecondsSinceEpoch();
             while (ProgramVariables::GetSecondsSinceEpoch() - start < ProgramVariables::GetMaxTimeWaitToWorkers())
             {
-
+                if (WorkerAgent::GetBusyStateNumber() == 0) break;
             }
         }
 

@@ -1,7 +1,8 @@
 #include "TCP/PeerQueue.h"
 
 PeerQueue::PeerQueue()
-          : freePeers(0)
+          : freePeers(0),
+            busyPeers(0)
 {
     server = NULL;
 }
@@ -174,6 +175,12 @@ unsigned int PeerQueue::GetFreeStateNumber()
     return freePeers;
 }
 
+unsigned int PeerQueue::GetBusyStateNumber()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    return busyPeers;
+}
+
 void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)
 {
     Traces() << "\n" << "LOG: PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)";
@@ -186,16 +193,23 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
                                      if (!flag)
                                      {
                                          if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                         {
-                                            n.SetState(state);
-
+                                         {                                            
                                             if (state == Peers::STATE::FREE)
                                             {
-                                                freePeers++;
+                                                if (n.GetState() != Peers::STATE::FREE) freePeers++;
                                             } else
                                             {
-                                                freePeers--;
-                                            };
+                                                if (n.GetState() == Peers::STATE::FREE) freePeers--;
+                                            }
+                                            if (state == Peers::STATE::BUSY)
+                                            {
+                                                if (n.GetState() != Peers::STATE::BUSY) busyPeers++;
+                                            } else
+                                            {
+                                                if (n.GetState() == Peers::STATE::BUSY) busyPeers--;
+                                            }
+
+                                            n.SetState(state);
 
                                             flag = true;                                            
                                          }
