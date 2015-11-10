@@ -188,7 +188,7 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
         }
 
         Board origin;
-        std::string prefix = "0_";
+        std::string prefix = "1_";
 
         std::string temp;
         std::string tempX;
@@ -281,6 +281,12 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
+void MessageCoder::CreateBestResultMessage(const std::string id, char *dest)
+{
+    KeyValuePairToChar(ACTION, BEST_RESULT, dest);
+    KeyValuePairToChar(MESSAGE_ID, id, dest);
+}
+
 void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
 {
     KeyValuePairToChar(ACTION, SET_STATE, dest);
@@ -299,6 +305,7 @@ std::string MessageCoder::MESSAGE_ID = "MESSAGE_ID";
 
 std::string MessageCoder::START_WORK = "START_WORK";
 std::string MessageCoder::SET_STATE = "SET_STATE";
+std::string MessageCoder::BEST_RESULT = "BEST_RESULT";
 
 std::string MessageCoder::MAX_TIME = "MAX_TIME";
 std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";

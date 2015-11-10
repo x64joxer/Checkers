@@ -37,7 +37,7 @@ class WorkerTCP : public QObject
         void Init();
 
         QTcpSocket *tcpSocket;
-        enum state { WAITING, CONNECTED, ERROR} connection_state;
+        enum conState { DISCONNECTED, CONNECTED} connection_state;
         QTimer *time;
         QString host;
         Peers::STATE state;

@@ -1,6 +1,8 @@
 #include "TCP/WorkerTCP.h"
 
-WorkerTCP::WorkerTCP(QObject *parent) : QObject(parent)
+WorkerTCP::WorkerTCP(QObject *parent)
+          : QObject(parent),
+            connection_state(DISCONNECTED)
 {    
     time = new QTimer();
     connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
@@ -35,7 +37,7 @@ void WorkerTCP::ConnectToServer(const QString ho,  int po)
 
 void WorkerTCP::Reconnect()
 {
-    time->stop();
+    time->stop();    
     Traces() << "\n" << "LOG: Reconnecting to host:"  << host << " port:" << port;;
     tcpSocket->connectToHost(host,port);
 }
@@ -44,11 +46,11 @@ void WorkerTCP::Connected()
 {
     Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
 
-    char * temp = new char[100];
+    connection_state = CONNECTED;
 
+    char * temp = new char[100];
     MessageCoder::ClearChar(temp, 100);
     MessageCoder::CreateStateMessage(state, temp);
-
     while (tcpSocket->waitForBytesWritten()) {}
     tcpSocket->write(temp);
     while (tcpSocket->waitForBytesWritten()) {}
@@ -66,9 +68,11 @@ void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
         break;
     case QAbstractSocket::ConnectionRefusedError:
         Traces() << "\n" << "ERROR:The connection was refused by the peer" ;
+        connection_state = DISCONNECTED;
         break;
     default:
         Traces() << "\n" << "ERROR:The following error occurred:" << tcpSocket->errorString();
+        connection_state = DISCONNECTED;
     }
 
     time->setInterval(5000);
@@ -84,7 +88,7 @@ void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
         connection_state = CONNECTED;
     } else
     {
-        connection_state = ERROR;
+        connection_state = DISCONNECTED;
     };
 }
 
@@ -176,8 +180,31 @@ void WorkerTCP::CheckStatus()
 {
     if (endIaJobFlag)
     {
-        waitForIATimer->stop();
-        endIaJobFlag = false;
+
+        if (connection_state == CONNECTED)
+        {
+            Traces() << "\n" << "LOG: Sending best result";
+
+            char * temp = new char[4048];
+
+            MessageCoder::ClearChar(temp, 4048);
+            MessageCoder::CreateBestResultMessage("TestID", temp);
+            MessageCoder::BoardToChar(*board, temp, 1);
+
+            while (tcpSocket->waitForBytesWritten()) {}
+            tcpSocket->write(temp);
+            while (tcpSocket->waitForBytesWritten()) {}
+
+            delete [] temp;
+
+            waitForIATimer->stop();
+            endIaJobFlag = false;
+        } else
+        {
+            Traces() << "\n" << "LOG: Not conneted to server";
+            waitForIATimer->stop();
+            endIaJobFlag = false;
+        }
     }
 }
 

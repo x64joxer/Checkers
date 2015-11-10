@@ -51,7 +51,7 @@ void MessageHandler::Start()
 
                         MessageCoder::ClearChar(data, 4048);
                         MessageCoder::CreateStartMessage(10, 1, data);                        
-                        MessageCoder::BoardToChar(board, data, 0);
+                        MessageCoder::BoardToChar(board, data, 1);
                         WorkerAgent::SendMessage(ho, po, data);                        
                         WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);                        
                     }

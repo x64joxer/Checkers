@@ -68,7 +68,7 @@ void MainWindow::Init()
     char *c = new char[2000];
 
     MessageCoder::ClearChar(c, 2000);
-    MessageCoder::BoardToChar(*board, c, 0);
+    MessageCoder::BoardToChar(*board, c, 1);
 
 
     Traces() << QString(c);
