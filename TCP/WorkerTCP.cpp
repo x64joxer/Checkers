@@ -1,15 +1,19 @@
 #include "TCP/WorkerTCP.h"
 
 WorkerTCP::WorkerTCP(QObject *parent) : QObject(parent)
-{
+{    
     time = new QTimer();
     connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
 
     tcpSocket = new QTcpSocket(this);    
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(ReadDataFromServer()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));       
-    connect(tcpSocket, SIGNAL(stateChanged(AbstractSocket::SocketState)), this, SLOT(HandleStateChange(AbstractSocket::SocketState)));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));           
+    connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(HandleStateChange(QAbstractSocket::SocketState)));
     connect(tcpSocket,SIGNAL(connected()),this,SLOT(Connected()));
+
+    waitForIATimer = new QTimer();
+    waitForIATimer->setInterval(10);
+    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));
 
     Init();
 }
@@ -137,6 +141,22 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             board->GetOrigin().printDebug();
 
 
+            endIaJobFlag = false;
+            std::thread tempJob(&ThreadIAMove<900000>::operator (),
+                                &jobExpander,
+                                board,
+                                &endIaJobFlag,
+                                &currentPercentOfSteps,
+                                ProgramVariables::GetNumberOfThreads(),
+                                3000,
+                                timeSteps,
+                                KindOfSteps::Time);
+
+            tempJob.detach();
+            iaJob = std::move(tempJob);
+            waitForIATimer->start();
+
+
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
             MessageCoder::CreateOkMessage("TestID", dest);
@@ -152,8 +172,19 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
     }
 }
 
+void WorkerTCP::CheckStatus()
+{
+    if (endIaJobFlag)
+    {
+        waitForIATimer->stop();
+        endIaJobFlag = false;
+    }
+}
+
+
 WorkerTCP::~WorkerTCP()
 {
+    delete waitForIATimer;
     delete tcpSocket;
     delete board;
     delete time;

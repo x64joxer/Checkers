@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "Traces/Traces.h"
 #include "TCP/MessageCoder.h"
+#include "ThreadIA/ThreadIAMove.h"
 
 class WorkerTCP : public QObject
 {
@@ -29,6 +30,9 @@ class WorkerTCP : public QObject
 
         void TakeStartWork(const std::map<std::string, std::string> data);
 
+    private slots:
+        void CheckStatus();
+
     private:        
         void Init();
 
@@ -39,6 +43,12 @@ class WorkerTCP : public QObject
         Peers::STATE state;
         int port;
 
+        std::thread iaJob;
+        std::atomic_bool endIaJobFlag;
+        std::atomic<int> currentPercentOfSteps;
+        ThreadIAMove<900000> jobExpander;
+
+        QTimer *waitForIATimer;
         Board *board;
         unsigned int timeSteps;
 
