@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
         Traces::SetTraceFolder("trace");
         Traces::TurnOnTraces();
         workerTCP = new WorkerTCP(this);
-        workerTCP->ConnectToServer("192.168.0.4",6000);        
+        workerTCP->ConnectToServer(ProgramVariables::GetServerIP(), ProgramVariables::GetServerPort());
     } else
     {
         Init();

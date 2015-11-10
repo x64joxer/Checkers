@@ -4,26 +4,26 @@ WorkerTCP::WorkerTCP(QObject *parent)
           : QObject(parent),
             connection_state(DISCONNECTED)
 {
-    Init();
-
-    time = new QTimer();
-    connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
-
-    tcpSocket = new QTcpSocket(this);    
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(ReadDataFromServer()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));           
-    connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(HandleStateChange(QAbstractSocket::SocketState)));
-    connect(tcpSocket,SIGNAL(connected()),this,SLOT(Connected()));
-
-    waitForIATimer = new QTimer();
-    waitForIATimer->setInterval(10);
-    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));    
+    Init(); 
 }
 
 void WorkerTCP::Init()
 {
     state = Peers::STATE::FREE;
     board = new Board();
+
+    time = new QTimer();
+    connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
+
+    tcpSocket = new QTcpSocket(this);
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(ReadDataFromServer()));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(HandleStateChange(QAbstractSocket::SocketState)));
+    connect(tcpSocket,SIGNAL(connected()),this,SLOT(Connected()));
+
+    waitForIATimer = new QTimer();
+    waitForIATimer->setInterval(10);
+    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));
 }
 
 void WorkerTCP::ConnectToServer(const QString ho,  int po)
@@ -75,7 +75,7 @@ void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
         connection_state = DISCONNECTED;
     }
 
-    time->setInterval(5000);
+    time->setInterval(ProgramVariables::GetRecconectingTime());
     time->start();
 }
 

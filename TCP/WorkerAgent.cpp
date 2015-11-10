@@ -15,7 +15,7 @@ void WorkerAgent::Init()
     connect(&messageForwarder,SIGNAL(Send(QHostAddress,int,char*)),&server,SLOT(SendMessage(QHostAddress,int,char*)));
 
     server.SetPeerQueue(&peerQueue);
-    server.StartLisning(QHostAddress::Any,6000);
+    server.StartLisning(QHostAddress::Any, ProgramVariables::GetServerPort());
 }
 
 PeerQueue  WorkerAgent::peerQueue;

@@ -1,6 +1,7 @@
 #ifndef PROGRAMVARIABLES_H
 #define PROGRAMVARIABLES_H
 
+#include <QString>
 #include <mutex>
 #include <thread>
 
@@ -16,6 +17,9 @@ class ProgramVariables
         static unsigned long GetSecondsSinceEpoch();
         static unsigned long GetMaxSecondsToEnd();
         static unsigned long GetMaxTimeWaitToWorkers();
+        static unsigned int GetRecconectingTime();
+        static QString GetServerIP();
+        static int GetServerPort();
         static std::string CreateMessageId();
 
         static const unsigned int K4 =  4 * 1024;

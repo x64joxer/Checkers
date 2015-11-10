@@ -8,6 +8,7 @@ ProgramVariables::ProgramVariables()
 unsigned short ProgramVariables::InitMaxThreads()
 {
     maxNumbeOfThreads = std::thread::hardware_concurrency();
+
     if (maxNumbeOfThreads == 0)
     {
         maxNumbeOfThreads = 1;
@@ -52,6 +53,21 @@ unsigned long ProgramVariables::GetSecondsSinceEpoch()
 unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
 {
     return 3;
+}
+
+QString ProgramVariables::GetServerIP()
+{
+    return "192.168.0.4";
+}
+
+int ProgramVariables::GetServerPort()
+{
+   return 6000;
+}
+
+unsigned int ProgramVariables::GetRecconectingTime()
+{
+    return 5000;
 }
 
 std::string ProgramVariables::CreateMessageId()

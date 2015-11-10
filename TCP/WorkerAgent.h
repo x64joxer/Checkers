@@ -5,6 +5,7 @@
 #include "TCP/PeerQueue.h"
 #include "TCP/ServerTCP.h"
 #include "TCP/MessageForwarder.h"
+#include "ProgramVariables.h"
 
 
 class WorkerAgent : public QObject
