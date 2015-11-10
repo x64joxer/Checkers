@@ -10,6 +10,12 @@ void Board::Clear()
     SetPreviousMurder(12);
     SetNullBoard(false);    
     whitePatchEnd = true;
+
+    for (unsigned short i =0; i<12; i++)
+    {
+        black[i].dead = 1;
+        white[i].dead = 1;
+    }
 }
 
 void Board::AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons)

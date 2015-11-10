@@ -176,6 +176,8 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
 {
     try
     {
+        board->Clear();
+
         board->SetPreviousMurder(atoi(dest.at(PREVIOUS_MURDER).c_str()));
         board->SetWhitePatchEnd(atoi(dest.at(WHITE_PATCH_END).c_str()));
 
