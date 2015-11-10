@@ -138,7 +138,9 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
     {
         Board temp;
         MessageCoder::MapToBoard(data, &temp);
+        qDebug() << "Num of elements before workers" << boardQueue->Size();
         boardQueue->PushBack(temp);
+        qDebug() << "Num of elements after workers" << boardQueue->Size();
 
         WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
         char *dest = new char[4048];

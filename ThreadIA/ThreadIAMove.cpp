@@ -91,8 +91,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             temp = queue.GetBestResult();
         } else
         {
+
         //NEW METHOD
-        //qDebug() << "New method";
         unsigned int minElements = 2000;
         unsigned short numOfThreads = numberOfThreads;
 
@@ -132,14 +132,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             if (secondQueueElelemtsOnThread >= queue.SizeDoNotForget()) secondQueueElelemtsOnThread = queue.SizeDoNotForget() -1;
             stop = start + firstQueueElelemtsOnThread;
             stop2 = start2 + secondQueueElelemtsOnThread;
-            //qDebug() << "start=" << start;
-            //qDebug() << "stop=" << stop;
-            //qDebug() << "start2=" << start2;
-            //qDebug() << "stop2=" << stop2;
-            //qDebug() << "flag1=" << flag1;
-            //qDebug() << "flag2=" << flag2;
 
-            //qDebug() << "iaThread[i] = std::move(std::thread(...";
             iaThread[i] = std::move(std::thread(&ThreadIABoardQueue<QMain>::GetBestResult2,
                                                 &queue,
                                                 flag1,
