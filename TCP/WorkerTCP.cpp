@@ -131,7 +131,7 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
 
 void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
+    Traces() << "\n" << "LOG: WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)";
 
     try
     {            

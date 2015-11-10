@@ -35,27 +35,30 @@ void MessageHandler::Start()
             //TEMPORATY SLEEP Traces() << "\n" << "LOG: Tryning share jobs";
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
-            {                
-                if (boardQueue->Size() > 0)
-                {                    
-                    QHostAddress ho;
-                    int po;
-                    WorkerAgent::GetFirstFreePeers(ho, po);
-
-                    Traces() << "\n" << "LOG: Take first board";
-                    Board board = boardQueue->First();
-
-                    if (!board.GetNullBoard())
+            {
+                if (ProgramVariables::GetSecondsSinceEpoch() - startTime > ProgramVariables::GetMaxSecondsToEnd())
+                {
+                    if (boardQueue->Size() > 0)
                     {
-                        char *data = new char[4048];
+                        QHostAddress ho;
+                        int po;
+                        WorkerAgent::GetFirstFreePeers(ho, po);
 
-                        MessageCoder::ClearChar(data, 4048);
-                        MessageCoder::CreateStartMessage(10, 1, data);                        
-                        MessageCoder::BoardToChar(board, data, 1);
-                        WorkerAgent::SendMessage(ho, po, data);                        
-                        WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);                        
+                        Traces() << "\n" << "LOG: Take first board";
+                        Board board = boardQueue->First();
+
+                        if (!board.GetNullBoard())
+                        {
+                            char *data = new char[4048];
+
+                            MessageCoder::ClearChar(data, 4048);
+                            MessageCoder::CreateStartMessage(10, 1, data);
+                            MessageCoder::BoardToChar(board, data, 1);
+                            WorkerAgent::SendMessage(ho, po, data);
+                            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
+                        }
+
                     }
-
                 }
             }
         }

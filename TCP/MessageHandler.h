@@ -10,6 +10,7 @@
 #include "TCP/MessageCoder.h"
 #include "TCP/Peers.h"
 #include "ThreadIA/ThreadIABoardQueue.h"
+#include "ProgramVariables.h"
 
 class MessageHandler
 {
@@ -18,7 +19,7 @@ class MessageHandler
         void Start();        
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);
-        void StartSharing() { shareJobs = true; }
+        void StartSharing(unsigned long time) { startTime = time; shareJobs = true; }
         void StopSharing() { shareJobs = false; }
 
     private:
@@ -29,6 +30,7 @@ class MessageHandler
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<900000> *boardQueue;
         std::atomic<bool> shareJobs;
+        unsigned long startTime;
 };
 
 #endif // MESSAGEHANDLER_H

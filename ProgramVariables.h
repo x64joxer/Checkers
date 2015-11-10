@@ -13,6 +13,8 @@ class ProgramVariables
         static bool IsWorker();
         static void SetWorker(const bool flag);
         static unsigned long GetSecondsSinceEpoch();
+        static unsigned long GetMaxSecondsToEnd();
+        static unsigned long GetMaxTimeWaitToWorkers();
 
     private:
         static unsigned short InitMaxThreads();

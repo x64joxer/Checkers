@@ -51,7 +51,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         SetOriginToAll();
 
         //Start sharing jobs
-        if (messageHandler) messageHandler->StartSharing();
+        if (messageHandler) messageHandler->StartSharing(ProgramVariables::GetSecondsSinceEpoch());
 
         //Start threads
         for (unsigned short i=1;i<=numberOfThreads;i++)
@@ -72,6 +72,15 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         {
             iaThread[i].join();
         };
+
+        Traces() << "\n" << "LOG: Waiting for all workers...";
+        {
+            unsigned long start = ProgramVariables::GetSecondsSinceEpoch();
+            while (ProgramVariables::GetSecondsSinceEpoch() - start < ProgramVariables::GetMaxTimeWaitToWorkers())
+            {
+
+            }
+        }
 
         if (messageHandler) messageHandler->StopSharing();
 

@@ -47,6 +47,16 @@ unsigned long ProgramVariables::GetSecondsSinceEpoch()
     return result;
 }
 
+unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
+{
+    return 3;
+}
+
+unsigned long ProgramVariables::GetMaxSecondsToEnd()
+{
+    return 3;
+}
+
 bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;
