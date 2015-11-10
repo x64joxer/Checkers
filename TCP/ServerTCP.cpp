@@ -88,12 +88,13 @@ void ServerTCP::Disconnected()
 
 void ServerTCP::newDataFromClient()
 {
-    char *data  = new char[100];
+   char *data;
 
     foreach (QTcpSocket *var, clientConnection)
     {
         if (var->bytesAvailable()>0)
         {                        
+            data  = new char[var->bytesAvailable()];
             var->read(data,var->bytesAvailable());
             Traces() << "\n" << "LOG: Data from worker " << var->peerAddress().toString() << ":" << var->peerPort() << ":" << QString(data);
             peerQueue->AddData(var->peerAddress(),var->peerPort(),data);

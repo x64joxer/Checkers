@@ -75,6 +75,10 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
         if (action == MessageCoder::SET_STATE)
         {
             TakeSetState(ho, po, data);
+        } else
+        if (action == MessageCoder::BEST_RESULT)
+        {
+            TakeBestResult(ho, po, data);
         }
     }
     catch (std::out_of_range)
@@ -116,6 +120,28 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
         {
             Traces() << "\n" << "ERR: Wrong peer state! host:" << ho.toString() << ":" << po;
         }
+    }
+    catch (std::out_of_range)
+    {
+        Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+    }
+}
+
+void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+{
+    Traces() << "\n" << "LOG: MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)";
+
+    try
+    {
+        Board temp;
+        MessageCoder::MapToBoard(data, &temp);
+        boardQueue->PushBack(temp);
+
+        WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
+        char *dest = new char[4048];
+        MessageCoder::ClearChar(dest,4048);
+        MessageCoder::CreateOkMessage("TestID", dest);
+        WorkerAgent::SendMessage(ho, po, dest);
     }
     catch (std::out_of_range)
     {

@@ -24,6 +24,7 @@ class MessageHandler
     private:
         void MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
         void TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
+        void TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
 
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<900000> *boardQueue;
