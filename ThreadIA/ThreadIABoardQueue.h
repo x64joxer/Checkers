@@ -24,6 +24,7 @@ class ThreadIABoardQueue
         void NotifyRest();
         unsigned long int Size();
         unsigned long int SizeDoNotForget();
+
     private:
         bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
         void SetWorkerFlag(const bool flag,const unsigned short number);

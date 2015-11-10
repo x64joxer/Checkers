@@ -10,10 +10,14 @@ ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
 bool ServerTCP::StartLisning(const QHostAddress&adress =QHostAddress::Any,quint16 port = 0)
 {
     Traces() << "\n" << "LOG: Start lisening port:" << port;
+
     if (!tcpServer->listen(adress,port))
     {
         Traces() << "\n" << "LOG: Unable to start the server: " << tcpServer->errorString();
+        return 1;
     }
+
+    return 0;
 }
 
 void ServerTCP::SetPeerQueue(PeerQueue *peers)

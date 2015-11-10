@@ -12,6 +12,8 @@ unsigned short ProgramVariables::InitMaxThreads()
     {
         maxNumbeOfThreads = 1;
     };    
+
+    return maxNumbeOfThreads;
 }
 
 unsigned short ProgramVariables::GetMaxNumberOfThreads()

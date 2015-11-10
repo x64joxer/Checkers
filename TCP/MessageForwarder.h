@@ -14,11 +14,9 @@ class MessageForwarder : public QObject
         void SetPeerQueue(PeerQueue *wsk) { peers = wsk; }
         void SetServer(ServerTCP *wsk) { server = wsk; }                        
         void SendMessage(QHostAddress ho, int po, char* data);
-    signals:
-            void Send(const QHostAddress ho, const int po, char* data);
 
-    public slots:
-            void Start();
+    signals:
+        void Send(const QHostAddress ho, const int po, char* data);
 
     private:            
             ServerTCP *server;

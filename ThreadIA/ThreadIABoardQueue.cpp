@@ -258,7 +258,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
         Traces() << "\n" << "LOG: Current best result";
         temp.printDebug();
 
-        for (int i = start; i<stop; i++)
+        for (unsigned int i = start; i<stop; i++)
         {
             if (result>queue[i].GetPercentageResult())
             {
