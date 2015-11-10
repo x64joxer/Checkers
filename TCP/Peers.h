@@ -20,7 +20,7 @@ class Peers
         void GetData(char *dat);
         bool IsData() { return !data.empty(); }
 
-        enum  STATE { BUSY, FREE };
+        enum  STATE { NONE, BUSY, FREE };
 
         STATE GetState() const;
         void SetState(const STATE val);

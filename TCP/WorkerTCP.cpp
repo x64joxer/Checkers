@@ -3,7 +3,9 @@
 WorkerTCP::WorkerTCP(QObject *parent)
           : QObject(parent),
             connection_state(DISCONNECTED)
-{    
+{
+    Init();
+
     time = new QTimer();
     connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
 
@@ -15,9 +17,7 @@ WorkerTCP::WorkerTCP(QObject *parent)
 
     waitForIATimer = new QTimer();
     waitForIATimer->setInterval(10);
-    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));
-
-    Init();
+    connect(waitForIATimer,SIGNAL(timeout()), this, SLOT(CheckStatus()));    
 }
 
 void WorkerTCP::Init()

@@ -169,8 +169,7 @@ void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)
 }
 
 unsigned int PeerQueue::GetFreeStateNumber()
-{
-    //TEMPORATRY SLEEP Traces() << "\n" << "LOG: PeerQueue::GetFreeStateNumber() ";
+{    
     std::lock_guard<std::mutex> guard(mutex_guard);
     return freePeers;
 }
@@ -193,7 +192,7 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
                                      if (!flag)
                                      {
                                          if ((n.GetHost() == ho)&&(n.GetPort() == po))
-                                         {                                            
+                                         {
                                             if (state == Peers::STATE::FREE)
                                             {
                                                 if (n.GetState() != Peers::STATE::FREE) freePeers++;

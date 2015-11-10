@@ -1,6 +1,7 @@
 #include "TCP/Peers.h"
 
 Peers::Peers()
+      : state(NONE)
 {
 
 }

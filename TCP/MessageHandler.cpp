@@ -35,7 +35,7 @@ void MessageHandler::Start()
             //TEMPORATY SLEEP Traces() << "\n" << "LOG: Tryning share jobs";
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
-            {
+            {                
                 if (ProgramVariables::GetSecondsSinceEpoch() - startTime > ProgramVariables::GetMaxSecondsToEnd())
                 {
                     if (boardQueue->Size() > 0)
