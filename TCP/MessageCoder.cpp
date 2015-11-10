@@ -98,6 +98,7 @@ void MessageCoder::MessageToMap(const char *source, std::map<std::string, std::s
 void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)
 {
     Traces() << "\n" << "LOG: MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard)";    
+
     KeyValuePairToChar(PREVIOUS_MURDER, board.GetPreviousMurder(), dest);
     KeyValuePairToChar(WHITE_PATCH_END, board.GetWhitePatchEnd(), dest);
     KeyValuePairToChar(BLACK_WHITE, board.Black(), dest);

@@ -14,7 +14,7 @@ void MessageHandler::SetBoardQueue(ThreadIABoardQueue<900000> *wsk)
 
 void MessageHandler::Start()
 {
-    char * data = new char[4048];
+    char * data = new char[ProgramVariables::K4];
     QHostAddress host;
     int port;
 
@@ -49,9 +49,9 @@ void MessageHandler::Start()
 
                         if (!board.GetNullBoard())
                         {
-                            char *data = new char[4048];
+                            char *data = new char[ProgramVariables::K4];
 
-                            MessageCoder::ClearChar(data, 4048);
+                            MessageCoder::ClearChar(data, ProgramVariables::K4);
                             MessageCoder::CreateStartMessage(10, 1, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
@@ -104,8 +104,8 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
             //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
-            char *dest = new char[4048];
-            MessageCoder::ClearChar(dest,4048);
+            char *dest = new char[ProgramVariables::K4];
+            MessageCoder::ClearChar(dest, ProgramVariables::K4);
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             WorkerAgent::SendMessage(ho, po, dest);
             //delete [] dest IMPORTANT:: Do NOT restore this!!
@@ -114,8 +114,8 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
             //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
-            char *dest = new char[4048];
-            MessageCoder::ClearChar(dest,4048);
+            char *dest = new char[ProgramVariables::K4];
+            MessageCoder::ClearChar(dest, ProgramVariables::K4);
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             WorkerAgent::SendMessage(ho, po, dest);
             //delete [] dest IMPORTANT:: Do NOT restore this!!
@@ -143,8 +143,8 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
         qDebug() << "Num of elements after workers" << boardQueue->Size();
 
         WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
-        char *dest = new char[4048];
-        MessageCoder::ClearChar(dest,4048);
+        char *dest = new char[ProgramVariables::K4];
+        MessageCoder::ClearChar(dest, ProgramVariables::K4);
         MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
         WorkerAgent::SendMessage(ho, po, dest);
     }

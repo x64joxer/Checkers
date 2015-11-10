@@ -18,6 +18,8 @@ class ProgramVariables
         static unsigned long GetMaxTimeWaitToWorkers();
         static std::string CreateMessageId();
 
+        static const unsigned int K4 =  4 * 1024;
+
     private:
         static unsigned short InitMaxThreads();
 

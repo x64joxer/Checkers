@@ -48,8 +48,8 @@ void WorkerTCP::Connected()
 
     connection_state = CONNECTED;
 
-    char * temp = new char[100];
-    MessageCoder::ClearChar(temp, 100);
+    char * temp = new char[ProgramVariables::K4];
+    MessageCoder::ClearChar(temp, ProgramVariables::K4);
     MessageCoder::CreateStateMessage(state, temp);
     while (tcpSocket->waitForBytesWritten()) {}
     tcpSocket->write(temp);
@@ -161,8 +161,8 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             waitForIATimer->start();
 
 
-            char *dest = new char[4048];
-            MessageCoder::ClearChar(dest,4048);
+            char *dest = new char[ProgramVariables::K4];
+            MessageCoder::ClearChar(dest, ProgramVariables::K4);
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             while (tcpSocket->waitForBytesWritten()) {}
             tcpSocket->write(dest);
@@ -185,9 +185,9 @@ void WorkerTCP::CheckStatus()
         {
             Traces() << "\n" << "LOG: Sending best result";
 
-            char * temp = new char[4048];
+            char * temp = new char[ProgramVariables::K4];
 
-            MessageCoder::ClearChar(temp, 4048);
+            MessageCoder::ClearChar(temp, ProgramVariables::K4);
             MessageCoder::CreateBestResultMessage(ProgramVariables::CreateMessageId(), temp);
             MessageCoder::BoardToChar(*board, temp, 1);
 
