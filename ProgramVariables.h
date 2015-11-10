@@ -1,6 +1,7 @@
 #ifndef PROGRAMVARIABLES_H
 #define PROGRAMVARIABLES_H
 
+#include <mutex>
 #include <thread>
 
 class ProgramVariables
@@ -15,6 +16,7 @@ class ProgramVariables
         static unsigned long GetSecondsSinceEpoch();
         static unsigned long GetMaxSecondsToEnd();
         static unsigned long GetMaxTimeWaitToWorkers();
+        static std::string CreateMessageId();
 
     private:
         static unsigned short InitMaxThreads();
@@ -22,6 +24,8 @@ class ProgramVariables
         static unsigned short maxNumbeOfThreads;
         static unsigned short numbeOfThreads;
         static bool isWorker;
+        static unsigned long messageId;
+        static std::mutex mutex_guard;
 
 };
 

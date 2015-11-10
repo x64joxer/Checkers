@@ -1,6 +1,7 @@
 #ifndef MESSAGECODER_H
 #define MESSAGECODER_H
 
+#include "ProgramVariables.h"
 #include "Traces/Traces.h"
 #include "Board.h"
 #include "PawnPos.h"

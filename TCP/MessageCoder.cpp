@@ -280,6 +280,7 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
 {
     KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
+    KeyValuePairToChar(MESSAGE_ID, ProgramVariables::CreateMessageId(), dest);
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
@@ -292,6 +293,7 @@ void MessageCoder::CreateBestResultMessage(const std::string id, char *dest)
 void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
 {
     KeyValuePairToChar(ACTION, SET_STATE, dest);
+    KeyValuePairToChar(MESSAGE_ID, ProgramVariables::CreateMessageId(), dest);
     KeyValuePairToChar(STATE, stat, dest);
 }
 

@@ -106,7 +106,7 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
             //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
-            MessageCoder::CreateOkMessage("TestID", dest);
+            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             WorkerAgent::SendMessage(ho, po, dest);
             //delete [] dest IMPORTANT:: Do NOT restore this!!
         } else
@@ -116,7 +116,7 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
             //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
-            MessageCoder::CreateOkMessage("TestID", dest);
+            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             WorkerAgent::SendMessage(ho, po, dest);
             //delete [] dest IMPORTANT:: Do NOT restore this!!
         } else
@@ -145,7 +145,7 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
         WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
         char *dest = new char[4048];
         MessageCoder::ClearChar(dest,4048);
-        MessageCoder::CreateOkMessage("TestID", dest);
+        MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
         WorkerAgent::SendMessage(ho, po, dest);
     }
     catch (std::out_of_range)

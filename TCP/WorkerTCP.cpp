@@ -163,7 +163,7 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 
             char *dest = new char[4048];
             MessageCoder::ClearChar(dest,4048);
-            MessageCoder::CreateOkMessage("TestID", dest);
+            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             while (tcpSocket->waitForBytesWritten()) {}
             tcpSocket->write(dest);
             while (tcpSocket->waitForBytesWritten()) {}
@@ -188,7 +188,7 @@ void WorkerTCP::CheckStatus()
             char * temp = new char[4048];
 
             MessageCoder::ClearChar(temp, 4048);
-            MessageCoder::CreateBestResultMessage("TestID", temp);
+            MessageCoder::CreateBestResultMessage(ProgramVariables::CreateMessageId(), temp);
             MessageCoder::BoardToChar(*board, temp, 1);
 
             while (tcpSocket->waitForBytesWritten()) {}

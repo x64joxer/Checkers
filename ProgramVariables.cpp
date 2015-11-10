@@ -52,6 +52,12 @@ unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
     return 3;
 }
 
+std::string ProgramVariables::CreateMessageId()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    return std::to_string(++messageId);
+}
+
 unsigned long ProgramVariables::GetMaxSecondsToEnd()
 {
     return 3;
@@ -60,3 +66,5 @@ unsigned long ProgramVariables::GetMaxSecondsToEnd()
 bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;
+unsigned long ProgramVariables::messageId = 0;
+std::mutex ProgramVariables::mutex_guard;
