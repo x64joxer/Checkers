@@ -52,10 +52,11 @@ void MessageHandler::Start()
                             char *data = new char[ProgramVariables::K4];
 
                             MessageCoder::ClearChar(data, ProgramVariables::K4);
-                            MessageCoder::CreateStartMessage(10, 1, data);
+                            std::string tempId = ProgramVariables::CreateMessageId();
+                            MessageCoder::CreateStartMessage(10, 1, tempId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
-                            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
+                            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);                                                                                    
                         }
 
                     }
@@ -151,5 +152,21 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
     catch (std::out_of_range)
     {
         Traces() << "\n" << "ERR: Protocol error host:" << ho.toString() << ":" << po;
+    }
+}
+
+void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::string id, WorkersState::MessageState state)
+{
+    try
+    {
+        std::string key = ho.toString().toStdString() + std::to_string(po);
+        workersState.at(key);
+        Traces() << "\n" << "ERR: Server alreay waiting for worker";
+    }
+    catch (std::out_of_range)
+    {
+        WorkersState *wsk = new WorkersState();
+        wsk->SetPeer(ho, po);
+        wsk->SetOKExpected(id, state);
     }
 }

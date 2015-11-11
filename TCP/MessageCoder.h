@@ -21,7 +21,7 @@ class MessageCoder
         static void KeyValuePairToChar(const std::string & key, const bool value, char *dest);
 
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
-        static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest);
+        static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard,  std::string id, char *dest);
         static void CreateBestResultMessage(const std::string id, char *dest);
         static void CreateStateMessage(Peers::STATE stat, const std::string id, char *dest);
         static void CreateOkMessage(const std::string id, char *dest);

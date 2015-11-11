@@ -277,11 +277,11 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
     }
 }
 
-void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, char *dest)
+void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, std::string id, char *dest)
 {
     KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
-    KeyValuePairToChar(MESSAGE_ID, ProgramVariables::CreateMessageId(), dest);
+    KeyValuePairToChar(MESSAGE_ID, id, dest);
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
