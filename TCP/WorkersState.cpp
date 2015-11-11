@@ -23,6 +23,7 @@ void WorkersState::SetOKExpected(std::string id, MessageState state)
 
 void WorkersState::SetNone()
 {
+    waitForOKMessageID = "";
     messageState = NONE_OK;
 }
 
