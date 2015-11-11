@@ -19,9 +19,10 @@ class ProgramVariables
         static unsigned long GetMaxTimeWaitToWorkers();
         static unsigned long GetMaxTimeWaitToServer();
         static unsigned int GetRecconectingTime();
+        static unsigned short GetMaxNumberOfReattempt();
         static QString GetServerIP();
         static int GetServerPort();
-        static std::string CreateMessageId();
+        static std::string CreateMessageId();        
 
         static const unsigned int K4 =  4 * 1024;
 

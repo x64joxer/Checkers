@@ -36,10 +36,13 @@ class WorkerTCP : public QObject
 
     private:        
         void Init();
+        void SendStateMessage();
+        void SendBestResultMessage();
 
         QTcpSocket *tcpSocket;
         enum ConState { DISCONNECTED, CONNECTED} connection_state;
         enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK } messageState;
+        unsigned short numOfReattempt;
         QTimer *time;
         QString host;
         Peers::STATE state;

@@ -75,6 +75,11 @@ unsigned int ProgramVariables::GetRecconectingTime()
     return 5000;
 }
 
+unsigned short ProgramVariables::GetMaxNumberOfReattempt()
+{
+    return 2;
+}
+
 std::string ProgramVariables::CreateMessageId()
 {
     std::lock_guard<std::mutex> guard(mutex_guard);

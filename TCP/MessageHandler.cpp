@@ -102,23 +102,19 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
 
         if (state == Peers::STATE::BUSY)
         {
-            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
-            //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
+            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);            
             char *dest = new char[ProgramVariables::K4];
             MessageCoder::ClearChar(dest, ProgramVariables::K4);
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
-            WorkerAgent::SendMessage(ho, po, dest);
-            //delete [] dest IMPORTANT:: Do NOT restore this!!
+            WorkerAgent::SendMessage(ho, po, dest);            
         } else
         if (state == Peers::STATE::FREE)
         {
-            WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
-            //IMPORTANT::This pointer is removed by TCPServer when all messages bytes are send!!!
+            WorkerAgent::SetState(ho, po, Peers::STATE::FREE);            
             char *dest = new char[ProgramVariables::K4];
             MessageCoder::ClearChar(dest, ProgramVariables::K4);
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
-            WorkerAgent::SendMessage(ho, po, dest);
-            //delete [] dest IMPORTANT:: Do NOT restore this!!
+            WorkerAgent::SendMessage(ho, po, dest);            
         } else
         {
             Traces() << "\n" << "ERR: Wrong peer state! host:" << ho.toString() << ":" << po;

@@ -52,7 +52,11 @@ void WorkerTCP::Connected()
     Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
 
     connection_state = CONNECTED;
+    SendStateMessage();
+}
 
+void WorkerTCP::SendStateMessage()
+{
     char * temp = new char[ProgramVariables::K4];
     MessageCoder::ClearChar(temp, ProgramVariables::K4);
     waitForOKMessageID = ProgramVariables::CreateMessageId();
@@ -61,10 +65,8 @@ void WorkerTCP::Connected()
     while (tcpSocket->waitForBytesWritten()) {}
     waitForOKMessageTimer->start();
     messageState = STATE_OK;
-
     tcpSocket->write(temp);
     while (tcpSocket->waitForBytesWritten()) {}
-
     delete [] temp;
 }
 
@@ -141,10 +143,11 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
             if (data.at(MessageCoder::MESSAGE_ID) != waitForOKMessageID)
             {
                 Traces() << "\n" << "ERR: Unexpected OK message ID from server!";
+            } else
+            {
+                waitForOKMessageTimer->stop();
+                messageState = NONE_OK;
             }
-
-            waitForOKMessageTimer->stop();
-            messageState = NONE_OK;
         }
     }
     catch (std::out_of_range)
@@ -207,23 +210,8 @@ void WorkerTCP::CheckStatus()
 
         if (connection_state == CONNECTED)
         {
-            Traces() << "\n" << "LOG: Sending best result";
-
-            char * temp = new char[ProgramVariables::K4];
-
-            MessageCoder::ClearChar(temp, ProgramVariables::K4);
-            waitForOKMessageID = ProgramVariables::CreateMessageId();
-            MessageCoder::CreateBestResultMessage(waitForOKMessageID, temp);
-            MessageCoder::BoardToChar(*board, temp, 1);
-
-            while (tcpSocket->waitForBytesWritten()) {}
-            waitForOKMessageTimer->start();
-            messageState = BEST_RESULT_OK;
-            tcpSocket->write(temp);
-            while (tcpSocket->waitForBytesWritten()) {}
-
-            delete [] temp;
-
+            numOfReattempt = 0;
+            SendBestResultMessage();
             waitForIATimer->stop();
             endIaJobFlag = false;
         } else
@@ -235,9 +223,46 @@ void WorkerTCP::CheckStatus()
     }
 }
 
+void WorkerTCP::SendBestResultMessage()
+{
+    Traces() << "\n" << "LOG: Sending best result";
+
+    char * temp = new char[ProgramVariables::K4];
+
+    MessageCoder::ClearChar(temp, ProgramVariables::K4);
+    waitForOKMessageID = ProgramVariables::CreateMessageId();
+    MessageCoder::CreateBestResultMessage(waitForOKMessageID, temp);
+    MessageCoder::BoardToChar(*board, temp, 1);
+
+    while (tcpSocket->waitForBytesWritten()) {}
+    waitForOKMessageTimer->start();
+    messageState = BEST_RESULT_OK;
+    tcpSocket->write(temp);
+    while (tcpSocket->waitForBytesWritten()) {}
+
+    delete [] temp;
+}
+
 void WorkerTCP::NoResponseFromServer()
 {
+    waitForOKMessageTimer->stop();
 
+    if (messageState == STATE_OK)
+    {
+        SendStateMessage();
+    } else
+    if (messageState == BEST_RESULT_OK)
+    {
+        if (numOfReattempt < ProgramVariables::GetMaxNumberOfReattempt())
+        {
+            numOfReattempt++;
+            SendBestResultMessage();
+        } else
+        {
+            Traces() << "\n" << "LOG: Reattempts BEST_RESUL exhusted!";
+            messageState = NONE_OK;
+        }
+    }
 }
 
 WorkerTCP::~WorkerTCP()
