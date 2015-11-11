@@ -157,9 +157,10 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
 
 void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::string id, WorkersState::MessageState state)
 {
+    std::string key = ho.toString().toStdString() + std::to_string(po);
+
     try
     {
-        std::string key = ho.toString().toStdString() + std::to_string(po);
         workersState.at(key);
         Traces() << "\n" << "ERR: Server alreay waiting for worker";
     }
@@ -168,5 +169,6 @@ void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::str
         WorkersState *wsk = new WorkersState();
         wsk->SetPeer(ho, po);
         wsk->SetOKExpected(id, state);
+        workersState[key] = wsk;
     }
 }
