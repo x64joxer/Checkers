@@ -14,14 +14,16 @@ class WorkersState : public QObject
     public:
         explicit WorkersState(QObject *parent = 0);
         ~WorkersState();
-        enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK };
+        enum MessageState { NONE_OK, START_WORK_OK };
         void SetPeer(QHostAddress ho, int po);
         void SetOKExpected(std::string id, MessageState state);
         void SetNone();
         bool GetTimeout();
+
         std::string GetID() { return waitForOKMessageID; }
         MessageState GetState() { return messageState; }
-
+        QHostAddress GetHost() { return host; }
+        int GetPort() { return port; }
 
     private:
         QHostAddress host;

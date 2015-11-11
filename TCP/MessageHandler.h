@@ -28,6 +28,7 @@ class MessageHandler
         void TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
         void TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
         void CreateOkGuard(const QHostAddress ho, const int po, std::string id, WorkersState::MessageState state);
+        void NoResponseFromWorker(WorkersState *wsk);
 
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<900000> *boardQueue;

@@ -63,6 +63,10 @@ void MessageHandler::Start()
                 }
             }
         }
+        //Share jobs end
+
+
+
     }
 
     delete [] data;
@@ -195,5 +199,14 @@ void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::str
         wsk->SetPeer(ho, po);
         wsk->SetOKExpected(id, state);
         workersState[key] = wsk;
+    }
+}
+
+void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
+{
+    if (wsk->GetState() == WorkersState::START_WORK_OK)
+    {
+        WorkerAgent::SetState(wsk->GetHost(), wsk->GetPort(), Peers::STATE::FREE);
+        wsk->SetNone();
     }
 }
