@@ -56,7 +56,8 @@ void MessageHandler::Start()
                             MessageCoder::CreateStartMessage(10, 1, tempId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
-                            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);                                                                                    
+                            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
+                            CreateOkGuard(ho, po, tempId, WorkersState::START_WORK_OK);
                         }
 
                     }
