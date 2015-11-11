@@ -2,10 +2,11 @@
 
 WorkersState::WorkersState(QObject *parent)
              : QObject(parent),
-               messageState(MessageState::NONE_OK)
+               messageState(MessageState::NONE_OK),
+               timeout(false)
 {
     waitForOKMessageTimer = new QTimer();
-    connect(waitForOKMessageTimer, SIGNAL(timeout()), this, SLOT(EmitNoResponse()));
+    connect(waitForOKMessageTimer, SIGNAL(timeout()), this, SLOT(NoResponse()));
 }
 
 void WorkersState::SetPeer(QHostAddress ho, int po)
@@ -17,14 +18,15 @@ void WorkersState::SetPeer(QHostAddress ho, int po)
 void WorkersState::SetOKExpected(std::string id, MessageState state)
 {
     messageState = state;
+    timeout = false;
     waitForOKMessageID = id;
     waitForOKMessageTimer->setInterval(ProgramVariables::GetMaxTimeWaitToServer());
     waitForOKMessageTimer->start();
 }
 
-void WorkersState::EmitNoResponse()
+void WorkersState::NoResponse()
 {
-    emit NoResponseFromWorker(host, port);
+    timeout = true;
 }
 
 WorkersState::~WorkersState()

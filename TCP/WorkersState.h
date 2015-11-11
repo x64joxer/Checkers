@@ -17,20 +17,23 @@ class WorkersState : public QObject
         enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK };
         void SetPeer(QHostAddress ho, int po);
         void SetOKExpected(std::string id, MessageState state);
+        void SetTimeout(bool flag) { timeout = flag; }
+        bool GetTimeout() { return timeout; }
         MessageState GetState() { return messageState; }
 
     signals:
-        void NoResponseFromWorker(QHostAddress ho, int po);
 
     private slots:
-        void EmitNoResponse();
+        void NoResponse();
 
     private:
         QHostAddress host;
         int port;
+        bool timeout;
 
         QTimer *waitForOKMessageTimer;
         std::string waitForOKMessageID;
         MessageState messageState;
+
 };
 #endif // WORKERSSTATE_H
