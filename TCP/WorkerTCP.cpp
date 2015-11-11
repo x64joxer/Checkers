@@ -2,7 +2,8 @@
 
 WorkerTCP::WorkerTCP(QObject *parent)
           : QObject(parent),
-            connection_state(DISCONNECTED)
+            connection_state(DISCONNECTED),
+            messageState(NONE_OK)
 {
     Init(); 
 }
@@ -14,6 +15,10 @@ void WorkerTCP::Init()
 
     time = new QTimer();
     connect(time,SIGNAL(timeout()),this,SLOT(Reconnect()));
+
+    waitForOKMessageTimer = new QTimer();
+    connect(waitForOKMessageTimer,SIGNAL(timeout()),this,SLOT(NoResponseFromServer()));
+    waitForOKMessageTimer->setInterval(ProgramVariables::GetMaxTimeWaitToServer());
 
     tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(ReadDataFromServer()));
@@ -50,8 +55,13 @@ void WorkerTCP::Connected()
 
     char * temp = new char[ProgramVariables::K4];
     MessageCoder::ClearChar(temp, ProgramVariables::K4);
-    MessageCoder::CreateStateMessage(state, temp);
+    waitForOKMessageID = ProgramVariables::CreateMessageId();
+    MessageCoder::CreateStateMessage(state, waitForOKMessageID, temp);
+
     while (tcpSocket->waitForBytesWritten()) {}
+    waitForOKMessageTimer->start();
+    messageState = STATE_OK;
+
     tcpSocket->write(temp);
     while (tcpSocket->waitForBytesWritten()) {}
 
@@ -114,13 +124,27 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
     {
         std::string action = data.at(MessageCoder::ACTION);
 
+        if ((action != MessageCoder::OK)&&(messageState != NONE_OK))
+        {
+            Traces() << "\n" << "ERR: Expected OK message from server!";
+        } else
         if (action == MessageCoder::START_WORK)
-        {            
+        {
             TakeStartWork(data);
         } else
         if (action == MessageCoder::OK)
         {
+            if (messageState == NONE_OK)
+            {
+                Traces() << "\n" << "ERR: Unexpected OK message from server!";
+            } else
+            if (data.at(MessageCoder::MESSAGE_ID) != waitForOKMessageID)
+            {
+                Traces() << "\n" << "ERR: Unexpected OK message ID from server!";
+            }
 
+            waitForOKMessageTimer->stop();
+            messageState = NONE_OK;
         }
     }
     catch (std::out_of_range)
@@ -188,10 +212,13 @@ void WorkerTCP::CheckStatus()
             char * temp = new char[ProgramVariables::K4];
 
             MessageCoder::ClearChar(temp, ProgramVariables::K4);
-            MessageCoder::CreateBestResultMessage(ProgramVariables::CreateMessageId(), temp);
+            waitForOKMessageID = ProgramVariables::CreateMessageId();
+            MessageCoder::CreateBestResultMessage(waitForOKMessageID, temp);
             MessageCoder::BoardToChar(*board, temp, 1);
 
             while (tcpSocket->waitForBytesWritten()) {}
+            waitForOKMessageTimer->start();
+            messageState = BEST_RESULT_OK;
             tcpSocket->write(temp);
             while (tcpSocket->waitForBytesWritten()) {}
 
@@ -208,9 +235,14 @@ void WorkerTCP::CheckStatus()
     }
 }
 
+void WorkerTCP::NoResponseFromServer()
+{
+
+}
 
 WorkerTCP::~WorkerTCP()
 {
+    delete waitForOKMessageTimer;
     delete waitForIATimer;
     delete tcpSocket;
     delete board;

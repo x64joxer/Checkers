@@ -17,6 +17,7 @@ class ProgramVariables
         static unsigned long GetSecondsSinceEpoch();
         static unsigned long GetMaxSecondsToEnd();
         static unsigned long GetMaxTimeWaitToWorkers();
+        static unsigned long GetMaxTimeWaitToServer();
         static unsigned int GetRecconectingTime();
         static QString GetServerIP();
         static int GetServerPort();

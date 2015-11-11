@@ -32,12 +32,14 @@ class WorkerTCP : public QObject
 
     private slots:
         void CheckStatus();
+        void NoResponseFromServer();
 
     private:        
         void Init();
 
         QTcpSocket *tcpSocket;
-        enum conState { DISCONNECTED, CONNECTED} connection_state;
+        enum ConState { DISCONNECTED, CONNECTED} connection_state;
+        enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK } messageState;
         QTimer *time;
         QString host;
         Peers::STATE state;
@@ -49,6 +51,8 @@ class WorkerTCP : public QObject
         ThreadIAMove<900000> jobExpander;
 
         QTimer *waitForIATimer;
+        QTimer *waitForOKMessageTimer;
+        std::string waitForOKMessageID;
         Board *board;
         unsigned int timeSteps;
 

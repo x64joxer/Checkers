@@ -55,6 +55,11 @@ unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
     return 3;
 }
 
+unsigned long ProgramVariables::GetMaxTimeWaitToServer()
+{
+    return 3000;
+}
+
 QString ProgramVariables::GetServerIP()
 {
     return "192.168.0.4";

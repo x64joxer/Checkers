@@ -291,10 +291,10 @@ void MessageCoder::CreateBestResultMessage(const std::string id, char *dest)
     KeyValuePairToChar(MESSAGE_ID, id, dest);
 }
 
-void MessageCoder::CreateStateMessage(Peers::STATE stat, char *dest)
+void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, char *dest)
 {
     KeyValuePairToChar(ACTION, SET_STATE, dest);
-    KeyValuePairToChar(MESSAGE_ID, ProgramVariables::CreateMessageId(), dest);
+    KeyValuePairToChar(MESSAGE_ID, id, dest);
     KeyValuePairToChar(STATE, stat, dest);
 }
 
