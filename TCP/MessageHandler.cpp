@@ -82,6 +82,10 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
         if (action == MessageCoder::BEST_RESULT)
         {
             TakeBestResult(ho, po, data);
+        } else
+        if (action == MessageCoder::OK)
+        {
+
         }
     }
     catch (std::out_of_range)

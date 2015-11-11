@@ -18,6 +18,7 @@ class WorkerTCP : public QObject
 
         void ConnectToServer(const QString ho, int po);
 
+        enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK };
     signals:
 
     public slots:
@@ -41,7 +42,7 @@ class WorkerTCP : public QObject
 
         QTcpSocket *tcpSocket;
         enum ConState { DISCONNECTED, CONNECTED} connection_state;
-        enum MessageState { NONE_OK, STATE_OK, BEST_RESULT_OK } messageState;
+        MessageState messageState;
         unsigned short numOfReattempt;
         QTimer *time;
         QString host;
