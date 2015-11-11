@@ -75,7 +75,21 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
     try
     {
         std::string action = data.at(MessageCoder::ACTION);
+        WorkersState *current;
 
+        try
+        {
+            current = workersState.at(ho.toString().toStdString() + std::to_string(po));
+        }
+        catch (std::out_of_range)
+        {
+            CreateOkGuard(ho, po, "", WorkersState::NONE_OK);
+        }
+
+        if ((action != MessageCoder::OK)&&(current->GetState() != WorkersState::NONE_OK))
+        {
+            Traces() << "\n" << "ERR: Expected OK message from worker!";
+        } else
         if (action == MessageCoder::SET_STATE)
         {
             TakeSetState(ho, po, data);
@@ -86,7 +100,17 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
         } else
         if (action == MessageCoder::OK)
         {
-
+            if (current->GetState() == WorkersState::NONE_OK)
+            {
+                Traces() << "\n" << "ERR: Unexpected OK message from server!";
+            } else
+            if (data.at(MessageCoder::MESSAGE_ID) != current->GetID())
+            {
+                Traces() << "\n" << "ERR: Unexpected OK message ID from server!";
+            } else
+            {
+                current->SetNone();
+            }
         }
     }
     catch (std::out_of_range)
@@ -161,8 +185,9 @@ void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::str
 
     try
     {
-        workersState.at(key);
-        Traces() << "\n" << "ERR: Server alreay waiting for worker";
+        WorkersState *wsk = workersState.at(key);
+        wsk->SetPeer(ho, po);
+        wsk->SetOKExpected(id, state);
     }
     catch (std::out_of_range)
     {
