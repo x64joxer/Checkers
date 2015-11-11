@@ -123,6 +123,10 @@ void MainWindow::on_actionTraces_triggered()
 
 MainWindow::~MainWindow()
 {
+    handler.Stop();
+    while (handler.IsActive()) {}
+    WorkerAgent::Stop();
+
     delete checkerArea;
     delete board;
     delete workerTCP;    

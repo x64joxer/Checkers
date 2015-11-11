@@ -2,7 +2,9 @@
 
 MessageHandler::MessageHandler()
                : boardQueue(nullptr),
-                 shareJobs(false)
+                 shareJobs(false),
+                 endFlag(false),
+                 active(true)
 {
 
 }
@@ -18,7 +20,7 @@ void MessageHandler::Start()
     QHostAddress host;
     int port;
 
-    while(true)
+    while(!endFlag)
     {
         if (WorkerAgent::IsWaitingMessage())
         {
@@ -78,6 +80,8 @@ void MessageHandler::Start()
 
     }
 
+
+    active = false;
     delete [] data;
 }
 

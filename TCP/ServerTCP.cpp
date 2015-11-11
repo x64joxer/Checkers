@@ -7,6 +7,16 @@ ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
 }
 
+void ServerTCP::Stop()
+{
+    foreach (QTcpSocket *var, clientConnection)
+    {
+        var->close();
+    }
+
+    tcpServer->close();
+}
+
 bool ServerTCP::StartLisning(const QHostAddress&adress =QHostAddress::Any,quint16 port = 0)
 {
     Traces() << "\n" << "LOG: Start lisening port:" << port;
@@ -110,6 +120,6 @@ void ServerTCP::newDataFromClient()
 }
 
 ServerTCP::~ServerTCP()
-{
-
+{       
+    delete tcpServer;
 }

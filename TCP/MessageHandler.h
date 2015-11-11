@@ -19,10 +19,12 @@ class MessageHandler
         MessageHandler();
 
         void Start();        
+        void Stop() { endFlag = true; }
+        bool IsActive() { return active; }
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);
         void StartSharing(unsigned long time) { startTime = time; shareJobs = true; }
-        void StopSharing() { shareJobs = false; }
+        void StopSharing() { shareJobs = false; }        
 
         void ClearWorkersStateList();
         ~MessageHandler();
@@ -34,6 +36,8 @@ class MessageHandler
         void CreateOkGuard(const QHostAddress ho, const int po, std::string id, WorkersState::MessageState state);
         void NoResponseFromWorker(WorkersState *wsk);
 
+        std::atomic<bool> endFlag;
+        std::atomic<bool> active;
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<900000> *boardQueue;
         std::atomic<bool> shareJobs;

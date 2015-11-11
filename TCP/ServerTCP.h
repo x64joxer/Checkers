@@ -15,6 +15,7 @@ class ServerTCP : public QObject
     public:
 
     explicit ServerTCP(QObject *parent = 0);
+    void Stop();
     bool StartLisning(const QHostAddress&,quint16);
     void SetPeerQueue(PeerQueue *peers);    
     ~ServerTCP();

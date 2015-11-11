@@ -15,6 +15,7 @@ class WorkerAgent : public QObject
         explicit WorkerAgent(QObject *parent = 0);
 
         static void Init();
+        static void Stop();
         static Peers First() { return peerQueue.First(); }
         static bool Empty() { return peerQueue.Empty(); }
         static void SendMessage(const QHostAddress ho, const int po, char* data) { messageForwarder.SendMessage( ho, po, data); }
@@ -33,8 +34,6 @@ class WorkerAgent : public QObject
         static PeerQueue  peerQueue;
         static MessageForwarder messageForwarder;
         static ServerTCP server;
-
-
 };
 
 #endif // WORKERAGENT_H

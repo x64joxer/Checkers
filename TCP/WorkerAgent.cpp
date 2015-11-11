@@ -18,6 +18,11 @@ void WorkerAgent::Init()
     server.StartLisning(QHostAddress::Any, ProgramVariables::GetServerPort());
 }
 
+void WorkerAgent::Stop()
+{
+    server.Stop();
+}
+
 PeerQueue  WorkerAgent::peerQueue;
 MessageForwarder  WorkerAgent::messageForwarder;
 ServerTCP WorkerAgent::server;
