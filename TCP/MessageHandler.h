@@ -11,6 +11,7 @@
 #include "TCP/Peers.h"
 #include "ThreadIA/ThreadIABoardQueue.h"
 #include "ProgramVariables.h"
+#include "TCP/WorkersState.h"
 
 class MessageHandler
 {
@@ -31,6 +32,7 @@ class MessageHandler
         ThreadIABoardQueue<900000> *boardQueue;
         std::atomic<bool> shareJobs;
         unsigned long startTime;
+        std::map<std::string, WorkersState*> workersState;
 };
 
 #endif // MESSAGEHANDLER_H

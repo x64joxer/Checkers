@@ -2,7 +2,7 @@
 
 WorkersState::WorkersState(QObject *parent)
              : QObject(parent),
-               messageState(WorkerTCP::MessageState::NONE_OK)
+               messageState(MessageState::NONE_OK)
 {
     waitForOKMessageTimer = new QTimer();
     connect(waitForOKMessageTimer, SIGNAL(timeout()), this, SLOT(EmitNoResponse()));
@@ -14,7 +14,7 @@ void WorkersState::SetPeer(QHostAddress ho, int po)
     port = po;
 }
 
-void WorkersState::SetOKExpected(std::string id, WorkerTCP::MessageState state)
+void WorkersState::SetOKExpected(std::string id, MessageState state)
 {
     messageState = state;
     waitForOKMessageID = id;
