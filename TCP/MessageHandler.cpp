@@ -65,7 +65,15 @@ void MessageHandler::Start()
         }
         //Share jobs end
 
-
+        //Check timeout for OK messages
+        std::for_each(workersStateList.begin(), workersStateList.end(),
+        [this] (std::string &n)
+        {
+            if (workersState.at(n)->GetTimeout())
+            {
+                NoResponseFromWorker(workersState.at(n));
+            }
+        });
 
     }
 
@@ -199,6 +207,7 @@ void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::str
         wsk->SetPeer(ho, po);
         wsk->SetOKExpected(id, state);
         workersState[key] = wsk;
+        workersStateList.push_back(key);
     }
 }
 

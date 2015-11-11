@@ -35,6 +35,7 @@ class MessageHandler
         std::atomic<bool> shareJobs;
         unsigned long startTime;
         std::map<std::string, WorkersState*> workersState;
+        std::list<std::string> workersStateList;
 };
 
 #endif // MESSAGEHANDLER_H
