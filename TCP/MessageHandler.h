@@ -16,12 +16,16 @@
 class MessageHandler
 {
     public:
-        MessageHandler();        
+        MessageHandler();
+
         void Start();        
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);
         void StartSharing(unsigned long time) { startTime = time; shareJobs = true; }
         void StopSharing() { shareJobs = false; }
+
+        void ClearWorkersStateList();
+        ~MessageHandler();
 
     private:
         void MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);

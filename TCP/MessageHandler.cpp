@@ -220,3 +220,17 @@ void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
         wsk->SetNone();
     }
 }
+
+void MessageHandler::ClearWorkersStateList()
+{
+    std::for_each(workersStateList.begin(), workersStateList.end(),
+    [this] (std::string &n)
+    {
+        delete workersState.at(n);
+    });
+}
+
+MessageHandler::~MessageHandler()
+{
+    ClearWorkersStateList();
+}
