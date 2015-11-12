@@ -19,6 +19,7 @@ class WorkersState : public QObject
         void SetOKExpected(std::string id, std::string jId, MessageState state);
         void SetNone();
         bool GetTimeout();
+        std::string GetJobId() { return jobId; }
 
         std::string GetID() { return waitForOKMessageID; }
         MessageState GetState() { return messageState; }

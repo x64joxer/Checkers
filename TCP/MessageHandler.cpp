@@ -61,6 +61,7 @@ void MessageHandler::Start()
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
                             CreateOkGuard(ho, po, tempId, jobId, WorkersState::START_WORK_OK);
+                            jobList.push_back(jobId);
                         }
 
                     }
@@ -223,6 +224,7 @@ void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
     {
         WorkerAgent::SetState(wsk->GetHost(), wsk->GetPort(), Peers::STATE::FREE);
         wsk->SetNone();
+        jobList.remove(wsk->GetJobId());
     }
 }
 
