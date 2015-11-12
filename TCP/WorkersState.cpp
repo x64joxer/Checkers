@@ -19,7 +19,7 @@ void WorkersState::SetOKExpected(std::string id, std::string jId, MessageState s
     messageState = state;
     timeout = ProgramVariables::GetSecondsSinceEpoch();
     waitForOKMessageID = id;
-    jobId = jobId;
+    jobId = jId;
 }
 
 void WorkersState::SetNone()
