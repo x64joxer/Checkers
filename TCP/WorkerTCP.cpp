@@ -163,6 +163,7 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
     try
     {            
             timeSteps = atoi(data.at(MessageCoder::MAX_TIME).c_str());
+            jobId = data.at(MessageCoder::JOB_ID);
             MessageCoder::MapToBoard(data, board);
 
             Traces() << "\n" << "LOG: Board received:";
@@ -231,7 +232,7 @@ void WorkerTCP::SendBestResultMessage()
 
     MessageCoder::ClearChar(temp, ProgramVariables::K4);
     waitForOKMessageID = ProgramVariables::CreateMessageId();
-    MessageCoder::CreateBestResultMessage(waitForOKMessageID, temp);
+    MessageCoder::CreateBestResultMessage(waitForOKMessageID, jobId, temp);
     MessageCoder::BoardToChar(*board, temp, 1);
 
     while (tcpSocket->waitForBytesWritten()) {}

@@ -277,18 +277,20 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
     }
 }
 
-void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, std::string id, char *dest)
+void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, std::string id, std::string jobId, char *dest)
 {
     KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
+    KeyValuePairToChar(JOB_ID, jobId, dest);
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
-void MessageCoder::CreateBestResultMessage(const std::string id, char *dest)
+void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, char *dest)
 {
     KeyValuePairToChar(ACTION, BEST_RESULT, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
+    KeyValuePairToChar(JOB_ID, jobId, dest);
 }
 
 void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, char *dest)
@@ -315,6 +317,7 @@ std::string MessageCoder::BEST_RESULT = "BEST_RESULT";
 std::string MessageCoder::MAX_TIME = "MAX_TIME";
 std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
 std::string MessageCoder::STATE =  "STATE";
+std::string MessageCoder::JOB_ID = "JOB_ID";
 
 std::string MessageCoder::PREVIOUS_MURDER = "PREVIOUS_MURDER";
 std::string MessageCoder::WHITE_PATCH_END = "WHITE_PATCH_END";

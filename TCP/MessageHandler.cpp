@@ -55,11 +55,12 @@ void MessageHandler::Start()
 
                             MessageCoder::ClearChar(data, ProgramVariables::K4);
                             std::string tempId = ProgramVariables::CreateMessageId();
-                            MessageCoder::CreateStartMessage(10, 1, tempId, data);
+                            std::string jobId = ProgramVariables::CreateMessageId();
+                            MessageCoder::CreateStartMessage(10, 1, tempId, jobId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
-                            CreateOkGuard(ho, po, tempId, WorkersState::START_WORK_OK);
+                            CreateOkGuard(ho, po, tempId, jobId, WorkersState::START_WORK_OK);
                         }
 
                     }
@@ -100,7 +101,7 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
         }
         catch (std::out_of_range)
         {
-            CreateOkGuard(ho, po, "", WorkersState::NONE_OK);
+            CreateOkGuard(ho, po, "", "", WorkersState::NONE_OK);
         }
 
         if ((action != MessageCoder::OK)&&(current->GetState() != WorkersState::NONE_OK))
@@ -196,7 +197,7 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
     }
 }
 
-void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::string id, WorkersState::MessageState state)
+void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::string id, std::string jobId, WorkersState::MessageState state)
 {
     std::string key = ho.toString().toStdString() + std::to_string(po);
 
@@ -204,13 +205,13 @@ void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::str
     {
         WorkersState *wsk = workersState.at(key);
         wsk->SetPeer(ho, po);
-        wsk->SetOKExpected(id, state);
+        wsk->SetOKExpected(id, jobId, state);
     }
     catch (std::out_of_range)
     {
         WorkersState *wsk = new WorkersState();
         wsk->SetPeer(ho, po);
-        wsk->SetOKExpected(id, state);
+        wsk->SetOKExpected(id, jobId, state);
         workersState[key] = wsk;
         workersStateList.push_back(key);
     }

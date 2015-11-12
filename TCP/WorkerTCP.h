@@ -57,6 +57,7 @@ class WorkerTCP : public QObject
         QTimer *waitForIATimer;
         QTimer *waitForOKMessageTimer;
         std::string waitForOKMessageID;
+        std::string jobId;
         Board *board;
         unsigned int timeSteps;
 

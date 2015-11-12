@@ -14,11 +14,12 @@ void WorkersState::SetPeer(QHostAddress ho, int po)
     port = po;
 }
 
-void WorkersState::SetOKExpected(std::string id, MessageState state)
+void WorkersState::SetOKExpected(std::string id, std::string jId, MessageState state)
 {
     messageState = state;
     timeout = ProgramVariables::GetSecondsSinceEpoch();
     waitForOKMessageID = id;
+    jobId = jobId;
 }
 
 void WorkersState::SetNone()

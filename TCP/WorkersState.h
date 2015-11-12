@@ -15,8 +15,8 @@ class WorkersState : public QObject
         explicit WorkersState(QObject *parent = 0);
         ~WorkersState();
         enum MessageState { NONE_OK, START_WORK_OK };
-        void SetPeer(QHostAddress ho, int po);
-        void SetOKExpected(std::string id, MessageState state);
+        void SetPeer(QHostAddress ho, int po);        
+        void SetOKExpected(std::string id, std::string jId, MessageState state);
         void SetNone();
         bool GetTimeout();
 
@@ -31,6 +31,7 @@ class WorkersState : public QObject
         unsigned long timeout;
 
         std::string waitForOKMessageID;
+        std::string jobId;
         MessageState messageState;
 
 };
