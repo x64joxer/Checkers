@@ -180,17 +180,24 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
 
     try
     {
-        Board temp;
-        MessageCoder::MapToBoard(data, &temp);
-        qDebug() << "Num of elements before workers" << boardQueue->Size();
-        boardQueue->PushBack(temp);
-        qDebug() << "Num of elements after workers" << boardQueue->Size();
+        if (std::find(jobList.begin(), jobList.end(), data.at(MessageCoder::JOB_ID)) == jobList.end())
+        {
+            Traces() << "\n" << "ERR: TakeBestResult: Job not founded!";
+        } else
+        {
+            jobList.remove(data.at(MessageCoder::MESSAGE_ID));
+            Board temp;
+            MessageCoder::MapToBoard(data, &temp);
+            qDebug() << "Num of elements before workers" << boardQueue->Size();
+            boardQueue->PushBack(temp);
+            qDebug() << "Num of elements after workers" << boardQueue->Size();
 
-        WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
-        char *dest = new char[ProgramVariables::K4];
-        MessageCoder::ClearChar(dest, ProgramVariables::K4);
-        MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
-        WorkerAgent::SendMessage(ho, po, dest);
+            WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
+            char *dest = new char[ProgramVariables::K4];
+            MessageCoder::ClearChar(dest, ProgramVariables::K4);
+            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
+            WorkerAgent::SendMessage(ho, po, dest);
+        }
     }
     catch (std::out_of_range)
     {
