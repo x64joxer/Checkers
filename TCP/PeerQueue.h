@@ -21,6 +21,8 @@ class PeerQueue
         void SendMessage(QHostAddress ho, int po, char* data);        
         void SetServer(ServerTCP *serv) { server = serv; }
         Peers First() { return peers.front(); }
+        Peers AT(const unsigned int n);
+        unsigned int Size() { peers.size(); }
         bool Empty() { return peers.empty(); }
         void GetFirstMessage(QHostAddress &ho, int &po,char *data);
         void GetFirstFreePeers(QHostAddress &ho, int &po);

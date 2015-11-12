@@ -106,6 +106,26 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
     };
 }
 
+Peers PeerQueue::AT(const unsigned int n)
+{
+    unsigned int counter = 0;
+    Peers *tmp;
+
+    if (peers.size() >= n)
+    {
+        std::for_each(peers.begin(),peers.end(),
+                      [&tmp, n, &counter](Peers &var){
+                                    if (n == counter)
+                                    {
+                                        tmp = &var;
+                                    }
+                                    counter++;
+                                  });
+    }
+
+   return *tmp;
+}
+
 void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 {    
     std::lock_guard<std::mutex> guard(mutex_guard);

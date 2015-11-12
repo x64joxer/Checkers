@@ -14,8 +14,8 @@
 #include "TCP/WorkerTCP.h"
 #include "TCP/MessageHandler.h"
 #include "TCP/WorkerAgent.h"
-
 #include "TCP/MessageCoder.h"
+#include "GUI/GUIWorkersList.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +34,9 @@ class MainWindow : public QMainWindow
         void SetNumOfThreads(QAction* action);
         void on_actionTest_message_triggered();
 
-    signals:
+        void on_actionWorkers_list_triggered();
+
+signals:
         void Start();
 
     private:

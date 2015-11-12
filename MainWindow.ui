@@ -36,6 +36,7 @@
     <addaction name="actionTraces"/>
     <addaction name="menuNumber_of_threads"/>
     <addaction name="actionTest_message"/>
+    <addaction name="actionWorkers_list"/>
    </widget>
    <addaction name="menuPreferences"/>
   </widget>
@@ -63,7 +64,12 @@
   </action>
   <action name="actionTest_message">
    <property name="text">
-    <string>Test message</string>
+    <string>Test &amp;message</string>
+   </property>
+  </action>
+  <action name="actionWorkers_list">
+   <property name="text">
+    <string>Workers list...</string>
    </property>
   </action>
  </widget>
