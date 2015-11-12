@@ -52,7 +52,7 @@ unsigned long ProgramVariables::GetSecondsSinceEpoch()
 
 unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
 {
-    return 3;
+    return 5;
 }
 
 unsigned long ProgramVariables::GetMaxTimeWaitToServer()
