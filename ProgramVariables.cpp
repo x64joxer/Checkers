@@ -67,7 +67,7 @@ QString ProgramVariables::GetServerIP()
 
 int ProgramVariables::GetServerPort()
 {
-   return 6000;
+   return 16201;
 }
 
 unsigned int ProgramVariables::GetRecconectingTime()
