@@ -56,7 +56,14 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
                                              if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                              {                                                 
                                                 wsk = &n;
-                                                if (n.GetState() == Peers::STATE::FREE) freePeers--;
+                                                if (n.GetState() == Peers::STATE::FREE)
+                                                {
+                                                    --freePeers;
+                                                } else
+                                                if (n.GetState() == Peers::STATE::FREE)
+                                                {
+                                                    --busyPeers;
+                                                }
                                                 flag = true;
                                              }
                                          }
