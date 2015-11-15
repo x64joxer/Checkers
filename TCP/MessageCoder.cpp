@@ -68,6 +68,7 @@ void MessageCoder::MessageToMap(const char *source, std::map<std::string, std::s
     unsigned int end;
     unsigned int begin_val;
     unsigned int end_val;
+    std::string keyString;
     bool key = false;
 
     while (source[i] != 0)
@@ -87,9 +88,12 @@ void MessageCoder::MessageToMap(const char *source, std::map<std::string, std::s
             {
                 end_val = i;
                 key = false;
-                dest[std::string(source + begin + 1, source + end)] = std::string(source + begin_val + 1, source + end_val);
+                keyString = std::string(source + begin + 1, source + end);
+                dest[keyString] = std::string(source + begin_val + 1, source + end_val);
             };
         }
+
+        if (keyString == MESSAGE_END) break;
 
         i++;
     };
@@ -171,6 +175,7 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
         }
     }
 
+    KeyValuePairToChar(MESSAGE_END, 0, dest);
 }
 
 void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, Board *board)
@@ -278,7 +283,7 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
 }
 
 void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, std::string id, std::string jobId, char *dest)
-{
+{    
     KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
@@ -290,7 +295,7 @@ void MessageCoder::CreateBestResultMessage(const std::string id, const std::stri
 {
     KeyValuePairToChar(ACTION, BEST_RESULT, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
-    KeyValuePairToChar(JOB_ID, jobId, dest);
+    KeyValuePairToChar(JOB_ID, jobId, dest);    
 }
 
 void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, char *dest)
@@ -298,17 +303,20 @@ void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, c
     KeyValuePairToChar(ACTION, SET_STATE, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
     KeyValuePairToChar(STATE, stat, dest);
+    KeyValuePairToChar(MESSAGE_END, 0, dest);
 }
 
 void MessageCoder::CreateOkMessage(const std::string id, char *dest)
 {
     KeyValuePairToChar(ACTION, OK, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
+    KeyValuePairToChar(MESSAGE_END, 0, dest);
 }
 
 std::string MessageCoder::ACTION = "ACTION";
 std::string MessageCoder::OK = "OK";
 std::string MessageCoder::MESSAGE_ID = "MESSAGE_ID";
+std::string MessageCoder::MESSAGE_END = "MESSAGE_END";
 
 std::string MessageCoder::START_WORK = "START_WORK";
 std::string MessageCoder::SET_STATE = "SET_STATE";

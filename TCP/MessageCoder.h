@@ -35,6 +35,7 @@ class MessageCoder
         static std::string ACTION;
         static std::string OK;
         static std::string MESSAGE_ID;
+        static std::string MESSAGE_END;
 
         static std::string START_WORK;
         static std::string SET_STATE;        
