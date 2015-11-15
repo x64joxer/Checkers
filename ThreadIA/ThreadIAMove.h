@@ -32,4 +32,9 @@ class ThreadIAMove
 
 };
 
+
+#include "ThreadIA/ThreadIAMove_Impl.h"
+
 #endif // THREADIAMOVE_H
+
+

@@ -65,7 +65,9 @@ HEADERS  += MainWindow.h \
     TCP/WorkerAgent.h \
     TCP/MessageCoder.h \
     TCP/WorkersState.h \
-    GUI/GUIWorkersList.h
+    GUI/GUIWorkersList.h \
+    ThreadIA/threadiamove_impl.h \
+    ThreadIA/ThreadIAMove_Impl.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui \
