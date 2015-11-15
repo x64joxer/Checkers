@@ -12,8 +12,8 @@ destination_folder=/home/x64joxer
 source_folder=Checkers
 
 
-instance_1_server=192.168.0.12
-instance_2_server=192.168.0.13
+instance_1_server=192.168.0.7
+instance_2_server=192.168.0.8
 
 cp $autostart_script Checkers
 cp /media/BIG_DISC/programowanie/PROJEKTY/Checkers/build-Checkers-Desktop_Qt_5_5_0_GCC_64bit-Debug/* Checkers/
