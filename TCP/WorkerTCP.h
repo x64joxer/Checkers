@@ -39,6 +39,7 @@ class WorkerTCP : public QObject
         void Init();
         void SendStateMessage();
         void SendBestResultMessage();
+        bool IsEndMessage(const char* data, const unsigned int end, const char *text);
 
         QTcpSocket *tcpSocket;
         enum ConState { DISCONNECTED, CONNECTED} connection_state;

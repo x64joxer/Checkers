@@ -123,31 +123,24 @@ void WorkerTCP::ReadDataFromServer()
 
     globalLength += intTemp;
 
-    bool flag = false;
+    char *tempChar = new char[64];
+    MessageCoder::ClearChar(tempChar, 64);
+    MessageCoder::KeyValuePairToChar(MessageCoder::MESSAGE_END, 0, tempChar);
 
-    unsigned int i = globalLength-10;
-
-       if ((globalData[i] == 'G')&&
-           (globalData[i+1] == 'E')&&
-           (globalData[i+2] == '_')&&
-           (globalData[i+3] == 'E')&&
-           (globalData[i+4] == 'N')&&
-           (globalData[i+5] == 'D'))
-       {
-           flag = true;
-           globalLength = 0;   
-       }    
-
-    if (flag)
+    if (IsEndMessage(globalData, globalLength, tempChar))
     {
+        delete [] tempChar;
+        globalLength = 0;
         Traces() << "\n" << "LOG: New data from server: " << QString(globalData);
 
         std::map<std::string, std::string> recMessage;
         MessageCoder::MessageToMap(globalData, recMessage);
 
         MessageInterpreting(recMessage);
+    } else
+    {
+        delete [] tempChar;
     }
-
 }
 
 void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> data)
@@ -302,6 +295,25 @@ void WorkerTCP::NoResponseFromServer()
             messageState = NONE_OK;
         }
     }
+}
+
+bool WorkerTCP::IsEndMessage(const char* data, const unsigned int end, const char *text)
+{
+    Traces() << "\n" << "LOG: Trap 1";
+    unsigned int textLen = strlen(text);
+    Traces() << "\n" << "LOG: Len " << textLen;
+    Traces() << "\n" << "LOG: Trap 2";
+    unsigned int counter = 0;
+
+    for (unsigned int i = end - textLen; i < end; i++)
+    {
+        Traces() << "\n" << "LOG: Trap 3";
+        if (data[i] != text[counter]) return 0;
+        Traces() << "\n" << "LOG: Trap 4";
+        counter++;
+    }
+
+    return 1;
 }
 
 WorkerTCP::~WorkerTCP()
