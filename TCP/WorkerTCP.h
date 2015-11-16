@@ -60,6 +60,8 @@ class WorkerTCP : public QObject
         std::string jobId;
         Board *board;
         unsigned int timeSteps;
+        char *globalData;
+        unsigned int globalLength;
 
 };
 

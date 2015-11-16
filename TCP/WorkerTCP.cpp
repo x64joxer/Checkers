@@ -10,6 +10,8 @@ WorkerTCP::WorkerTCP(QObject *parent)
 
 void WorkerTCP::Init()
 {
+    globalData = new char[ProgramVariables::K4];
+    globalLength = 0;
     state = Peers::STATE::FREE;
     board = new Board();
 
@@ -106,16 +108,46 @@ void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
 
 void WorkerTCP::ReadDataFromServer()
 {    
-    char *data  = new char[ProgramVariables::K4];
 
-    tcpSocket->read(data,tcpSocket->bytesAvailable());
-    Traces() << "\n" << "LOG: New data from server: " << QString(data);
+    if (globalLength == 0) MessageCoder::ClearChar(globalData, ProgramVariables::K4);
 
-    std::map<std::string, std::string> recMessage;
-    MessageCoder::MessageToMap(data, recMessage);
-    MessageInterpreting(recMessage);
+    unsigned int intTemp = tcpSocket->bytesAvailable();
 
-    delete [] data;
+    if (globalLength ==0)
+    {
+        tcpSocket->read(globalData, tcpSocket->bytesAvailable());
+    } else
+    {
+        tcpSocket->read(globalData+globalLength, tcpSocket->bytesAvailable());
+    }
+
+    globalLength += intTemp;
+
+    bool flag = false;
+
+    unsigned int i = globalLength-10;
+
+       if ((globalData[i] == 'G')&&
+           (globalData[i+1] == 'E')&&
+           (globalData[i+2] == '_')&&
+           (globalData[i+3] == 'E')&&
+           (globalData[i+4] == 'N')&&
+           (globalData[i+5] == 'D'))
+       {
+           flag = true;
+           globalLength = 0;   
+       }    
+
+    if (flag)
+    {
+        Traces() << "\n" << "LOG: New data from server: " << QString(globalData);
+
+        std::map<std::string, std::string> recMessage;
+        MessageCoder::MessageToMap(globalData, recMessage);
+
+        MessageInterpreting(recMessage);
+    }
+
 }
 
 void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> data)
@@ -268,6 +300,7 @@ void WorkerTCP::NoResponseFromServer()
 
 WorkerTCP::~WorkerTCP()
 {
+    delete globalData;
     delete waitForOKMessageTimer;
     delete waitForIATimer;
     delete tcpSocket;
