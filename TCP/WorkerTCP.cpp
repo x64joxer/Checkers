@@ -164,7 +164,13 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
         } else
         if (action == MessageCoder::START_WORK)
         {
-            TakeStartWork(data);
+            if (state == Peers::FREE)
+            {
+                TakeStartWork(data);
+            } else
+            {
+                Traces() << "\n" << "ERR: Received start work from serwer when state is not free!";
+            }
         } else
         if (action == MessageCoder::OK)
         {
