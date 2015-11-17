@@ -1,6 +1,7 @@
 #ifndef THREADIAMOVE_IMPL
 #define THREADIAMOVE_IMPL
 
+#include "ProgramVariables.h"
 
 template  <unsigned long int QMain>
 ThreadIAMove<QMain>::ThreadIAMove()
@@ -50,7 +51,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
     } else
     {
         //Set origin to all
-        SetOriginToAll();
+        if (!ProgramVariables::IsWorker()) SetOriginToAll();
 
         //Start sharing jobs
         if (messageHandler) messageHandler->StartSharing(ProgramVariables::GetSecondsSinceEpoch());
