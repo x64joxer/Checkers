@@ -56,7 +56,7 @@ void MessageHandler::Start()
                             MessageCoder::ClearChar(data, ProgramVariables::K4);
                             std::string tempId = ProgramVariables::CreateMessageId();
                             std::string jobId = ProgramVariables::CreateMessageId();
-                            MessageCoder::CreateStartMessage(10, 1, tempId, jobId, data);
+                            MessageCoder::CreateStartMessage(ProgramVariables::GetSecondsSinceEpoch() - startTime, 1, tempId, jobId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
