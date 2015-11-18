@@ -18,7 +18,7 @@ class ThreadIABoardQueue
         Board GetBestResult();
         void GetBestResult2(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board *best);
         void Clear();
-        Board First();
+        Board First(const bool remove);
         Board PopFirst();
         unsigned long int GetFirstNumber();
         void NotifyRest();

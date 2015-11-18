@@ -22,18 +22,31 @@ void ThreadIABoardQueue<size>::Clear()
 }
 
 template <unsigned long int size>
-Board ThreadIABoardQueue<size>::First()
+Board ThreadIABoardQueue<size>::First(const bool remove)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
 
+    Board temp;
+
     if (Empty())
     {
-        Board temp;
         temp.SetNullBoard(true);
         return temp;
     }
 
-    return queue[first];
+    temp = queue[first];
+
+    if (remove)
+    {
+        first++;
+        if (first == size)
+        {
+         first = 0;
+        };
+        numberOfElements--;
+    }
+
+    return temp;
 }
 
 template <unsigned long int size>

@@ -47,7 +47,7 @@ void MessageHandler::Start()
                         WorkerAgent::GetFirstFreePeers(ho, po);
 
                         Traces() << "\n" << "LOG: Take first board";
-                        Board board = boardQueue->First();
+                        Board board = boardQueue->First(1);
 
                         if (!board.GetNullBoard())
                         {
