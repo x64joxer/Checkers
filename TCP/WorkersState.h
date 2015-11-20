@@ -27,12 +27,14 @@ class WorkersState : public QObject
         int GetPort() { return port; }
 
     private:
+        void StartTimer();
         QHostAddress host;
         int port;
         unsigned long timeout;
 
         std::string waitForOKMessageID;
         std::string jobId;
+        std::thread timerThread;
         MessageState messageState;
 
 };

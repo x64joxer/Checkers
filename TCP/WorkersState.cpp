@@ -20,6 +20,9 @@ void WorkersState::SetOKExpected(std::string id, std::string jId, MessageState s
     timeout = ProgramVariables::GetSecondsSinceEpoch();
     waitForOKMessageID = id;
     jobId = jId;
+    std::thread tempThread(&WorkersState::StartTimer, this);
+    timerThread = std::move(tempThread);
+    timerThread.detach();
 }
 
 void WorkersState::SetNone()
@@ -36,6 +39,13 @@ bool WorkersState::GetTimeout()
     }
 
     return 0;
+}
+
+void WorkersState::StartTimer()
+{
+    std::chrono::seconds dura( ProgramVariables::GetMaxTimeWaitToWorkers() );
+    std::this_thread::sleep_for(dura);
+    ProgramVariables::GetGlobalConditionVariable()->notify_all();
 }
 
 WorkersState::~WorkersState()
