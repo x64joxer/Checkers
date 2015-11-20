@@ -70,6 +70,11 @@ int ProgramVariables::GetServerPort()
    return 6000;
 }
 
+std::condition_variable * ProgramVariables::GetGlobalConditionVariable()
+{
+    return &condition_var;
+}
+
 unsigned int ProgramVariables::GetRecconectingTime()
 {
     return 5000;
@@ -96,3 +101,4 @@ unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxTh
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;
 unsigned long ProgramVariables::messageId = 0;
 std::mutex ProgramVariables::mutex_guard;
+std::condition_variable ProgramVariables::condition_var;

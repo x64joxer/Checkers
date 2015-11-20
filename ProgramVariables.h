@@ -4,6 +4,7 @@
 #include <QString>
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 
 class ProgramVariables
 {
@@ -22,6 +23,7 @@ class ProgramVariables
         static unsigned short GetMaxNumberOfReattempt();
         static QString GetServerIP();
         static int GetServerPort();
+        static std::condition_variable * GetGlobalConditionVariable();
         static std::string CreateMessageId();        
 
         static const unsigned int K4 =  4 * 1024;
@@ -34,7 +36,7 @@ class ProgramVariables
         static bool isWorker;
         static unsigned long messageId;
         static std::mutex mutex_guard;
-
+        static std::condition_variable condition_var;
 };
 
 #endif // PROGRAMVARIABLES_H
