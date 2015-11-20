@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include "Board.h"
 #include "Traces/Traces.h"
+#include "ProgramVariables.h"
 
 template <unsigned long int size>
 class ThreadIABoardQueue
@@ -38,7 +39,7 @@ class ThreadIABoardQueue
         unsigned long int doNotForgetnumberOfElements;
 
         std::mutex mutex_guard;
-        std::condition_variable condition_var;
+        std::condition_variable *condition_var;
         unsigned short workersFlags;
 };
 
