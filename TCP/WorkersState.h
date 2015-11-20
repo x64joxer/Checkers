@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QTimer>
 #include <QHostAddress>
+#include <atomic>
+#include <iostream>
 #include "ProgramVariables.h"
 
 
@@ -25,6 +27,7 @@ class WorkersState : public QObject
         MessageState GetState() { return messageState; }
         QHostAddress GetHost() { return host; }
         int GetPort() { return port; }
+        static unsigned int GetGlobNumOfWaitingTimer() { std::cout << globNumOfWaitingTimer; return globNumOfWaitingTimer; }
 
     private:
         void StartTimer();
@@ -36,6 +39,9 @@ class WorkersState : public QObject
         std::string jobId;
         std::thread timerThread;
         MessageState messageState;
+
+        static unsigned int globNumOfWaitingTimer;
+        static std::mutex guard;
 
 };
 #endif // WORKERSSTATE_H

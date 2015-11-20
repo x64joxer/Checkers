@@ -19,9 +19,22 @@ void MessageHandler::Start()
     char * data = new char[ProgramVariables::K4];
     QHostAddress host;
     int port;
+    std::mutex mutex_guard;    
 
-    while(!endFlag)
+    while(!endFlag)                
     {
+
+        {
+
+            std::unique_lock<std::mutex> guard(mutex_guard);
+            ProgramVariables::GetGlobalConditionVariable()->wait(guard,[this]
+            {
+                return WorkerAgent::IsWaitingMessage() | ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) | WorkersState::GetGlobNumOfWaitingTimer(); }
+            );
+            mutex_guard.unlock();
+            std::cout << "Yes";
+        }
+
         if (WorkerAgent::IsWaitingMessage())
         {
             std::map<std::string, std::string> recMessage;
