@@ -32,7 +32,7 @@ class Peers
         STATE state;
         QHostAddress host;
         int port;
-        std::list<char*> data;
+        std::list<char*> data;        
 };
 
 #endif // PEERS_H

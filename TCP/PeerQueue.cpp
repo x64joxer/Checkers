@@ -4,6 +4,7 @@ PeerQueue::PeerQueue()
           : freePeers(0),
             busyPeers(0)
 {
+    condition_var = ProgramVariables::GetGlobalConditionVariable();
     server = NULL;
 }
 
@@ -34,6 +35,7 @@ void PeerQueue::AddPeer(QHostAddress ho, int po)
         Peers temp;
         temp.SetPeer(ho,po);
         peers.push_back(temp);
+        condition_var->notify_all();
 
         Traces() << "\n" << "LOG: Peer added to queue.";
     } else
@@ -72,6 +74,8 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
         if (flag)
         {            
             peers.remove(*wsk);
+            condition_var->notify_all();
+
             Traces() << "\n" << "LOG: Peer removed from queue.";
         } else
         {
@@ -99,6 +103,8 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
 
     if (flag)
     {        
+        condition_var->notify_all();
+
         Traces() << "\n" << "LOG: Data added to peer.";
     } else
     {
@@ -242,8 +248,10 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
                                      }
                                  });
 
-    if (flag)
+    if (flag)        
     {
+        condition_var->notify_all();
+
         Traces() << "\n" << "LOG: State set";
     } else
     {

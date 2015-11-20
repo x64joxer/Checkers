@@ -4,10 +4,12 @@
 #include <QHostAddress>
 #include <mutex>
 #include <list>
+#include <condition_variable>
 #include "Traces/Traces.h"
 #include "TCP/Peers.h"
 #include "TCP/ServerTCP.h"
 #include "TCP/Peers.h"
+#include "ProgramVariables.h"
 
 class ServerTCP;
 
@@ -41,6 +43,7 @@ class PeerQueue
         std::mutex mutex_guard;
         unsigned int freePeers;
         unsigned int busyPeers;
+        std::condition_variable *condition_var;
 
 };
 
