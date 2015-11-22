@@ -20,7 +20,7 @@ class MessageHandler
         MessageHandler();
 
         void Start();        
-        void Stop() { endFlag = true; }
+        void Stop() { endFlag = true; ProgramVariables::GetGlobalConditionVariable()->notify_all(); }
         bool IsActive() { return active; }
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);

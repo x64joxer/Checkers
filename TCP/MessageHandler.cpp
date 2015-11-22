@@ -29,7 +29,10 @@ void MessageHandler::Start()
             std::unique_lock<std::mutex> guard(mutex_guard);
             ProgramVariables::GetGlobalConditionVariable()->wait(guard,[this]
             {
-                return WorkerAgent::IsWaitingMessage() | ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) | WorkersState::GetGlobNumOfWaitingTimer(); }
+                return WorkerAgent::IsWaitingMessage() |
+                       ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) |
+                       WorkersState::GetGlobNumOfWaitingTimer() |
+                       endFlag ; }
             );
             mutex_guard.unlock();
             std::cout << "Yes";
