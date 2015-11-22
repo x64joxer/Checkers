@@ -51,7 +51,7 @@ void MessageHandler::Start()
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
             {                
-                if (ProgramVariables::GetSecondsSinceEpoch() - startTime > ProgramVariables::GetMaxSecondsToEnd())
+                if (ProgramVariables::GetMaxTimeForIa() - (ProgramVariables::GetSecondsSinceEpoch() - startTime) > ProgramVariables::GetMaxSecondsToEnd())
                 {
                     if (boardQueue->Size() > 0)
                     {
@@ -69,7 +69,7 @@ void MessageHandler::Start()
                             MessageCoder::ClearChar(data, ProgramVariables::K4);
                             std::string tempId = ProgramVariables::CreateMessageId();
                             std::string jobId = ProgramVariables::CreateMessageId();
-                            MessageCoder::CreateStartMessage(ProgramVariables::GetSecondsSinceEpoch() - startTime, 1, tempId, jobId, data);
+                            MessageCoder::CreateStartMessage(ProgramVariables::GetMaxTimeForIa() - (ProgramVariables::GetSecondsSinceEpoch() - startTime), 1, tempId, jobId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);

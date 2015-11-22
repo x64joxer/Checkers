@@ -53,9 +53,6 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         //Set origin to all
         if (!ProgramVariables::IsWorker()) SetOriginToAll();
 
-        //Start sharing jobs
-        if (messageHandler) messageHandler->StartSharing(ProgramVariables::GetSecondsSinceEpoch());
-
         //Start threads
         for (unsigned short i=1;i<=numberOfThreads;i++)
         {
@@ -70,6 +67,9 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
                                                 ));
 
         };
+
+        //Start sharing jobs
+        if (messageHandler) messageHandler->StartSharing(ProgramVariables::GetSecondsSinceEpoch());
 
         for (unsigned short i=1;i<=numberOfThreads;i++)
         {

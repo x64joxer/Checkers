@@ -96,6 +96,11 @@ unsigned long ProgramVariables::GetMaxSecondsToEnd()
     return 3;
 }
 
+unsigned long ProgramVariables::GetMaxTimeForIa()
+{
+    return 10;
+}
+
 bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;

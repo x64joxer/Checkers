@@ -250,7 +250,7 @@ void CheckerArea::StartThinking()
                         &currentPercentOfSteps,
                         ProgramVariables::GetNumberOfThreads(),
                         3000,
-                        10,
+                        ProgramVariables::GetMaxTimeForIa(),
                         KindOfSteps::Time);
 
     tempJob.detach();
