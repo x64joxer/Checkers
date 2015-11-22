@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if (ProgramVariables::IsWorker())
     {
         Traces::SetTraceFolder("trace");
-        Traces::TurnOnTraces();
+        Traces::TurnOffTraces();
         workerTCP = new WorkerTCP(this);
         workerTCP->ConnectToServer(ProgramVariables::GetServerIP(), ProgramVariables::GetServerPort());
     } else
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::Init()
 {
     Traces::SetTraceFolder("trace");
-    Traces::TurnOnTraces();
+    Traces::TurnOffTraces();
 
     FillThreadsListMenu();
 
@@ -64,17 +64,6 @@ void MainWindow::Init()
 
     handlerThread = std::move(std::thread(&MessageHandler::Start,&handler));
 
-    //Test
-    char *c = new char[2000];
-
-    MessageCoder::ClearChar(c, 2000);
-    MessageCoder::BoardToChar(*board, c, 1);
-
-
-    Traces() << QString(c);
-
-    delete [] c;
-    //Test
 }
 
 void MainWindow::FillThreadsListMenu()
