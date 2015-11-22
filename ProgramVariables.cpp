@@ -107,3 +107,4 @@ unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfTh
 unsigned long ProgramVariables::messageId = 0;
 std::mutex ProgramVariables::mutex_guard;
 std::condition_variable ProgramVariables::condition_var;
+unsigned long ProgramVariables::numOfAnalysded = 0;

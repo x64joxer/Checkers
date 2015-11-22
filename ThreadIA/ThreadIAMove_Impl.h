@@ -87,6 +87,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         if (messageHandler) messageHandler->StopSharing();
 
+        ProgramVariables::SetNumOfAnalyded(queue.Size());
+
         qDebug() << "Num of elements" << queue.Size();
 
         if (numberOfThreads <2)
@@ -176,8 +178,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         Traces() << "\n" << "LOG: Best board set:";
         temp.printDebug();
-        boardWsk->printDebug();
-
+        boardWsk->printDebug();        
 
         *flag = true;
     };

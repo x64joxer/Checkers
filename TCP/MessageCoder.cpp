@@ -291,9 +291,10 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
-void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, char *dest)
+void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long numOfAnalysed, char *dest)
 {
     KeyValuePairToChar(ACTION, BEST_RESULT, dest);
+    KeyValuePairToChar(NUM_OF_ANALYSED, numOfAnalysed, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
     KeyValuePairToChar(JOB_ID, jobId, dest);    
 }
@@ -323,6 +324,7 @@ std::string MessageCoder::SET_STATE = "SET_STATE";
 std::string MessageCoder::BEST_RESULT = "BEST_RESULT";
 
 std::string MessageCoder::MAX_TIME = "MAX_TIME";
+std::string MessageCoder::NUM_OF_ANALYSED = "NUM_OF_ANALYSED";
 std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
 std::string MessageCoder::STATE =  "STATE";
 std::string MessageCoder::JOB_ID = "JOB_ID";

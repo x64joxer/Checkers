@@ -26,6 +26,8 @@ class ProgramVariables
         static int GetServerPort();
         static std::condition_variable * GetGlobalConditionVariable();
         static std::string CreateMessageId();        
+        static void SetNumOfAnalyded(const unsigned long val) { numOfAnalysded = val; }
+        static unsigned long GetNumOfAnalyded() { return numOfAnalysded; }
 
         static const unsigned int K4 =  4 * 1024;
 
@@ -38,6 +40,7 @@ class ProgramVariables
         static unsigned long messageId;
         static std::mutex mutex_guard;
         static std::condition_variable condition_var;
+        static unsigned long numOfAnalysded;
 };
 
 #endif // PROGRAMVARIABLES_H

@@ -13,7 +13,7 @@ class ThreadIAMove
 {
     public:
         ThreadIAMove();
-        void SetMessageHandler(MessageHandler *wsk);
+        void SetMessageHandler(MessageHandler *wsk);        
 
         void operator ()(Board * boardWsk,
                          std::atomic_bool * flag,

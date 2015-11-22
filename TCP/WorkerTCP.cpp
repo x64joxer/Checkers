@@ -263,7 +263,7 @@ void WorkerTCP::SendBestResultMessage()
 
     MessageCoder::ClearChar(temp, ProgramVariables::K4);
     waitForOKMessageID = ProgramVariables::CreateMessageId();
-    MessageCoder::CreateBestResultMessage(waitForOKMessageID, jobId, temp);
+    MessageCoder::CreateBestResultMessage(waitForOKMessageID, jobId, ProgramVariables::GetNumOfAnalyded(), temp);
     MessageCoder::BoardToChar(*board, temp, 1);
 
     while (tcpSocket->waitForBytesWritten()) {}

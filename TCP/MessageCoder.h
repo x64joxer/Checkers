@@ -22,7 +22,7 @@ class MessageCoder
 
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
         static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard,  std::string id, std::string jobId, char *dest);
-        static void CreateBestResultMessage(const std::string id, const std::string jobId, char *dest);
+        static void CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long numOfAnalysed, char *dest);
         static void CreateStateMessage(Peers::STATE stat, const std::string id, char *dest);
         static void CreateOkMessage(const std::string id, char *dest);
 
@@ -42,6 +42,7 @@ class MessageCoder
         static std::string BEST_RESULT;
 
         static std::string MAX_TIME;
+        static std::string NUM_OF_ANALYSED;
         static std::string NUM_OF_BOARD;
         static std::string STATE;
         static std::string JOB_ID;
