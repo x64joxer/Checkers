@@ -35,7 +35,6 @@ void MessageHandler::Start()
                        endFlag ; }
             );
             mutex_guard.unlock();
-            std::cout << "Yes";
         }
 
         if (WorkerAgent::IsWaitingMessage())
@@ -199,7 +198,8 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
         if (std::find(jobList.begin(), jobList.end(), data.at(MessageCoder::JOB_ID)) == jobList.end())
         {
             Traces() << "\n" << "ERR: TakeBestResult: Job not founded!";
-        } else
+        } else        
+        if (shareJobs)
         {
             jobList.remove(data.at(MessageCoder::MESSAGE_ID));
             Board temp;

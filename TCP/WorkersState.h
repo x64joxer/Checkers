@@ -27,7 +27,7 @@ class WorkersState : public QObject
         MessageState GetState() { return messageState; }
         QHostAddress GetHost() { return host; }
         int GetPort() { return port; }
-        static unsigned int GetGlobNumOfWaitingTimer() { std::cout << globNumOfWaitingTimer; return globNumOfWaitingTimer; }
+        static unsigned int GetGlobNumOfWaitingTimer() { return globNumOfWaitingTimer; }
 
     private:
         void StartTimer();
