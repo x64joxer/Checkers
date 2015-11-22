@@ -204,6 +204,8 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
             jobList.remove(data.at(MessageCoder::MESSAGE_ID));
             Board temp;
             MessageCoder::MapToBoard(data, &temp);
+            std::string tempNumOfanalysed = data.at(MessageCoder::NUM_OF_ANALYSED);
+            Traces() << "\n" << "LOG: Number of trees analysed by worker " << ho.toString() << ":" << po << " = " << QString(tempNumOfanalysed.c_str());
             qDebug() << "Num of elements before workers" << boardQueue->Size();
             boardQueue->PushBack(temp);
             qDebug() << "Num of elements after workers" << boardQueue->Size();

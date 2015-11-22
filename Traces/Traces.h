@@ -19,9 +19,9 @@ class Traces
     public:
         Traces();
 
-        //Traces& operator <<(std::string);
-        Traces& operator <<(QString );
-        Traces& operator <<(long);
+        //Traces& operator <<(const std::string);
+        Traces& operator <<(const QString );
+        Traces& operator <<(const unsigned long);
 
         static unsigned long int GetCurrentTime();
         static std::string GetCurrentDate();

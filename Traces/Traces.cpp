@@ -5,9 +5,8 @@ Traces::Traces()
 
 }
 
-/*Traces& Traces::operator <<(std::string data)
+/*Traces& Traces::operator <<(const std::string data)
 {
-    qDebug() << "Operator";
     StringToFile(data);
 }*/
 
@@ -101,7 +100,7 @@ Traces& Traces::operator <<(QString data)
     };
 }
 
-Traces& Traces::operator <<(long data)
+Traces& Traces::operator <<(const unsigned long data)
 {    
     if (traceOn)
     {  
