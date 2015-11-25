@@ -209,7 +209,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
             temp.SetOrigin(temp);
 
             TRACE01 Traces() << "\n" << "LOG: Origin set";
-            temp.printDebug();
+            TRACE01 temp.printDebug();
             queue.PushBack(temp);
         }
     };

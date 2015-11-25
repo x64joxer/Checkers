@@ -479,8 +479,8 @@ void Board::printDebug() const
 {
     QString line;
     bool flag = 0;
-    Traces() << "\n" << "LOG: White= " << GetNumberOfWhite();
-    Traces() << "\n" << "LOG: Black= " << GetNumberOfBlack();
+    TRACE01 Traces() << "\n" << "LOG: White= " << GetNumberOfWhite();
+    TRACE01 Traces() << "\n" << "LOG: Black= " << GetNumberOfBlack();
 
     for (int y=0; y<8; y++)
     {

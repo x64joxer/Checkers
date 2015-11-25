@@ -178,7 +178,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, un
 template <unsigned long int MQueue, unsigned long int sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
-    Traces() << "\n" << "ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";
+    TRACE01 Traces() << "\n" << "LOG: ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";
     TRACE01 Traces() << "\n" << "LOG: numberOfElements=" << numberOfElements;
 
     if (numberOfElements>0)

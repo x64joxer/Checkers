@@ -98,7 +98,7 @@ unsigned long ProgramVariables::GetMaxSecondsToEnd()
 
 unsigned long ProgramVariables::GetMaxTimeForIa()
 {
-    return 10;
+    return 5;
 }
 
 bool ProgramVariables::isWorker = false;
