@@ -8,7 +8,7 @@
 #include "ThreadIA/ThreadIATreeExpander.cpp"
 #include "TCP/MessageHandler.h"
 
-template <unsigned long int QMain>
+template <unsigned long long QMain>
 class ThreadIAMove
 {
     public:

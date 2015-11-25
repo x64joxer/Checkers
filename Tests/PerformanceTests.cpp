@@ -22,7 +22,7 @@ void PerformanceTests::Test01()
 
     Traces::TurnOffTraces();
 
-    unsigned long int result[ProgramVariables::GetMaxNumberOfThreads()];
+    unsigned long long result[ProgramVariables::GetMaxNumberOfThreads()];
 
     for (unsigned short numOfThreads=1;numOfThreads<=ProgramVariables::GetMaxNumberOfThreads();numOfThreads++)
     {

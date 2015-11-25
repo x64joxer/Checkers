@@ -15,19 +15,19 @@ class ProgramVariables
         static void SetNumberOfThreads(const unsigned short num);
         static bool IsWorker();
         static void SetWorker(const bool flag);
-        static unsigned long GetSecondsSinceEpoch();
-        static unsigned long GetMaxSecondsToEnd();
-        static unsigned long GetMaxTimeForIa();
-        static unsigned long GetMaxTimeWaitToWorkers();
-        static unsigned long GetMaxTimeWaitToServer();
+        static unsigned long long GetSecondsSinceEpoch();
+        static unsigned long long GetMaxSecondsToEnd();
+        static unsigned long long GetMaxTimeForIa();
+        static unsigned long long GetMaxTimeWaitToWorkers();
+        static unsigned long long GetMaxTimeWaitToServer();
         static unsigned int GetRecconectingTime();
         static unsigned short GetMaxNumberOfReattempt();
         static QString GetServerIP();
         static int GetServerPort();
         static std::condition_variable * GetGlobalConditionVariable();
         static std::string CreateMessageId();        
-        static void SetNumOfAnalyded(const unsigned long val) { numOfAnalysded = val; }
-        static unsigned long GetNumOfAnalyded() { return numOfAnalysded; }
+        static void SetNumOfAnalyded(const unsigned long long val) { numOfAnalysded = val; }
+        static unsigned long long GetNumOfAnalyded() { return numOfAnalysded; }
 
         static const unsigned int K4 =  4 * 1024;
 
@@ -37,10 +37,10 @@ class ProgramVariables
         static unsigned short maxNumbeOfThreads;
         static unsigned short numbeOfThreads;
         static bool isWorker;
-        static unsigned long messageId;
+        static unsigned long long messageId;
         static std::mutex mutex_guard;
         static std::condition_variable condition_var;
-        static unsigned long numOfAnalysded;
+        static unsigned long long numOfAnalysded;
 };
 
 #endif // PROGRAMVARIABLES_H

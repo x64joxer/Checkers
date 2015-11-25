@@ -43,19 +43,19 @@ void ProgramVariables::SetWorker(const bool flag)
     isWorker = flag;
 }
 
-unsigned long ProgramVariables::GetSecondsSinceEpoch()
+unsigned long long ProgramVariables::GetSecondsSinceEpoch()
 {
     std::time_t result = std::time(nullptr);
 
     return result;
 }
 
-unsigned long ProgramVariables::GetMaxTimeWaitToWorkers()
+unsigned long long ProgramVariables::GetMaxTimeWaitToWorkers()
 {
     return 5;
 }
 
-unsigned long ProgramVariables::GetMaxTimeWaitToServer()
+unsigned long long ProgramVariables::GetMaxTimeWaitToServer()
 {
     return 3000;
 }
@@ -91,12 +91,12 @@ std::string ProgramVariables::CreateMessageId()
     return std::to_string(++messageId);
 }
 
-unsigned long ProgramVariables::GetMaxSecondsToEnd()
+unsigned long long ProgramVariables::GetMaxSecondsToEnd()
 {
     return 3;
 }
 
-unsigned long ProgramVariables::GetMaxTimeForIa()
+unsigned long long ProgramVariables::GetMaxTimeForIa()
 {
     return 5;
 }
@@ -104,7 +104,7 @@ unsigned long ProgramVariables::GetMaxTimeForIa()
 bool ProgramVariables::isWorker = false;
 unsigned short ProgramVariables::maxNumbeOfThreads = ProgramVariables::InitMaxThreads();
 unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfThreads;
-unsigned long ProgramVariables::messageId = 0;
+unsigned long long ProgramVariables::messageId = 0;
 std::mutex ProgramVariables::mutex_guard;
 std::condition_variable ProgramVariables::condition_var;
-unsigned long ProgramVariables::numOfAnalysded = 0;
+unsigned long long ProgramVariables::numOfAnalysded = 0;

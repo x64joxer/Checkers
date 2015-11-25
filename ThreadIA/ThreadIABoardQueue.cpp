@@ -1,6 +1,6 @@
 #include "ThreadIA/ThreadIABoardQueue.h"
 
-template <unsigned long int size>
+template <unsigned long long size>
 ThreadIABoardQueue<size>::ThreadIABoardQueue():
                           first(0),
                           last(0),
@@ -13,7 +13,7 @@ ThreadIABoardQueue<size>::ThreadIABoardQueue():
     doNotForgetqueue = new Board[size];
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 void ThreadIABoardQueue<size>::Clear()
 {
     first = 0;
@@ -22,7 +22,7 @@ void ThreadIABoardQueue<size>::Clear()
     doNotForgetnumberOfElements =0;    
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 Board ThreadIABoardQueue<size>::First(const bool remove)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
@@ -50,7 +50,7 @@ Board ThreadIABoardQueue<size>::First(const bool remove)
     return temp;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 Board ThreadIABoardQueue<size>::PopFirst()
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
@@ -74,7 +74,7 @@ Board ThreadIABoardQueue<size>::PopFirst()
     return temp;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 {    
     TRACE01 Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    
@@ -104,7 +104,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
             };
     };
 
-    unsigned long int temp = first;    
+    unsigned long long temp = first;
 
     if (numberOfElements>0)
     {
@@ -141,7 +141,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
     return temp_null;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
@@ -182,7 +182,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
     condition_var->notify_all();
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
     TRACE01 Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
@@ -193,7 +193,7 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
     condition_var->notify_all();
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 Board ThreadIABoardQueue<size>::GetBestResult()
 {
     double result = 0;
@@ -210,7 +210,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 
         if (numberOfElements>0)
         {
-            for (unsigned long int i=first;i<last;i++)
+            for (unsigned long long i=first;i<last;i++)
             {
                 if (result>queue[i].GetPercentageResult())
                 {
@@ -235,7 +235,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 
         if (doNotForgetnumberOfElements>1)
         {
-            for (unsigned long int i=1;i<doNotForgetnumberOfElements;i++)
+            for (unsigned long long i=1;i<doNotForgetnumberOfElements;i++)
             {
                 if (result>doNotForgetqueue[i].GetPercentageResult())
                 {
@@ -249,7 +249,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
     return temp;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board *best)
 {
     TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::GetBestResult2";
@@ -313,8 +313,8 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
     *best = temp;
 }
 
-template <unsigned long int size>
-unsigned long int ThreadIABoardQueue<size>::Size()
+template <unsigned long long size>
+unsigned long long ThreadIABoardQueue<size>::Size()
 {
     TRACE01 Traces() << "\n" << "LOG: ThreadIABoardQueue<size>::Size()";
 
@@ -322,34 +322,34 @@ unsigned long int ThreadIABoardQueue<size>::Size()
     return numberOfElements;
 }
 
-template <unsigned long int size>
-unsigned long int ThreadIABoardQueue<size>::SizeDoNotForget()
+template <unsigned long long size>
+unsigned long long ThreadIABoardQueue<size>::SizeDoNotForget()
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
     return doNotForgetnumberOfElements;
 
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 void ThreadIABoardQueue<size>::NotifyRest()
 {
     condition_var->notify_all();
 }
 
-template <unsigned long int size>
-unsigned long int ThreadIABoardQueue<size>::GetFirstNumber()
+template <unsigned long long size>
+unsigned long long ThreadIABoardQueue<size>::GetFirstNumber()
 {
     return first;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 ThreadIABoardQueue<size>::~ThreadIABoardQueue()
 {
     delete [] queue;
     delete [] doNotForgetqueue;
 }
 
-template <unsigned long int size>
+template <unsigned long long size>
 void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned short number)
 {
     if (number>0)

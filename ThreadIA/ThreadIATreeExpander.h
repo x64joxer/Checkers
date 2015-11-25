@@ -9,12 +9,12 @@
 
 enum KindOfSteps { Time, Step };
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 class ThreadIATreeExpander
 {
     public:
        ThreadIATreeExpander();       
-       void Expand(unsigned long howManySteps,
+       void Expand(unsigned long long howManySteps,
                    unsigned int frequencyOfTransferData,
                    ThreadIABoardQueue<MQueue> &mainBoardQueue,
                    const unsigned short numThread,
@@ -32,14 +32,14 @@ class ThreadIATreeExpander
        bool ExpandBlack(Board board, unsigned int stepNumber = 1);
 
        ThreadIABoardQueue<MQueue> * mainBoardQueue_2;
-       const unsigned long int queueSize;       
-       unsigned long int lastQueueElement;
-       unsigned long int firstQueueElement;
-       unsigned long int numberOfElements;
+       const unsigned long long queueSize;       
+       unsigned long long lastQueueElement;
+       unsigned long long firstQueueElement;
+       unsigned long long numberOfElements;
        Board queue[sQueue];
 
-       const unsigned long int doNotForgetQueueSize;
-       unsigned long int lastDoNotForgetQueueElement;
+       const unsigned long long doNotForgetQueueSize;
+       unsigned long long lastDoNotForgetQueueElement;
        Board doNotForgetQueue[sQueue/50];
 
        unsigned short threadNumber;              

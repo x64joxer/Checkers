@@ -1,6 +1,6 @@
 #include "ThreadIA/ThreadIATreeExpander.h"
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander() :
     queueSize(sQueue),
     lastQueueElement(0),
@@ -13,20 +13,20 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander() :
 
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
 {
     Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread, percentSteps, stepKind);
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue)
 {
     mainBoardQueue_2 = mainBoardQueue;
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
+template <unsigned long long MQueue, unsigned long long sQueue>
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
 {
     TRACE01 Traces() << "\n" << "LOG: EXPAND START";
     TRACE01 Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)";
@@ -36,8 +36,8 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, un
     queue[0] = mainBoardQueue.PopFront(threadNumber);
     if (!queue[firstQueueElement].GetNullBoard()) numberOfElements++;
 
-    unsigned long step =0;
-    unsigned long totalStep = howManySteps;
+    unsigned long long step =0;
+    unsigned long long totalStep = howManySteps;
 
     if (stepKind == KindOfSteps::Step)
     {
@@ -49,7 +49,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, un
         howManySteps = step + howManySteps;
     }
 
-    unsigned long current;
+    unsigned long long current;
 
     while (step < howManySteps)
     {
@@ -175,7 +175,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long howManySteps, un
     Traces::RemoveThreadID();
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)
 {
     TRACE01 Traces() << "\n" << "LOG: ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue)";
@@ -187,7 +187,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
         {
             if ((lastQueueElement-firstQueueElement)+1>0)
             {
-                for (unsigned long i=firstQueueElement;i<=lastQueueElement;i++)
+                for (unsigned long long i=firstQueueElement;i<=lastQueueElement;i++)
                 {
                      TRACE01 Traces() << "\n" << "LOG: mainBoardQueue.PushBack(queue[i])";
                     mainBoardQueue.PushBack(queue[i]);
@@ -201,7 +201,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
 
     if (lastDoNotForgetQueueElement>0)
     {
-        for (unsigned long i=1;i<=lastDoNotForgetQueueElement;i++)
+        for (unsigned long long i=1;i<=lastDoNotForgetQueueElement;i++)
         {
             mainBoardQueue.PushBackDoNotForget(queue[i]);
         };
@@ -211,7 +211,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::TransferBoards(ThreadIABoardQueue<MQu
     mainBoardQueue.NotifyRest();
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::AddToMainQueue(const Board &board)
 {
     if (++lastQueueElement > queueSize-1)
@@ -226,7 +226,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToMainQueue(const Board &board)
     };
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board &board)
 {
     if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
@@ -238,7 +238,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board &bo
     };
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int stepNumber)
 {
     TRACE01 Traces() << "\n" << "LOG: void IATreeExpander::ExpandWhite(IADecisionTree *treePointer)";
@@ -534,7 +534,7 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
     return 0;
 }
 
-template <unsigned long int MQueue, unsigned long int sQueue>
+template <unsigned long long MQueue, unsigned long long sQueue>
 bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int stepNumber)
 {
     TRACE01 Traces() << "\n" << "LOG: void IATreeExpander::ExpandBlack(IADecisionTree *treePointer)";

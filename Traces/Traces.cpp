@@ -24,7 +24,7 @@ void Traces::SetTraceFolder(const QString &dir)
     CreateTraceFolder();
 }
 
-unsigned long int Traces::GetThreadId()
+unsigned long long Traces::GetThreadId()
 {
     std::stringstream ss;
     ss << std::this_thread::get_id();
@@ -97,7 +97,7 @@ Traces& Traces::operator <<(QString data)
         StringToFile(data.toStdString());
 }
 
-Traces& Traces::operator <<(const unsigned long data)
+Traces& Traces::operator <<(const unsigned long long data)
 {    
         std::lock_guard<std::mutex> guard(mutex);
         std::string number;
@@ -107,7 +107,7 @@ Traces& Traces::operator <<(const unsigned long data)
         StringToFile(number);        
 }
 
-unsigned long int Traces::GetCurrentTime()
+unsigned long long Traces::GetCurrentTime()
 {
     if (!timeFlag)
     {
@@ -127,8 +127,8 @@ unsigned long int Traces::GetCurrentTime()
 std::string Traces::GetCurrentDate()
 {
     std::string result;
-    unsigned long milliseconds_since_epoch = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
-    unsigned long counter = 1000000000;
+    unsigned long long milliseconds_since_epoch = std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1);
+    unsigned long long counter = 1000000000;
 
     while (counter != 1)
     {
@@ -180,9 +180,9 @@ void Traces::RemoveThreadID()
 std::string Traces::patchAndNameFile ="";
 bool Traces::traceOn = false;
 std::mutex Traces::mutex;
-std::map<unsigned long int,std::string> Traces::theardsId;
+std::map<unsigned long long,std::string> Traces::theardsId;
 std::set<std::string> Traces::idText;
 bool Traces::timeFlag = false;
-unsigned long int Traces::start =0;
-unsigned long int Traces::stop =0;
+unsigned long long Traces::start =0;
+unsigned long long Traces::stop =0;
 std::string Traces::traceFolder = "traces";

@@ -7,7 +7,7 @@
 #include "Traces/Traces.h"
 #include "ProgramVariables.h"
 
-template <unsigned long int size>
+template <unsigned long long size>
 class ThreadIABoardQueue
 {
     public:
@@ -21,22 +21,22 @@ class ThreadIABoardQueue
         void Clear();
         Board First(const bool remove);
         Board PopFirst();
-        unsigned long int GetFirstNumber();
+        unsigned long long GetFirstNumber();
         void NotifyRest();
-        unsigned long int Size();
-        unsigned long int SizeDoNotForget();
+        unsigned long long Size();
+        unsigned long long SizeDoNotForget();
 
     private:
         bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
         void SetWorkerFlag(const bool flag,const unsigned short number);
 
         Board *queue;        
-        unsigned long int first;
-        unsigned long int last;
-        unsigned long int numberOfElements;
+        unsigned long long first;
+        unsigned long long last;
+        unsigned long long numberOfElements;
 
         Board *doNotForgetqueue;
-        unsigned long int doNotForgetnumberOfElements;
+        unsigned long long doNotForgetnumberOfElements;
 
         std::mutex mutex_guard;
         std::condition_variable *condition_var;

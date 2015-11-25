@@ -46,7 +46,7 @@ void MessageCoder::KeyValuePairToChar(const std::string & key, const unsigned sh
     KeyValuePairToChar(key, std::to_string(value), dest);
 }
 
-void MessageCoder::KeyValuePairToChar(const std::string & key, const unsigned long value, char *dest)
+void MessageCoder::KeyValuePairToChar(const std::string & key, const unsigned long long value, char *dest)
 {
     KeyValuePairToChar(key, std::to_string(value), dest);
 }
@@ -291,7 +291,7 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
-void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long numOfAnalysed, char *dest)
+void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long long numOfAnalysed, char *dest)
 {
     KeyValuePairToChar(ACTION, BEST_RESULT, dest);
     KeyValuePairToChar(NUM_OF_ANALYSED, numOfAnalysed, dest);

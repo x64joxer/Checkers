@@ -21,9 +21,9 @@ class Traces
 
         //Traces& operator <<(const std::string);
         Traces& operator <<(const QString );
-        Traces& operator <<(const unsigned long);
+        Traces& operator <<(const unsigned long long);
 
-        static unsigned long int GetCurrentTime();
+        static unsigned long long GetCurrentTime();
         static std::string GetCurrentDate();
 
         static void TurnOnTraces();
@@ -37,11 +37,11 @@ class Traces
         inline void StringToFile(std::string log);
         static bool traceOn;
         static std::mutex mutex;
-        static std::map<unsigned long int,std::string> theardsId;
+        static std::map<unsigned long long,std::string> theardsId;
         static std::set<std::string> idText;
 
         static void CreateTraceFolder();
-        static unsigned long int GetThreadId();
+        static unsigned long long GetThreadId();
         bool IsOnTheList();
         std::string GetThreadText();
         std::string CreateNewThreadText();        
@@ -49,7 +49,7 @@ class Traces
         static std::string GenerateText(int);
 
         static bool timeFlag;
-        static unsigned long int start,stop;
+        static unsigned long long start,stop;
         static std::string traceFolder;
 };
 

@@ -17,12 +17,12 @@ class MessageCoder
         static void KeyValuePairToChar(const std::string & key, const short value, char *dest);
         static void KeyValuePairToChar(const std::string & key, const long value, char *dest);
         static void KeyValuePairToChar(const std::string & key, const unsigned short value, char *dest);
-        static void KeyValuePairToChar(const std::string & key, const unsigned long value, char *dest);
+        static void KeyValuePairToChar(const std::string & key, const unsigned long long value, char *dest);
         static void KeyValuePairToChar(const std::string & key, const bool value, char *dest);
 
         static void BoardToChar(const Board &board, char *dest, const unsigned short numberOfBoard);
         static void CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard,  std::string id, std::string jobId, char *dest);
-        static void CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long numOfAnalysed, char *dest);
+        static void CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long long numOfAnalysed, char *dest);
         static void CreateStateMessage(Peers::STATE stat, const std::string id, char *dest);
         static void CreateOkMessage(const std::string id, char *dest);
 

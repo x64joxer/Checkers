@@ -3,20 +3,20 @@
 
 #include "ProgramVariables.h"
 
-template  <unsigned long int QMain>
+template  <unsigned long long QMain>
 ThreadIAMove<QMain>::ThreadIAMove()
                     : messageHandler(nullptr)
 {
 
 }
 
-template  <unsigned long int QMain>
+template  <unsigned long long QMain>
 void ThreadIAMove<QMain>::SetMessageHandler(MessageHandler *wsk)
 {
     messageHandler = wsk;
 }
 
-template  <unsigned long int QMain>
+template  <unsigned long long QMain>
 void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, KindOfSteps stepKind)
 {
     const unsigned short maxThreads = numberOfThreads + 1;
@@ -78,7 +78,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         TRACE01 Traces() << "\n" << "LOG: Waiting for all workers...";
         {
-            unsigned long start = ProgramVariables::GetSecondsSinceEpoch();
+            unsigned long long start = ProgramVariables::GetSecondsSinceEpoch();
             while (ProgramVariables::GetSecondsSinceEpoch() - start < ProgramVariables::GetMaxTimeWaitToWorkers())
             {
                 if (WorkerAgent::GetBusyStateNumber() == 0) break;
@@ -185,7 +185,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
    Traces::RemoveThreadID();
 }
 
-template  <unsigned long int QMain>
+template  <unsigned long long QMain>
 void ThreadIAMove<QMain>::CreateFirstElements()
 {
     TRACE01 Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
@@ -193,11 +193,11 @@ void ThreadIAMove<QMain>::CreateFirstElements()
     expander.Expand(1,100,queue,0, NULL, KindOfSteps::Step);
 }
 
-template  <unsigned long int QMain>
+template  <unsigned long long QMain>
 void ThreadIAMove<QMain>::SetOriginToAll()
 {
     TRACE01 Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::SetOriginToAll()";
-    unsigned long int size = queue.Size();
+    unsigned long long size = queue.Size();
     Board temp;
 
     if (size>0)

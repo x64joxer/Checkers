@@ -24,7 +24,7 @@ class MessageHandler
         bool IsActive() { return active; }
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
         void SetBoardQueue(ThreadIABoardQueue<9000000> *wsk);
-        void StartSharing(unsigned long time) { startTime = time; shareJobs = true; }
+        void StartSharing(unsigned long long time) { startTime = time; shareJobs = true; }
         void StopSharing() { shareJobs = false; }        
 
         void ClearWorkersStateList();
@@ -42,7 +42,7 @@ class MessageHandler
         MessageForwarder *messageForwarder;
         ThreadIABoardQueue<9000000> *boardQueue;
         std::atomic<bool> shareJobs;
-        unsigned long startTime;
+        unsigned long long startTime;
         std::map<std::string, WorkersState*> workersState;
         std::list<std::string> workersStateList;
         std::list<std::string> jobList;

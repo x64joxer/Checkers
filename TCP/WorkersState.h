@@ -33,7 +33,7 @@ class WorkersState : public QObject
         void StartTimer();
         QHostAddress host;
         int port;
-        unsigned long timeout;
+        unsigned long long timeout;
 
         std::string waitForOKMessageID;
         std::string jobId;
