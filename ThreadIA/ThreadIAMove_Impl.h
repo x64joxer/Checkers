@@ -76,7 +76,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             iaThread[i].join();
         };
 
-        Traces() << "\n" << "LOG: Waiting for all workers...";
+        TRACE01 Traces() << "\n" << "LOG: Waiting for all workers...";
         {
             unsigned long start = ProgramVariables::GetSecondsSinceEpoch();
             while (ProgramVariables::GetSecondsSinceEpoch() - start < ProgramVariables::GetMaxTimeWaitToWorkers())
@@ -130,7 +130,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 
         for (unsigned short i=1;i<=numOfThreads;i++)
         {
-            Traces() << "\n" << "LOG: Start sharing for thread " << i;
+            TRACE01 Traces() << "\n" << "LOG: Start sharing for thread " << i;
             if (firstQueueElelemtsOnThread ==0) flag1 = false;
             if (secondQueueElelemtsOnThread == 0) flag2 = false;
             if (firstQueueElelemtsOnThread >= queue.GetFirstNumber()+ queue.Size()) firstQueueElelemtsOnThread = (queue.GetFirstNumber()+ queue.Size())-1;
@@ -152,16 +152,16 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             start2 = stop2;
         }
 
-        Traces() << "\n" << "LOG: Waiting for all threads...";
+        TRACE01 Traces() << "\n" << "LOG: Waiting for all threads...";
 
         for (unsigned short i=1;i<=numOfThreads;i++)
         {
-            Traces() << "\n" << "LOG: Waiting for " << i;
+            TRACE01 Traces() << "\n" << "LOG: Waiting for " << i;
             iaThread[i].join();
-            Traces() << "\n" << "LOG: Thread " << i << " finished";
+            TRACE01 Traces() << "\n" << "LOG: Thread " << i << " finished";
         };
 
-        Traces() << "\n" << "LOG: Workers finished";
+        TRACE01 Traces() << "\n" << "LOG: Workers finished";
         temp = best[0];
         for (unsigned short i=0;i<numOfThreads;i++)
         {
@@ -176,7 +176,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         queue.Clear();
         *boardWsk = temp.GetOrigin();
 
-        Traces() << "\n" << "LOG: Best board set:";
+        TRACE01 Traces() << "\n" << "LOG: Best board set:";
         temp.printDebug();
         boardWsk->printDebug();        
 
@@ -189,7 +189,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::CreateFirstElements()
 {
-    Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
+    TRACE01 Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::CreateFirstElements()";
     ThreadIATreeExpander<QMain,100> expander;
     expander.Expand(1,100,queue,0, NULL, KindOfSteps::Step);
 }
@@ -197,7 +197,7 @@ void ThreadIAMove<QMain>::CreateFirstElements()
 template  <unsigned long int QMain>
 void ThreadIAMove<QMain>::SetOriginToAll()
 {
-    Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::SetOriginToAll()";
+    TRACE01 Traces() << "\n" << "LOG: void ThreadIAMove<QMain>::SetOriginToAll()";
     unsigned long int size = queue.Size();
     Board temp;
 
@@ -208,7 +208,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
             temp = queue.PopFront(0);
             temp.SetOrigin(temp);
 
-            Traces() << "\n" << "LOG: Origin set";
+            TRACE01 Traces() << "\n" << "LOG: Origin set";
             temp.printDebug();
             queue.PushBack(temp);
         }

@@ -93,24 +93,18 @@ std::string Traces::GetThreadText()
 
 Traces& Traces::operator <<(QString data)
 {    
-    if (traceOn)
-    {
         std::lock_guard<std::mutex> guard(mutex);
         StringToFile(data.toStdString());
-    };
 }
 
 Traces& Traces::operator <<(const unsigned long data)
 {    
-    if (traceOn)
-    {  
         std::lock_guard<std::mutex> guard(mutex);
         std::string number;
         std::stringstream strstream;
         strstream << data;
         strstream >> number;
         StringToFile(number);        
-    };
 }
 
 unsigned long int Traces::GetCurrentTime()

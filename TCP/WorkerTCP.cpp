@@ -38,20 +38,20 @@ void WorkerTCP::ConnectToServer(const QString ho,  int po)
     host = ho;
     port = po;
 
-    Traces() << "\n" << "LOG: Connecting to host:" << host << " port:" << port;
+    TRACE01 Traces() << "\n" << "LOG: Connecting to host:" << host << " port:" << port;
     tcpSocket->connectToHost(host,port);
 }
 
 void WorkerTCP::Reconnect()
 {
     time->stop();    
-    Traces() << "\n" << "LOG: Reconnecting to host:"  << host << " port:" << port;;
+    TRACE01 Traces() << "\n" << "LOG: Reconnecting to host:"  << host << " port:" << port;;
     tcpSocket->connectToHost(host,port);
 }
 
 void WorkerTCP::Connected()
 {
-    Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
+    TRACE01 Traces() << "\n" << "LOG: SUCCES! Connected to host:"  << host << " port:" << port;;
 
     connection_state = CONNECTED;
     SendStateMessage();
@@ -95,7 +95,7 @@ void WorkerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
 
 void WorkerTCP::HandleStateChange(QAbstractSocket::SocketState socketState)
 {
-    Traces() << "\n" << "LOG: Connection state changes";
+    TRACE01 Traces() << "\n" << "LOG: Connection state changes";
 
     if (socketState == QAbstractSocket::ConnectedState)
     {
@@ -131,7 +131,7 @@ void WorkerTCP::ReadDataFromServer()
     {
         delete [] tempChar;
         globalLength = 0;
-        Traces() << "\n" << "LOG: New data from server: " << QString(globalData);
+        TRACE01 Traces() << "\n" << "LOG: New data from server: " << QString(globalData);
 
         std::map<std::string, std::string> recMessage;
         MessageCoder::MessageToMap(globalData, recMessage);
@@ -145,7 +145,7 @@ void WorkerTCP::ReadDataFromServer()
 
 void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
+    TRACE01 Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
 
     try
     {
@@ -189,7 +189,7 @@ void WorkerTCP::MessageInterpreting(const std::map<std::string, std::string> dat
 
 void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)";
+    TRACE01 Traces() << "\n" << "LOG: WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)";
 
     try
     {            
@@ -197,10 +197,10 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             jobId = data.at(MessageCoder::JOB_ID);
             MessageCoder::MapToBoard(data, board);
 
-            Traces() << "\n" << "LOG: Board received:";
+            TRACE01 Traces() << "\n" << "LOG: Board received:";
             board->printDebug();
 
-            Traces() << "\n" << "LOG: ...witch origin:";
+            TRACE01 Traces() << "\n" << "LOG: ...witch origin:";
             board->GetOrigin().printDebug();
 
 
@@ -248,7 +248,7 @@ void WorkerTCP::CheckStatus()
             endIaJobFlag = false;
         } else
         {
-            Traces() << "\n" << "LOG: Not conneted to server";
+            TRACE01 Traces() << "\n" << "LOG: Not conneted to server";
             waitForIATimer->stop();
             endIaJobFlag = false;
         }
@@ -257,7 +257,7 @@ void WorkerTCP::CheckStatus()
 
 void WorkerTCP::SendBestResultMessage()
 {
-    Traces() << "\n" << "LOG: Sending best result";
+    TRACE01 Traces() << "\n" << "LOG: Sending best result";
 
     char * temp = new char[ProgramVariables::K4];
 
@@ -291,7 +291,7 @@ void WorkerTCP::NoResponseFromServer()
             SendBestResultMessage();
         } else
         {
-            Traces() << "\n" << "LOG: Reattempts BEST_RESUL exhusted!";
+            TRACE01 Traces() << "\n" << "LOG: Reattempts BEST_RESUL exhusted!";
             messageState = NONE_OK;
         }
     }
@@ -299,17 +299,17 @@ void WorkerTCP::NoResponseFromServer()
 
 bool WorkerTCP::IsEndMessage(const char* data, const unsigned int end, const char *text)
 {
-    Traces() << "\n" << "LOG: Trap 1";
+    TRACE01 Traces() << "\n" << "LOG: Trap 1";
     unsigned int textLen = strlen(text);
-    Traces() << "\n" << "LOG: Len " << textLen;
-    Traces() << "\n" << "LOG: Trap 2";
+    TRACE01 Traces() << "\n" << "LOG: Len " << textLen;
+    TRACE01 Traces() << "\n" << "LOG: Trap 2";
     unsigned int counter = 0;
 
     for (unsigned int i = end - textLen; i < end; i++)
     {
-        Traces() << "\n" << "LOG: Trap 3";
+        TRACE01 Traces() << "\n" << "LOG: Trap 3";
         if (data[i] != text[counter]) return 0;
-        Traces() << "\n" << "LOG: Trap 4";
+        TRACE01 Traces() << "\n" << "LOG: Trap 4";
         counter++;
     }
 

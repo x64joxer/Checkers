@@ -77,7 +77,7 @@ Board ThreadIABoardQueue<size>::PopFirst()
 template <unsigned long int size>
 Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 {    
-    Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    
+    TRACE01 Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    
     {
         std::lock_guard<std::mutex> guard(mutex_guard);
         SetWorkerFlag(false, num);
@@ -97,7 +97,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
             } else
             if (!workersFlags)
             {
-                Traces() << "\n" << "LOG: No active workers! Finishing!";                
+                TRACE01 Traces() << "\n" << "LOG: No active workers! Finishing!";                
                 Board temp_null;
                 temp_null.SetNullBoard(true);
                 return temp_null;
@@ -108,7 +108,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 
     if (numberOfElements>0)
     {
-        Traces() << "\n" << "LOG: (numberOfElements>0)";
+        TRACE01 Traces() << "\n" << "LOG: (numberOfElements>0)";
 
         if (numberOfElements>1)
         {
@@ -126,16 +126,16 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
             numberOfElements = 0;
         };
 
-        Traces() << "\n" << "LOG: first " << first;
-        Traces() << "\n" << "LOG: last " << last;
-        Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
+        TRACE01 Traces() << "\n" << "LOG: first " << first;
+        TRACE01 Traces() << "\n" << "LOG: last " << last;
+        TRACE01 Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
 
         queue[temp].printDebug();
         guard.unlock();
         return queue[temp];
     };
 
-    Traces() << "\n" << "LOG: No elements to get!";
+    TRACE01 Traces() << "\n" << "LOG: No elements to get!";
     Board temp_null;
     temp_null.SetNullBoard(true);    
     return temp_null;
@@ -145,20 +145,20 @@ template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
-    Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
+    TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
 
     if (numberOfElements == 0)
     {
        numberOfElements++;
        queue[last] = board;
 
-       Traces() << "\n" << "LOG: first " << first;
-       Traces() << "\n" << "LOG: last " << last;
-       Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
+       TRACE01 Traces() << "\n" << "LOG: first " << first;
+       TRACE01 Traces() << "\n" << "LOG: last " << last;
+       TRACE01 Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
     } else
     if (numberOfElements<size)
     {
-        Traces() << "\n" << "LOG: if (numberOfElements<=size)";
+        TRACE01 Traces() << "\n" << "LOG: if (numberOfElements<=size)";
         if (last==size-1)
         {
             last = 0;
@@ -171,9 +171,9 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
             numberOfElements++;
         };
 
-        Traces() << "\n" << "LOG: first " << first;
-        Traces() << "\n" << "LOG: last " << last;
-        Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
+        TRACE01 Traces() << "\n" << "LOG: first " << first;
+        TRACE01 Traces() << "\n" << "LOG: last " << last;
+        TRACE01 Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
     } else
     {
         Traces() << "\n" << "ERROR: No more free cells!";
@@ -185,7 +185,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 template <unsigned long int size>
 inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
-    Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
+    TRACE01 Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
     mutex_guard.lock();
     doNotForgetqueue[doNotForgetnumberOfElements] = board;
     ++doNotForgetnumberOfElements;
@@ -229,7 +229,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
             temp = doNotForgetqueue[0];
         };
 
-        Traces() << "\n" << "LOG: Origin of doNotForgetqueue[0]";
+        TRACE01 Traces() << "\n" << "LOG: Origin of doNotForgetqueue[0]";
         doNotForgetqueue[0].GetOrigin().printDebug();
 
 
@@ -252,24 +252,24 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 template <unsigned long int size>
 void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board *best)
 {
-    Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::GetBestResult2";
+    TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::GetBestResult2";
     double result = 0;
     Board temp;
 
-    Traces() << "\n" << "LOG: Number of eleents =" << numberOfElements;
-    Traces() << "\n" << "LOG: Number of do not forget eleents =" << doNotForgetnumberOfElements;
+    TRACE01 Traces() << "\n" << "LOG: Number of eleents =" << numberOfElements;
+    TRACE01 Traces() << "\n" << "LOG: Number of do not forget eleents =" << doNotForgetnumberOfElements;
 
 
     if (make)
     {
-        Traces() << "\n" << "LOG: make = true";
-        Traces() << "\n" << "LOG: start =" << start;
-        Traces() << "\n" << "LOG: stop =" << stop;
+        TRACE01 Traces() << "\n" << "LOG: make = true";
+        TRACE01 Traces() << "\n" << "LOG: start =" << start;
+        TRACE01 Traces() << "\n" << "LOG: stop =" << stop;
 
         result = queue[start].GetPercentageResult();
         temp = queue[start];
 
-        Traces() << "\n" << "LOG: Current best result";
+        TRACE01 Traces() << "\n" << "LOG: Current best result";
         temp.printDebug();
 
         for (unsigned int i = start; i<stop; i++)
@@ -284,19 +284,19 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
 
     if (make2)
     {
-        Traces() << "\n" << "LOG: make2 == true";
-        Traces() << "\n" << "LOG: start2 =" << start2;
-        Traces() << "\n" << "LOG: stop2 =" << stop2;
+        TRACE01 Traces() << "\n" << "LOG: make2 == true";
+        TRACE01 Traces() << "\n" << "LOG: start2 =" << start2;
+        TRACE01 Traces() << "\n" << "LOG: stop2 =" << stop2;
 
         if (!make)
         {
-            Traces() << "\n" << "LOG: !make = false";
+            TRACE01 Traces() << "\n" << "LOG: !make = false";
             result = doNotForgetqueue[start2].GetPercentageResult();
             temp = doNotForgetqueue[start2];            
             temp.printDebug();
         };
 
-        Traces() << "\n" << "LOG: Searching best";
+        TRACE01 Traces() << "\n" << "LOG: Searching best";
 
         for (int i = start2; i<stop2; i++)
         {
@@ -309,14 +309,14 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
         };
     };
 
-    Traces() << "\n" << "LOG: End of searching";
+    TRACE01 Traces() << "\n" << "LOG: End of searching";
     *best = temp;
 }
 
 template <unsigned long int size>
 unsigned long int ThreadIABoardQueue<size>::Size()
 {
-    Traces() << "\n" << "LOG: ThreadIABoardQueue<size>::Size()";
+    TRACE01 Traces() << "\n" << "LOG: ThreadIABoardQueue<size>::Size()";
 
     std::lock_guard<std::mutex> guard(mutex_guard);
     return numberOfElements;

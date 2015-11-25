@@ -238,7 +238,7 @@ void CheckerArea::StartThinking()
 
     bool temp = Traces::GetTraceFlag();
     Traces::TurnOnTraces();
-    Traces() << "\n" << "LOG: Before";    
+    TRACE01 Traces() << "\n" << "LOG: Before";    
     copy.printDebug();
     if (!temp) Traces::TurnOffTraces();
 

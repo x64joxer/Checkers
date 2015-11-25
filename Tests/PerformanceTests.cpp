@@ -45,11 +45,11 @@ void PerformanceTests::Test01()
     };
 
     Traces::TurnOnTraces();
-    Traces() << "\n" << "LOG: Performance result:";
+    TRACE01 Traces() << "\n" << "LOG: Performance result:";
 
     for (int i=1;i<ProgramVariables::GetMaxNumberOfThreads();i++)
     {
-        Traces() << "\n" << "LOG: Number of threads: " << i+1 << " result: " << QString::number(double(result[0])/ double(result[i]));
+        TRACE01 Traces() << "\n" << "LOG: Number of threads: " << i+1 << " result: " << QString::number(double(result[0])/ double(result[i]));
     };
     Traces::TurnOffTraces();
 

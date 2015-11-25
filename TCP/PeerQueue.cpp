@@ -18,7 +18,7 @@ bool PeerQueue::PeerExist(QHostAddress ho, int po)
                                  {
                                      if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                      {
-                                       Traces() << "\n" << "LOG: Peer exist in queue.";
+                                       TRACE01 Traces() << "\n" << "LOG: Peer exist in queue.";
                                        flag = true;
                                      }
                                  }
@@ -37,7 +37,7 @@ void PeerQueue::AddPeer(QHostAddress ho, int po)
         peers.push_back(temp);
         condition_var->notify_all();
 
-        Traces() << "\n" << "LOG: Peer added to queue.";
+        TRACE01 Traces() << "\n" << "LOG: Peer added to queue.";
     } else
     {
         Traces() << "\n" << "ERROR: Peer exist!";
@@ -76,7 +76,7 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
             peers.remove(*wsk);
             condition_var->notify_all();
 
-            Traces() << "\n" << "LOG: Peer removed from queue.";
+            TRACE01 Traces() << "\n" << "LOG: Peer removed from queue.";
         } else
         {
             Traces() << "\n" << "ERROR: Peer not exist!";
@@ -105,7 +105,7 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
     {        
         condition_var->notify_all();
 
-        Traces() << "\n" << "LOG: Data added to peer.";
+        TRACE01 Traces() << "\n" << "LOG: Data added to peer.";
     } else
     {
         Traces() << "\n" << "ERROR: Peer not exist!";
@@ -152,7 +152,7 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 
     if (flag)
     {        
-        Traces() << "\n" << "LOG: Data transfered from peer.";
+        TRACE01 Traces() << "\n" << "LOG: Data transfered from peer.";
     } else
     {
         Traces() << "\n" << "ERROR: Peer not exist!";
@@ -182,7 +182,7 @@ void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
 
 void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)
 {
-    Traces() << "\n" << "LOG: PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)";
+    TRACE01 Traces() << "\n" << "LOG: PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)";
 
     std::lock_guard<std::mutex> guard(mutex_guard);
     bool flag = false;
@@ -215,7 +215,7 @@ unsigned int PeerQueue::GetBusyStateNumber()
 
 void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)
 {
-    Traces() << "\n" << "LOG: PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)";
+    TRACE01 Traces() << "\n" << "LOG: PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE state)";
 
     std::lock_guard<std::mutex> guard(mutex_guard);
     bool flag = false;
@@ -252,7 +252,7 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
     {
         condition_var->notify_all();
 
-        Traces() << "\n" << "LOG: State set";
+        TRACE01 Traces() << "\n" << "LOG: State set";
     } else
     {
         Traces() << "\n" << "ERROR: Peer not exist!";

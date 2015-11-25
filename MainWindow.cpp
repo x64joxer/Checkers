@@ -125,7 +125,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionTest_message_triggered()
 {
 
-    Traces() << "\n" << "LOG: Sending data";
+    TRACE01 Traces() << "\n" << "LOG: Sending data";
 
 }
 

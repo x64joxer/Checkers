@@ -49,7 +49,7 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
-            //TEMPORATY SLEEP Traces() << "\n" << "LOG: Tryning share jobs";
+            //TEMPORATY SLEEP TRACE01 Traces() << "\n" << "LOG: Tryning share jobs";
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
             {                
@@ -61,7 +61,7 @@ void MessageHandler::Start()
                         int po;
                         WorkerAgent::GetFirstFreePeers(ho, po);
 
-                        Traces() << "\n" << "LOG: Take first board";
+                        TRACE01 Traces() << "\n" << "LOG: Take first board";
                         Board board = boardQueue->First(1);
 
                         if (!board.GetNullBoard())
@@ -104,7 +104,7 @@ void MessageHandler::Start()
 
 void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
+    TRACE01 Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
 
     try
     {
@@ -156,7 +156,7 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
 
 void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
+    TRACE01 Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
 
     try
     {
@@ -191,7 +191,7 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
 
 void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
 {
-    Traces() << "\n" << "LOG: MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)";
+    TRACE01 Traces() << "\n" << "LOG: MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)";
 
     try
     {
@@ -205,7 +205,7 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
             Board temp;
             MessageCoder::MapToBoard(data, &temp);
             std::string tempNumOfanalysed = data.at(MessageCoder::NUM_OF_ANALYSED);
-            Traces() << "\n" << "LOG: Number of trees analysed by worker " << ho.toString() << ":" << po << " = " << QString(tempNumOfanalysed.c_str());
+            TRACE01 Traces() << "\n" << "LOG: Number of trees analysed by worker " << ho.toString() << ":" << po << " = " << QString(tempNumOfanalysed.c_str());
             qDebug() << "Num of elements before workers" << boardQueue->Size();
             boardQueue->PushBack(temp);
             qDebug() << "Num of elements after workers" << boardQueue->Size();

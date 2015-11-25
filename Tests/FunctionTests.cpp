@@ -66,7 +66,7 @@ void FunctionTests::Test01()
         };
     };
 
-    Traces() << "\n" << "LOG: End Test01()";
+    TRACE01 Traces() << "\n" << "LOG: End Test01()";
 
     Traces::TurnOffTraces();
 
@@ -124,7 +124,7 @@ void FunctionTests::Test02()
         };
     };
 
-    Traces() << "\n" << "LOG: End Test02()";
+    TRACE01 Traces() << "\n" << "LOG: End Test02()";
 
     Traces::TurnOffTraces();
 
@@ -182,7 +182,7 @@ void FunctionTests::Test03()
         };
     };
 
-    Traces() << "\n" << "LOG: End Test03()";
+    TRACE01 Traces() << "\n" << "LOG: End Test03()";
 
     Traces::TurnOffTraces();
 
@@ -248,7 +248,7 @@ void FunctionTests::Test04()
         };
     };
 
-    Traces() << "\n" << "LOG: End Test04()";
+    TRACE01 Traces() << "\n" << "LOG: End Test04()";
 
     Traces::TurnOffTraces();
 
@@ -285,7 +285,7 @@ void FunctionTests::Test05()
 
     };
 
-    Traces() << "\n" << "LOG: End Test05()";
+    TRACE01 Traces() << "\n" << "LOG: End Test05()";
 
     Traces::TurnOffTraces();
 
@@ -322,7 +322,7 @@ void FunctionTests::Test06()
 
     };
 
-    Traces() << "\n" << "LOG: End Test06()";
+    TRACE01 Traces() << "\n" << "LOG: End Test06()";
 
     Traces::TurnOffTraces();
 
