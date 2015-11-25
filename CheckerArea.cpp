@@ -236,11 +236,8 @@ void CheckerArea::StartThinking()
 
     jobExpander2.SetMessageHandler(messageHandler);
 
-    bool temp = Traces::GetTraceFlag();
-    Traces::TurnOnTraces();
     TRACE01 Traces() << "\n" << "LOG: Before";    
-    copy.printDebug();
-    if (!temp) Traces::TurnOffTraces();
+    TRACE01 copy.printDebug();
 
     Traces::GetCurrentTime();
     std::thread tempJob(&ThreadIAMove<900000>::operator (),
