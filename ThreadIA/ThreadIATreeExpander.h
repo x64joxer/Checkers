@@ -31,8 +31,6 @@ class ThreadIATreeExpander
        bool ExpandWhite(Board board, unsigned int stepNumber = 1);
        bool ExpandBlack(Board board, unsigned int stepNumber = 1);
 
-       bool trace;
-
        ThreadIABoardQueue<MQueue> * mainBoardQueue_2;
        const unsigned long int queueSize;       
        unsigned long int lastQueueElement;
