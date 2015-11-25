@@ -109,7 +109,6 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             if (queue.SizeDoNotForget() / minElements < numOfThreads) numOfThreads = queue.SizeDoNotForget() / minElements;
         };
         if (numOfThreads == 0) numOfThreads = 1;
-        //qDebug() << "numOfThreads = " << numOfThreads;
 
         unsigned int firstQueueElelemtsOnThread = queue.Size() / numberOfThreads;
         unsigned int secondQueueElelemtsOnThread = queue.SizeDoNotForget() / numberOfThreads;
