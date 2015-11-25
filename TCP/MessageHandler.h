@@ -23,7 +23,7 @@ class MessageHandler
         void Stop() { endFlag = true; ProgramVariables::GetGlobalConditionVariable()->notify_all(); }
         bool IsActive() { return active; }
         void SetMessageForwarder(MessageForwarder *wsk) { messageForwarder = wsk; }
-        void SetBoardQueue(ThreadIABoardQueue<900000> *wsk);
+        void SetBoardQueue(ThreadIABoardQueue<9000000> *wsk);
         void StartSharing(unsigned long time) { startTime = time; shareJobs = true; }
         void StopSharing() { shareJobs = false; }        
 
@@ -40,7 +40,7 @@ class MessageHandler
         std::atomic<bool> endFlag;
         std::atomic<bool> active;
         MessageForwarder *messageForwarder;
-        ThreadIABoardQueue<900000> *boardQueue;
+        ThreadIABoardQueue<9000000> *boardQueue;
         std::atomic<bool> shareJobs;
         unsigned long startTime;
         std::map<std::string, WorkersState*> workersState;

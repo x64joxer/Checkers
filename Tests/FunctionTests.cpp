@@ -52,7 +52,7 @@ void FunctionTests::Test01()
                     std::string("|b| |b| |b| |b| |");
 
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
             //Traces::TurnOffTraces();
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
             //Traces::TurnOnTraces();
@@ -109,7 +109,7 @@ void FunctionTests::Test02()
                 std::string("| | | |W| | | |w|") +
                 std::string("|b| | | | | | | |");
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
 
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
@@ -167,7 +167,7 @@ void FunctionTests::Test03()
                 std::string("| |b| | | | | |w|") +
                 std::string("| | | | | | | | |");
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
 
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
@@ -234,7 +234,7 @@ void FunctionTests::Test04()
                 std::string("| |b| | | |b| |b|") +
                 std::string("|b| | | |b| |b| |");
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
 
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
 
@@ -279,7 +279,7 @@ void FunctionTests::Test05()
             std::string("|b| | | |b| | | |");
 
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
         };
 
@@ -316,7 +316,7 @@ void FunctionTests::Test06()
                 std::string("|b| |b| |b| | | |");
 
         {
-            ThreadIAMove<900000> worker;
+            ThreadIAMove<9000000> worker;
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 1000, KindOfSteps::Step);
         };
 

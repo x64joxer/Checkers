@@ -205,7 +205,7 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 
 
             endIaJobFlag = false;
-            std::thread tempJob(&ThreadIAMove<900000>::operator (),
+            std::thread tempJob(&ThreadIAMove<9000000>::operator (),
                                 &jobExpander,
                                 board,
                                 &endIaJobFlag,

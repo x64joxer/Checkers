@@ -9,7 +9,7 @@ MessageHandler::MessageHandler()
 
 }
 
-void MessageHandler::SetBoardQueue(ThreadIABoardQueue<900000> *wsk)
+void MessageHandler::SetBoardQueue(ThreadIABoardQueue<9000000> *wsk)
 {
     boardQueue = wsk;
 }

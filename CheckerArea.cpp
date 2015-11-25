@@ -240,7 +240,7 @@ void CheckerArea::StartThinking()
     copy.printDebug();
 
     Traces::GetCurrentTime();
-    std::thread tempJob(&ThreadIAMove<900000>::operator (),
+    std::thread tempJob(&ThreadIAMove<9000000>::operator (),
                         &jobExpander2,
                         board,
                         &endIaJobFlag,
