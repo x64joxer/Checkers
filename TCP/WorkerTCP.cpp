@@ -299,18 +299,13 @@ void WorkerTCP::NoResponseFromServer()
 
 bool WorkerTCP::IsEndMessage(const char* data, const unsigned int end, const char *text)
 {
-    TRACE01 Traces() << "\n" << "LOG: Trap 1";
     unsigned int textLen = strlen(text);
-    TRACE01 Traces() << "\n" << "LOG: Len " << textLen;
-    TRACE01 Traces() << "\n" << "LOG: Trap 2";
     unsigned int counter = 0;
 
     for (unsigned int i = end - textLen; i < end; i++)
     {
-        TRACE01 Traces() << "\n" << "LOG: Trap 3";
         if (data[i] != text[counter]) return 0;
-        TRACE01 Traces() << "\n" << "LOG: Trap 4";
-        counter++;
+         counter++;
     }
 
     return 1;

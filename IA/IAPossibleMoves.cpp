@@ -10,10 +10,12 @@ bool IAPossibleMoves::CanIGrabBlack(const unsigned short number, Board board)
     PawnPos pos = board.GetBlackPawnPos(number);
     bool flag = CheckHitTopLeftBlack(pos.X(), pos.Y(), board) | CheckHitTopRightBlack(pos.X(), pos.Y(), board);
     bool flagPons = CheckHitBottomLeftBlack(pos.X(), pos.Y(), board) | CheckHitBottomRightBlack(pos.X(), pos.Y(), board);
-    Traces() << "\n" << "CheckHitBottomLeftBlack(pos.X(), pos.Y(), board) " << CheckHitBottomLeftBlack(pos.X(), pos.Y(), board);
-    Traces() << "\n" << "CheckHitBottomRightBlack(pos.X(), pos.Y(), board" << CheckHitBottomRightBlack(pos.X(), pos.Y(), board);
-    Traces() << "\n" << "CheckHitTopLeftBlack(pos.X(), pos.Y(), board) " << CheckHitTopLeftBlack(pos.X(), pos.Y(), board);
-    Traces() << "\n" << "CheckHitTopRightBlack(pos.X(), pos.Y(), board" << CheckHitTopRightBlack(pos.X(), pos.Y(), board);
+
+    TRACE01 Traces() << "\n" << "CheckHitBottomLeftBlack(pos.X(), pos.Y(), board) " << CheckHitBottomLeftBlack(pos.X(), pos.Y(), board);
+    TRACE01 Traces() << "\n" << "CheckHitBottomRightBlack(pos.X(), pos.Y(), board" << CheckHitBottomRightBlack(pos.X(), pos.Y(), board);
+    TRACE01 Traces() << "\n" << "CheckHitTopLeftBlack(pos.X(), pos.Y(), board) " << CheckHitTopLeftBlack(pos.X(), pos.Y(), board);
+    TRACE01 Traces() << "\n" << "CheckHitTopRightBlack(pos.X(), pos.Y(), board" << CheckHitTopRightBlack(pos.X(), pos.Y(), board);
+
     bool otherFlag = false;
     for (unsigned short i=0; i < board.GetNumberOfBlack();i++)
     {
@@ -29,7 +31,7 @@ bool IAPossibleMoves::CanIGrabBlack(const unsigned short number, Board board)
         };
     };
 
-    Traces() << "\n" << "otherFlag " << otherFlag;
+    TRACE01 Traces() << "\n" << "otherFlag " << otherFlag;
 
     if (!board.GetBlackPawnPons(number))
     {
