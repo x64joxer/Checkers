@@ -31,7 +31,7 @@ void MessageHandler::Start()
             {
                 return WorkerAgent::IsWaitingMessage() |
                        ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) |
-                       WorkersState::GetGlobNumOfWaitingTimer() |
+                       (WorkersState::GetGlobNumOfWaitingTimer()>0) |
                        endFlag ; }
             );
             mutex_guard.unlock();
@@ -49,7 +49,7 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
-            //TEMPORATY SLEEP TRACE01 Traces() << "\n" << "LOG: Tryning share jobs";
+
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
             {                
@@ -247,6 +247,8 @@ void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
 {
     if (wsk->GetState() == WorkersState::START_WORK_OK)
     {
+        Traces() << "\n" << "ERR: No response from worker!";
+
         WorkerAgent::SetState(wsk->GetHost(), wsk->GetPort(), Peers::STATE::FREE);
         wsk->SetNone();
         jobList.remove(wsk->GetJobId());

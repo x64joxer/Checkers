@@ -17,7 +17,7 @@ void WorkersState::SetPeer(QHostAddress ho, int po)
 void WorkersState::SetOKExpected(std::string id, std::string jId, MessageState state)
 {
     std::lock_guard<std::mutex> lockGuard(guard);
-    if (messageState != NONE_OK) globNumOfWaitingTimer++;
+
     messageState = state;
     timeout = ProgramVariables::GetSecondsSinceEpoch();
     waitForOKMessageID = id;
@@ -30,12 +30,12 @@ void WorkersState::SetOKExpected(std::string id, std::string jId, MessageState s
 void WorkersState::SetNone()
 {
     std::lock_guard<std::mutex> lockGuard(guard);
-    waitForOKMessageID = "";
-    messageState = NONE_OK;
+    waitForOKMessageID = "";    
     if (messageState != NONE_OK)
     {
         if (globNumOfWaitingTimer > 0) globNumOfWaitingTimer--;
     }
+    messageState = NONE_OK;
 }
 
 bool WorkersState::GetTimeout()
@@ -49,10 +49,13 @@ bool WorkersState::GetTimeout()
 }
 
 void WorkersState::StartTimer()
-{
+{    
     std::chrono::seconds dura( ProgramVariables::GetMaxTimeWaitToWorkers() );
     std::this_thread::sleep_for(dura);
-    ProgramVariables::GetGlobalConditionVariable()->notify_all();    
+    guard.lock();
+    if (messageState != NONE_OK) ++globNumOfWaitingTimer;
+    guard.unlock();
+    ProgramVariables::GetGlobalConditionVariable()->notify_all();
 }
 
 WorkersState::~WorkersState()

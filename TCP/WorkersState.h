@@ -8,8 +8,6 @@
 #include <iostream>
 #include "ProgramVariables.h"
 
-
-
 class WorkersState : public QObject
 {
         Q_OBJECT
