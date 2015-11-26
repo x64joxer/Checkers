@@ -52,7 +52,7 @@ class CheckerArea : public QWidget
         std::thread iaJob;
         std::atomic_bool endIaJobFlag;
         std::atomic<int> currentPercentOfSteps;
-        ThreadIAMove<9000000> jobExpander2;
+        ThreadIAMove<3000000> jobExpander2;
         MessageHandler * messageHandler;
 
         QTimer *waitForIATimer;

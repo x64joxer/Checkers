@@ -37,7 +37,7 @@ void PerformanceTests::Test01()
                     std::string("|b| |b| |b| |b| |");
 
         {
-            ThreadIAMove<9000000> worker;
+            ThreadIAMove<3000000> worker;
             Traces::GetCurrentTime();
             worker(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 3000, 20000, KindOfSteps::Step);
             result[numOfThreads-1] = Traces::GetCurrentTime();

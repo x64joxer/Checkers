@@ -53,7 +53,7 @@ class WorkerTCP : public QObject
         std::thread iaJob;
         std::atomic_bool endIaJobFlag;
         std::atomic<int> currentPercentOfSteps;
-        ThreadIAMove<9000000> jobExpander;
+        ThreadIAMove<3000000> jobExpander;
 
         QTimer *waitForIATimer;
         QTimer *waitForOKMessageTimer;
