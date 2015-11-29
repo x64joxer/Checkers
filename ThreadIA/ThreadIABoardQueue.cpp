@@ -51,30 +51,6 @@ Board ThreadIABoardQueue<size>::First(const bool remove)
 }
 
 template <unsigned long long size>
-Board ThreadIABoardQueue<size>::PopFirst()
-{
-    std::lock_guard<std::mutex> guard(mutex_guard);
-
-    if (Empty())
-    {
-        Board temp;
-        temp.SetNullBoard(true);
-        return temp;
-    }
-
-    Board temp = queue[first];
-
-    first++;
-    if (first==size)
-    {
-     first = 0;
-    };
-    numberOfElements--;
-
-    return temp;
-}
-
-template <unsigned long long size>
 Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 {    
     TRACE01 Traces() << "\n" << "LOG: Board ThreadIABoardQueue<size>::PopFront()";    

@@ -332,6 +332,8 @@ void FunctionTests::Test06()
 
 void FunctionTests::Test07()
 {
+    Traces::TurnOnTraces();
+
     Traces() << "\n" << "FunctionTests::Test07()";
 
     Board *board = new Board();
@@ -409,22 +411,39 @@ void FunctionTests::Test07()
 
     ThreadIABoardQueue<5> testQueue;
 
+    Traces() << "\n" << "LOG: Push back board 1";
     testQueue.PushBack(board1);
+    Traces() << "\n" << "LOG: Push back board 2";
     testQueue.PushBack(board2);
+    Traces() << "\n" << "LOG: Push back board 3";
     testQueue.PushBack(board3);
+    Traces() << "\n" << "LOG: Push back board 4";
     testQueue.PushBack(board4);
+
+    Traces() << "\n" << "LOG: Pop front board 1";
     testQueue.PopFront(0);
+    Traces() << "\n" << "LOG: Pop front board 2";
     testQueue.PopFront(0);
+    Traces() << "\n" << "LOG: Pop front board 3";
     testQueue.PopFront(0);
+
+    Traces() << "\n" << "LOG: Push back board 5";
     testQueue.PushBack(board5);
+    Traces() << "\n" << "LOG: Push back board 6";
     testQueue.PushBack(board6);
+    Traces() << "\n" << "LOG: Push back board 7";
     testQueue.PushBack(board7);
+
+    Traces() << "\n" << "LOG: Pop front board 4";
     testQueue.PopFront(0);
+    Traces() << "\n" << "LOG: Pop front board 5";
     testQueue.PopFront(0);
+    Traces() << "\n" << "LOG: Pop front board 6";
     testQueue.PopFront(0);
+    Traces() << "\n" << "LOG: Pop front board 7";
     *board = testQueue.PopFront(0);
 
-    if (*board != board4)
+    if (*board != board7)
     {
         Traces() << "\n" << "ERR: End Test07()  Wrong result";
         board->printDebug();
