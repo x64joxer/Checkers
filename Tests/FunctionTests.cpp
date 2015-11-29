@@ -7,12 +7,13 @@ FunctionTests::FunctionTests()
 
 void FunctionTests::Make()
 {
-    Test01();
-    Test02();
-    Test03();
-    Test04();
-    Test05();
-    Test06();
+    //Test01();
+    //Test02();
+    //Test03();
+    //Test04();
+    //Test05();
+    //Test06();
+    Test07();
 }
 
 void FunctionTests::Test01()
@@ -329,3 +330,107 @@ void FunctionTests::Test06()
     delete board;
 }
 
+void FunctionTests::Test07()
+{
+    Traces() << "\n" << "FunctionTests::Test07()";
+
+    Board *board = new Board();
+
+    Board board1;
+    Board board2;
+    Board board3;
+    Board board4;
+    Board board5;
+    Board board6;
+    Board board7;
+
+          board1 = std::string("| |w| |w| |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board2 = std::string("| | | |w| |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board3 = std::string("| |w| | | |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board4 = std::string("| |w| |w| | | |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board5 = std::string("| |w| |w| |w| | |") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board6 = std::string("| |w| |w| |w| |w|") +
+                   std::string("| | |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board7 = std::string("| |w| |w| |w| |w|") +
+                   std::string("|w| | | |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+    ThreadIABoardQueue<5> testQueue;
+
+    testQueue.PushBack(board1);
+    testQueue.PushBack(board2);
+    testQueue.PushBack(board3);
+    testQueue.PushBack(board4);
+    testQueue.PopFront(0);
+    testQueue.PopFront(0);
+    testQueue.PopFront(0);
+    testQueue.PushBack(board5);
+    testQueue.PushBack(board6);
+    testQueue.PushBack(board7);
+    testQueue.PopFront(0);
+    testQueue.PopFront(0);
+    testQueue.PopFront(0);
+    *board = testQueue.PopFront(0);
+
+    if (*board != board4)
+    {
+        Traces() << "\n" << "ERR: End Test07()  Wrong result";
+        board->printDebug();
+    }
+
+    Traces() << "\n" << "LOG: End Test07()";
+
+    delete board;
+}
