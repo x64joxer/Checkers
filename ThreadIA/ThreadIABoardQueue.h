@@ -24,6 +24,7 @@ class ThreadIABoardQueue
         void NotifyRest();
         unsigned long long Size();
         unsigned long long SizeDoNotForget();
+        Board & operator [] (const unsigned long long number);
 
     private:
         bool Empty() { if (numberOfElements==0) { return true;}; return false;  }

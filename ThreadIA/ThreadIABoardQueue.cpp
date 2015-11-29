@@ -292,7 +292,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
 
         TRACE01 Traces() << "\n" << "LOG: Searching best";
 
-        for (int i = start2; i<stop2; i++)
+        for (unsigned long long i = start2; i<stop2; i++)
         {
             if (result>doNotForgetqueue[i].GetPercentageResult())
             {
@@ -337,13 +337,6 @@ unsigned long long ThreadIABoardQueue<size>::GetFirstNumber()
 }
 
 template <unsigned long long size>
-ThreadIABoardQueue<size>::~ThreadIABoardQueue()
-{
-    delete [] queue;
-    delete [] doNotForgetqueue;
-}
-
-template <unsigned long long size>
 void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned short number)
 {
     if (number>0)
@@ -361,4 +354,29 @@ void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned shor
             workersFlags = workersFlags | val;
         };
     };
+}
+
+template <unsigned long long size>
+Board & ThreadIABoardQueue<size>::operator [] (const unsigned long long number)
+{
+    if (number > numberOfElements)
+    {
+        Traces() << "\n" << "LOG: Element not exist!";
+    } else
+    if (first + number < size - 1)
+    {
+        return queue[first + number];
+    } else
+    {
+       return queue[number - ((size-1) - first)];
+    }
+
+    return queue[first];
+}
+
+template <unsigned long long size>
+ThreadIABoardQueue<size>::~ThreadIABoardQueue()
+{
+    delete [] queue;
+    delete [] doNotForgetqueue;
 }
