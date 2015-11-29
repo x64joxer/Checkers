@@ -178,9 +178,12 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 {
     TRACE01 Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
     mutex_guard.lock();
-    doNotForgetqueue[doNotForgetnumberOfElements] = board;
-    ++doNotForgetnumberOfElements;
-    mutex_guard.unlock();
+    if (doNotForgetnumberOfElements < size)
+    {
+        doNotForgetqueue[doNotForgetnumberOfElements] = board;
+        ++doNotForgetnumberOfElements;
+        mutex_guard.unlock();
+    }
     condition_var->notify_all();
 }
 
