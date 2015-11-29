@@ -190,7 +190,7 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 template <unsigned long long size>
 Board ThreadIABoardQueue<size>::GetBestResult()
 {
-    double result = 0;
+    double result = 0;    
     Board temp;
 
     qDebug() << "Number of eleents" << numberOfElements;
@@ -198,18 +198,18 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 
     if (numberOfElements>0)
     {
-        result = queue[first].GetPercentageResult();
-        temp = queue[first];
+        result = At(0).GetPercentageResult();
+        temp = At(0);
         PopFront(0);
 
         if (numberOfElements>0)
         {
-            for (unsigned long long i=first;i<last;i++)
+            for (unsigned long long i=0;i<numberOfElements;i++)
             {
-                if (result>queue[i].GetPercentageResult())
+                if (result>At(i).GetPercentageResult())
                 {
-                    result =  queue[i].GetPercentageResult();
-                    temp = queue[i];
+                    result =  At(i).GetPercentageResult();
+                    temp = At(i);
                 };
             };
         };
@@ -260,18 +260,18 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int star
         TRACE01 Traces() << "\n" << "LOG: start =" << start;
         TRACE01 Traces() << "\n" << "LOG: stop =" << stop;
 
-        result = queue[start].GetPercentageResult();
-        temp = queue[start];
+        result = At(0).GetPercentageResult();
+        temp = At(0);
 
         TRACE01 Traces() << "\n" << "LOG: Current best result";
         TRACE01 temp.printDebug();
 
-        for (unsigned int i = start; i<stop; i++)
+        for (unsigned long long i = 0; i<numberOfElements; i++)
         {
-            if (result>queue[i].GetPercentageResult())
+            if (result>At(i).GetPercentageResult())
             {
-                result =  queue[i].GetPercentageResult();
-                temp = queue[i];
+                result =  At(i).GetPercentageResult();
+                temp = At(i);
             };
         };
     };
@@ -357,7 +357,7 @@ void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned shor
 }
 
 template <unsigned long long size>
-Board & ThreadIABoardQueue<size>::operator [] (const unsigned long long number)
+Board & ThreadIABoardQueue<size>::At(const unsigned long long number)
 {
     if (number > numberOfElements)
     {
