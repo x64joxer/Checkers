@@ -38,13 +38,28 @@ Board ThreadIABoardQueue<size>::First(const bool remove)
     temp = queue[first];
 
     if (remove)
-    {
-        first++;
-        if (first == size)
+    {       
+        TRACE01 Traces() << "\n" << "LOG: (numberOfElements>0)";
+
+        if (numberOfElements>1)
         {
-         first = 0;
+            first++;
+            if (first==size)
+            {
+             first = 0;
+            };
+            numberOfElements--;
+
+        } else
+        {
+            first = 0;
+            last = 0;
+            numberOfElements = 0;
         };
-        numberOfElements--;
+
+        TRACE01 Traces() << "\n" << "LOG: first " << first;
+        TRACE01 Traces() << "\n" << "LOG: last " << last;
+        TRACE01 Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
     }
 
     return temp;
