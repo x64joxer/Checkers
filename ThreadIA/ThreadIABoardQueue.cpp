@@ -181,9 +181,9 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
     if (doNotForgetnumberOfElements < size)
     {
         doNotForgetqueue[doNotForgetnumberOfElements] = board;
-        ++doNotForgetnumberOfElements;
-        mutex_guard.unlock();
+        ++doNotForgetnumberOfElements;        
     }
+    mutex_guard.unlock();
     condition_var->notify_all();
 }
 
