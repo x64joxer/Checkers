@@ -131,6 +131,11 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
                     }
                 };
             };
+
+            if (mainBoardQueue.Size() > 3000000 - 1000)
+            {
+                break;
+            }
         };
 
         if (queue[firstQueueElement].GetNullBoard())
@@ -138,6 +143,11 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
             TRACE01 Traces() << "\n" << "LOG: Everyone is waiting! No jobs";
             break;
         };
+
+        if (mainBoardQueue.Size() > 3000000 - 1000)
+        {
+            break;
+        }
 
         TRACE01 Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";
 

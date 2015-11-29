@@ -244,7 +244,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 }
 
 template <unsigned long long size>
-void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned int start, const unsigned int stop, bool make2, const unsigned int start2, const unsigned int stop2, Board *best)
+void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long long start, const unsigned long long stop, bool make2, const unsigned long long start2, const unsigned long long stop2, Board *best)
 {
     TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::GetBestResult2";
     double result = 0;

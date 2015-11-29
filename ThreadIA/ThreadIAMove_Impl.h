@@ -98,7 +98,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         {
 
         //NEW METHOD
-        unsigned int minElements = 2000;
+        unsigned long long minElements = 2000;
         unsigned short numOfThreads = numberOfThreads;
 
         if (queue.Size() / minElements >= queue.SizeDoNotForget() / minElements)
@@ -110,8 +110,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         };
         if (numOfThreads == 0) numOfThreads = 1;
 
-        unsigned int firstQueueElelemtsOnThread = queue.Size() / numberOfThreads;
-        unsigned int secondQueueElelemtsOnThread = queue.SizeDoNotForget() / numberOfThreads;
+        unsigned long long firstQueueElelemtsOnThread = queue.Size() / numberOfThreads;
+        unsigned long long secondQueueElelemtsOnThread = queue.SizeDoNotForget() / numberOfThreads;
 
         if (firstQueueElelemtsOnThread == 0)
         {
@@ -119,10 +119,10 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         };
         if (secondQueueElelemtsOnThread == 0) secondQueueElelemtsOnThread = queue.SizeDoNotForget();
 
-        unsigned int start = queue.GetFirstNumber();
-        unsigned int start2 = 0;
-        unsigned int stop = firstQueueElelemtsOnThread;
-        unsigned int stop2 = secondQueueElelemtsOnThread;
+        unsigned long long start = queue.GetFirstNumber();
+        unsigned long long start2 = 0;
+        unsigned long long stop = firstQueueElelemtsOnThread;
+        unsigned long long stop2 = secondQueueElelemtsOnThread;
         bool flag1 = true;
         bool flag2 = true;
         Board best[numOfThreads];
