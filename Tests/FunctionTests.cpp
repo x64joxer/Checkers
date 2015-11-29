@@ -7,13 +7,14 @@ FunctionTests::FunctionTests()
 
 void FunctionTests::Make()
 {
-    //Test01();
-    //Test02();
-    //Test03();
-    //Test04();
-    //Test05();
-    //Test06();
+    Test01();
+    Test02();
+    Test03();
+    Test04();
+    Test05();
+    Test06();
     Test07();
+    Test08();
 }
 
 void FunctionTests::Test01()
@@ -450,6 +451,130 @@ void FunctionTests::Test07()
     }
 
     Traces() << "\n" << "LOG: End Test07()";
+
+    delete board;
+}
+
+void FunctionTests::Test08()
+{
+    Traces::TurnOnTraces();
+
+    Traces() << "\n" << "FunctionTests::Test08()";
+
+    Board *board = new Board();
+
+    Board board1;
+    Board board2;
+    Board board3;
+    Board board4;
+    Board board5;
+    Board board6;
+    Board board7;
+
+          board1 = std::string("| |w| |w| |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board2 = std::string("| | | |w| |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board3 = std::string("| |w| | | |w| |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board4 = std::string("| |w| |w| | | |w|") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board5 = std::string("| |w| |w| |w| | |") +
+                   std::string("|w| |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board6 = std::string("| |w| |w| |w| |w|") +
+                   std::string("| | |w| |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+          board7 = std::string("| |w| |w| |w| |w|") +
+                   std::string("|w| | | |w| |w| |") +
+                   std::string("| |w| |w| |w| |w|") +
+                   std::string("| | | | | | | | |") +
+                   std::string("| | | | | | | | |") +
+                   std::string("|b| |b| |b| |b| |") +
+                   std::string("| |b| |b| |b| |b|") +
+                   std::string("|b| |b| |b| |b| |");
+
+    ThreadIABoardQueue<5> testQueue;
+
+    Traces() << "\n" << "LOG: Push back board 1";
+    testQueue.PushBack(board1);
+    Traces() << "\n" << "LOG: Push back board 2";
+    testQueue.PushBack(board2);
+    Traces() << "\n" << "LOG: Push back board 3";
+    testQueue.PushBack(board3);
+    Traces() << "\n" << "LOG: Push back board 4";
+    testQueue.PushBack(board4);
+
+    Traces() << "\n" << "LOG: Pop front board 1";
+    testQueue.First(true);
+    Traces() << "\n" << "LOG: Pop front board 2";
+    testQueue.First(true);
+    Traces() << "\n" << "LOG: Pop front board 3";
+    testQueue.First(true);
+
+    Traces() << "\n" << "LOG: Push back board 5";
+    testQueue.PushBack(board5);
+    Traces() << "\n" << "LOG: Push back board 6";
+    testQueue.PushBack(board6);
+    Traces() << "\n" << "LOG: Push back board 7";
+    testQueue.PushBack(board7);
+
+    Traces() << "\n" << "LOG: Pop front board 4";
+    testQueue.First(true);
+    Traces() << "\n" << "LOG: Pop front board 5";
+    testQueue.First(true);
+    Traces() << "\n" << "LOG: Pop front board 6";
+    testQueue.First(true);
+    Traces() << "\n" << "LOG: Pop front board 7";
+    *board = testQueue.PopFront(0);
+
+    if (*board != board7)
+    {
+        Traces() << "\n" << "ERR: End Test08()  Wrong result";
+        board->printDebug();
+    }
+
+    Traces() << "\n" << "LOG: End Test08()";
 
     delete board;
 }
