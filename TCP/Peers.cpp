@@ -61,3 +61,8 @@ bool Peers::operator==(const Peers &data)
     if ((host == data.host)&&(port==data.port)) return true;
     return false;
 }
+
+Peers::~Peers()
+{
+    std::for_each(data.begin(),data.end(),  [](char *val) { delete val; });
+}

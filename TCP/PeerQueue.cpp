@@ -72,8 +72,8 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
                                      });
 
         if (flag)
-        {            
-            peers.remove(*wsk);
+        {                        
+            peers.remove(*wsk);            
             ProgramVariables::NotifyOne();
 
             TRACE01 Traces() << "\n" << "LOG: Peer removed from queue.";

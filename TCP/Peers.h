@@ -13,6 +13,7 @@ class Peers
 {
     public:
         Peers();
+        ~Peers();
         void SetPeer(QHostAddress ho, int po);
         QHostAddress GetHost();
         int GetPort();
