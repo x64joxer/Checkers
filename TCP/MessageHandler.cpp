@@ -102,7 +102,7 @@ void MessageHandler::Start()
     delete [] data;
 }
 
-void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> & data)
 {
     TRACE01 Traces() << "\n" << "LOG: MessageHandler::MessageInterpreting(const std::map<std::string, std::string> data)";
 
@@ -154,7 +154,7 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
 }
 
 
-void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> data)
+void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> & data)
 {
     TRACE01 Traces() << "\n" << "LOG: MessageHandler::TakeSetState(const std::map<std::string, std::string> data)";
 
