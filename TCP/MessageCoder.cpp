@@ -282,7 +282,7 @@ void MessageCoder::MapToBoard(const std::map<std::string, std::string> & dest, B
     }
 }
 
-void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, std::string id, std::string jobId, char *dest)
+void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsigned short numberOfBoard, const std::string & id, const std::string & jobId, char *dest)
 {    
     KeyValuePairToChar(ACTION, START_WORK, dest);
     KeyValuePairToChar(MAX_TIME, respTime, dest);
@@ -291,7 +291,7 @@ void MessageCoder::CreateStartMessage(const unsigned short respTime, const unsig
     KeyValuePairToChar(NUM_OF_BOARD, numberOfBoard, dest);
 }
 
-void MessageCoder::CreateBestResultMessage(const std::string id, const std::string jobId, unsigned long long numOfAnalysed, char *dest)
+void MessageCoder::CreateBestResultMessage(const std::string & id, const std::string & jobId, unsigned long long numOfAnalysed, char *dest)
 {
     KeyValuePairToChar(ACTION, BEST_RESULT, dest);
     KeyValuePairToChar(NUM_OF_ANALYSED, numOfAnalysed, dest);
@@ -299,7 +299,7 @@ void MessageCoder::CreateBestResultMessage(const std::string id, const std::stri
     KeyValuePairToChar(JOB_ID, jobId, dest);    
 }
 
-void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, char *dest)
+void MessageCoder::CreateStateMessage(const Peers::STATE stat, const std::string & id, char *dest)
 {
     KeyValuePairToChar(ACTION, SET_STATE, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
@@ -307,7 +307,7 @@ void MessageCoder::CreateStateMessage(Peers::STATE stat, const std::string id, c
     KeyValuePairToChar(MESSAGE_END, 0, dest);
 }
 
-void MessageCoder::CreateOkMessage(const std::string id, char *dest)
+void MessageCoder::CreateOkMessage(const std::string  & id, char *dest)
 {
     KeyValuePairToChar(ACTION, OK, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);

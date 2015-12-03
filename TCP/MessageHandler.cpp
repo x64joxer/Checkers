@@ -223,7 +223,7 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
     }
 }
 
-void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, std::string id, std::string jobId, WorkersState::MessageState state)
+void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, const std::string & id, const std::string & jobId, WorkersState::MessageState state)
 {
     std::string key = ho.toString().toStdString() + std::to_string(po);
 
