@@ -95,6 +95,7 @@ void PeerQueue::AddData(QHostAddress ho, int po,char *data)
                                          if ((n.GetHost() == ho)&&(n.GetPort() == po))
                                          {
                                             n.AddData(data);
+                                            messagesQueue.push_back(&n);
                                             waitingMessages++;
                                             flag = true;
                                          }
@@ -162,22 +163,19 @@ void PeerQueue::GetData(QHostAddress ho, int po,char *data)
 void PeerQueue::GetFirstMessage(QHostAddress &ho, int &po,char *data)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
-    bool flag = false;
 
-    std::for_each(peers.begin(),peers.end(),
-                  [&flag, this, &data, &ho, &po](Peers &n){
-                                        if (!flag)
-                                        {
-                                            if (n.IsData())
-                                            {
-                                                flag = true;
-                                                n.GetData(data);
-                                                ho = n.GetHost();
-                                                po = n.GetPort();
-                                                waitingMessages--;
-                                            }
-                                       }
-                                 });
+    if (!messagesQueue.empty())
+    {
+        Peers *wsk = messagesQueue.front();
+        wsk->GetData(data);
+        ho = wsk->GetHost();
+        po = wsk->GetPort();
+        waitingMessages--;
+        messagesQueue.pop_front();
+    } else
+    {
+        Traces() << "\n" << "ERROR: No messges in message queue!";
+    }
 }
 
 void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)

@@ -38,6 +38,7 @@ class PeerQueue
         void GetData(QHostAddress ho, int po,char *data);
         bool PeerExist(QHostAddress ho, int po);
         std::list<Peers> peers;
+        std::list<Peers*> messagesQueue;
         unsigned int waitingMessages;
         ServerTCP *server;
         std::mutex mutex_guard;
