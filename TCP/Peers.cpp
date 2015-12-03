@@ -39,6 +39,7 @@ void Peers::GetData(char *dat)
         char *temp = data.front();
         data.pop_front();
         strcpy(dat,temp);        
+        delete [] temp;
     } else
     {
         Traces() << "\n" << "ERROR: No data!";
