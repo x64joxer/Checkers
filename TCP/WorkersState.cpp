@@ -55,7 +55,7 @@ void WorkersState::StartTimer()
     guard.lock();
     if (messageState != NONE_OK) ++globNumOfWaitingTimer;
     guard.unlock();
-    ProgramVariables::GetGlobalConditionVariable()->notify_all();
+    ProgramVariables::NotifyOne();
 }
 
 WorkersState::~WorkersState()

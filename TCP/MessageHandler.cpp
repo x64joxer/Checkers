@@ -27,7 +27,7 @@ void MessageHandler::Start()
         {
 
             std::unique_lock<std::mutex> guard(mutex_guard);
-            ProgramVariables::GetGlobalConditionVariable()->wait(guard,[this]
+            ProgramVariables::GetGlobalConditionVariableNetwork()->wait(guard,[this]
             {
                 return WorkerAgent::IsWaitingMessage() |
                        ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) |

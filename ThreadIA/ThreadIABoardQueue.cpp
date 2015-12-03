@@ -170,7 +170,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
         Traces() << "\n" << "ERROR: No more free cells!";
     };
 
-    condition_var->notify_all();
+    ProgramVariables::NotifyOne();
 }
 
 template <unsigned long long size>
@@ -184,7 +184,7 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
         ++doNotForgetnumberOfElements;        
     }
     mutex_guard.unlock();
-    condition_var->notify_all();
+    ProgramVariables::NotifyOne();
 }
 
 template <unsigned long long size>
@@ -327,7 +327,7 @@ unsigned long long ThreadIABoardQueue<size>::SizeDoNotForget()
 template <unsigned long long size>
 void ThreadIABoardQueue<size>::NotifyRest()
 {
-    condition_var->notify_all();
+    ProgramVariables::NotifyOne();
 }
 
 template <unsigned long long size>

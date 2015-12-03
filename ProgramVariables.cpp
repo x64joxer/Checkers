@@ -75,6 +75,17 @@ std::condition_variable * ProgramVariables::GetGlobalConditionVariable()
     return &condition_var;
 }
 
+std::condition_variable * ProgramVariables::GetGlobalConditionVariableNetwork()
+{
+    return &condition_var_network;
+}
+
+void ProgramVariables::NotifyOne()
+{
+    condition_var.notify_one();
+    condition_var_network.notify_one();
+}
+
 unsigned int ProgramVariables::GetRecconectingTime()
 {
     return 5000;
@@ -107,4 +118,5 @@ unsigned short ProgramVariables::numbeOfThreads = ProgramVariables::maxNumbeOfTh
 unsigned long long ProgramVariables::messageId = 0;
 std::mutex ProgramVariables::mutex_guard;
 std::condition_variable ProgramVariables::condition_var;
+std::condition_variable ProgramVariables::condition_var_network;
 unsigned long long ProgramVariables::numOfAnalysded = 0;

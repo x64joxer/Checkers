@@ -25,6 +25,8 @@ class ProgramVariables
         static QString GetServerIP();
         static int GetServerPort();
         static std::condition_variable * GetGlobalConditionVariable();
+        static std::condition_variable * GetGlobalConditionVariableNetwork();
+        static void NotifyOne();
         static std::string CreateMessageId();        
         static void SetNumOfAnalyded(const unsigned long long val) { numOfAnalysded = val; }
         static unsigned long long GetNumOfAnalyded() { return numOfAnalysded; }
@@ -40,6 +42,7 @@ class ProgramVariables
         static unsigned long long messageId;
         static std::mutex mutex_guard;
         static std::condition_variable condition_var;
+        static std::condition_variable condition_var_network;
         static unsigned long long numOfAnalysded;
 };
 
