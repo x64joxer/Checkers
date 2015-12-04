@@ -117,7 +117,7 @@ void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, co
         }
         catch (std::out_of_range)
         {
-            CreateOkGuard(ho, po, "", "", WorkersState::NONE_OK);
+            current = CreateOkGuard(ho, po, "", "", WorkersState::NONE_OK);
         }
 
         if ((action != MessageCoder::OK)&&(current->GetState() != WorkersState::NONE_OK))
@@ -221,24 +221,27 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
     }
 }
 
-void MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, const std::string & id, const std::string & jobId, WorkersState::MessageState state)
+WorkersState * MessageHandler::CreateOkGuard(const QHostAddress ho, const int po, const std::string & id, const std::string & jobId, WorkersState::MessageState state)
 {
     std::string key = ho.toString().toStdString() + std::to_string(po);
+    WorkersState *wsk;
 
     try
     {
-        WorkersState *wsk = workersState.at(key);
+        wsk = workersState.at(key);
         wsk->SetPeer(ho, po);
-        wsk->SetOKExpected(id, jobId, state);
+        wsk->SetOKExpected(id, jobId, state);        
     }
     catch (std::out_of_range)
     {
-        WorkersState *wsk = new WorkersState();
+        wsk = new WorkersState();
         wsk->SetPeer(ho, po);
         wsk->SetOKExpected(id, jobId, state);
         workersState[key] = wsk;
         workersStateList.push_back(key);
     }
+
+    return wsk;
 }
 
 void MessageHandler::NoResponseFromWorker(WorkersState *wsk)

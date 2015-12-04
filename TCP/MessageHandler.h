@@ -34,7 +34,7 @@ class MessageHandler
         void MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> & data);
         void TakeSetState(const QHostAddress ho, const int po, const std::map<std::string, std::string> & data);
         void TakeBestResult(const QHostAddress ho, const int po, const std::map<std::string, std::string> data);
-        void CreateOkGuard(const QHostAddress ho, const int po, const std::string & id, const std::string  & jobId, const WorkersState::MessageState state);
+        WorkersState * CreateOkGuard(const QHostAddress ho, const int po, const std::string & id, const std::string  & jobId, const WorkersState::MessageState state);
         void NoResponseFromWorker(WorkersState *wsk);
 
         std::atomic<bool> endFlag;
