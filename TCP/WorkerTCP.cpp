@@ -198,10 +198,10 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             MessageCoder::MapToBoard(data, board);
 
             Traces() << "\n" << "LOG: Board received:";
-            board->printDebug();
+            board->PrintDebug();
 
             Traces() << "\n" << "LOG: ...witch origin:";
-            board->GetOrigin().printDebug();
+            board->GetOrigin().PrintDebug();
 
 
             endIaJobFlag = false;

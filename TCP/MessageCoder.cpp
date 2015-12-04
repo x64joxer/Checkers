@@ -148,7 +148,7 @@ void MessageCoder::BoardToChar(const Board &board, char *dest, const unsigned sh
     num = board.GetNumberOfBlack();
     KeyValuePairToChar(prefix + NUMBER_BLACK, num, dest);
 
-    TRACE01 board.printDebug();
+    TRACE01 board.PrintDebug();
 
     if (num > 0)
     {

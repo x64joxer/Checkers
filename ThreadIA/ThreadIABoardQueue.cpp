@@ -121,7 +121,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
         TRACE01 Traces() << "\n" << "LOG: last " << last;
         TRACE01 Traces() << "\n" << "LOG: Number of cells " << numberOfElements;
 
-        TRACE01 queue[temp].printDebug();
+        TRACE01 queue[temp].PrintDebug();
         guard.unlock();
         return queue[temp];
     };
@@ -224,7 +224,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
         };
 
         TRACE01 Traces() << "\n" << "LOG: Origin of doNotForgetqueue[0]";
-        TRACE01 doNotForgetqueue[0].GetOrigin().printDebug();
+        TRACE01 doNotForgetqueue[0].GetOrigin().PrintDebug();
 
 
         if (doNotForgetnumberOfElements>1)
@@ -264,7 +264,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long lon
         temp = At(0);
 
         TRACE01 Traces() << "\n" << "LOG: Current best result";
-        TRACE01 temp.printDebug();
+        TRACE01 temp.PrintDebug();
 
         for (unsigned long long i = 0; i<numberOfElements; i++)
         {
@@ -287,7 +287,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long lon
             TRACE01 Traces() << "\n" << "LOG: !make = false";
             result = doNotForgetqueue[start2].GetPercentageResult();
             temp = doNotForgetqueue[start2];            
-            TRACE01 temp.printDebug();
+            TRACE01 temp.PrintDebug();
         };
 
         TRACE01 Traces() << "\n" << "LOG: Searching best";
@@ -298,7 +298,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long lon
             {
                 result =  doNotForgetqueue[i].GetPercentageResult();
                 temp = doNotForgetqueue[i];
-                TRACE01 temp.printDebug();
+                TRACE01 temp.PrintDebug();
             };
         };
     };

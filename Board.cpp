@@ -475,7 +475,7 @@ double Board::GetPercentageResult() const
     return (double)numberOfBlack() / (double)numberOfWhite();
 }
 
-void Board::printDebug() const
+void Board::PrintDebug() const
 {
     QString line;
     bool flag = 0;

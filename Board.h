@@ -53,7 +53,7 @@ class Board
 
         unsigned short GetResult() const;
         double GetPercentageResult() const;
-        void printDebug() const;
+        void PrintDebug() const;
 
         Board & operator =(const char *);
         Board & operator =(const std::string &);

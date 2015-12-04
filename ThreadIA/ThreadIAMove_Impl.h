@@ -176,8 +176,8 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         *boardWsk = temp.GetOrigin();
 
         TRACE01 Traces() << "\n" << "LOG: Best board set:";
-        temp.printDebug();
-        boardWsk->printDebug();        
+        temp.PrintDebug();
+        boardWsk->PrintDebug();        
 
         *flag = true;
     };
@@ -208,7 +208,7 @@ void ThreadIAMove<QMain>::SetOriginToAll()
             temp.SetOrigin(temp);
 
             TRACE01 Traces() << "\n" << "LOG: Origin set";
-            TRACE01 temp.printDebug();
+            TRACE01 temp.PrintDebug();
             queue.PushBack(temp);
         }
     };

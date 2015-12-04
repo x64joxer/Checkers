@@ -63,7 +63,7 @@ void FunctionTests::Test01()
         if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test01() Wrong result for number of threads = " << numOfThreads;
-            board->printDebug();
+            board->PrintDebug();
 
         };
     };
@@ -120,8 +120,8 @@ void FunctionTests::Test02()
         if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test02() Wrong result for number of threads = " << numOfThreads;
-            board->printDebug();
-            goodBoard.printDebug();
+            board->PrintDebug();
+            goodBoard.PrintDebug();
 
         };
     };
@@ -178,8 +178,8 @@ void FunctionTests::Test03()
         if (*board != goodBoard)
         {
             Traces() << "\n" << "ERROR: Test03() Wrong result for number of threads = " << numOfThreads;
-            board->printDebug();
-            goodBoard.printDebug();
+            board->PrintDebug();
+            goodBoard.PrintDebug();
 
         };
     };
@@ -245,8 +245,8 @@ void FunctionTests::Test04()
         if ((*board != goodBoard)&&(*board != goodBoard_2))
         {
             Traces() << "\n" << "ERROR: Test04() Wrong result for number of threads = " << numOfThreads;
-            board->printDebug();
-            goodBoard.printDebug();
+            board->PrintDebug();
+            goodBoard.PrintDebug();
         };
     };
 
@@ -447,7 +447,7 @@ void FunctionTests::Test07()
     if (*board != board7)
     {
         Traces() << "\n" << "ERR: End Test07()  Wrong result";
-        board->printDebug();
+        board->PrintDebug();
     }
 
     Traces() << "\n" << "LOG: End Test07()";
@@ -571,7 +571,7 @@ void FunctionTests::Test08()
     if (*board != board7)
     {
         Traces() << "\n" << "ERR: End Test08()  Wrong result";
-        board->printDebug();
+        board->PrintDebug();
     }
 
     Traces() << "\n" << "LOG: End Test08()";
