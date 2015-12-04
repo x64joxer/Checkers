@@ -41,7 +41,7 @@ class Board
         bool GetBlackPawnPons(const unsigned short number) const;
         bool SetWhitePawnPons(const unsigned short number, const bool flag);
         bool SetBlackPawnPons(const unsigned short number, const bool flag);
-        bool IsPawnOnPos(const unsigned short x, const unsigned short y);
+        bool IsPawnOnPos(const unsigned short x, const unsigned short y) const;
         bool IsWhitePawnOnPos(const unsigned short x, const unsigned short y) const;
         bool IsBlackPawnOnPos(const unsigned short x, const unsigned short y) const;
         unsigned short GetNumberOfWhite() const;

@@ -338,7 +338,7 @@ bool Board::SetBlackPawnPons(const unsigned short number, const bool flag)
     return 1;
 }
 
-bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y)
+bool Board::IsPawnOnPos(const unsigned short x, const unsigned short y) const
 {
     if (numberOfWhite() > 0)
     {

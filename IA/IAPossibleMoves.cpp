@@ -5,7 +5,7 @@ IAPossibleMoves::IAPossibleMoves()
 
 }
 
-bool IAPossibleMoves::CanIGrabBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CanIGrabBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool flag = CheckHitTopLeftBlack(pos.X(), pos.Y(), board) | CheckHitTopRightBlack(pos.X(), pos.Y(), board);
@@ -61,7 +61,7 @@ bool IAPossibleMoves::CanIGrabBlack(const unsigned short number, Board board)
 }
 
 
-bool IAPossibleMoves::CheckHitTopLeftBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitTopLeftBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x-1, y - 1)) return 0;
     if (!board.IsWhitePawnOnPos(x-1,y-1))
@@ -75,7 +75,7 @@ bool IAPossibleMoves::CheckHitTopLeftBlack(const unsigned short x, const unsigne
     };
 }
 
-bool IAPossibleMoves::CheckHitTopRightBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitTopRightBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x+1, y -1)) return 0;
     if (!board.IsWhitePawnOnPos(x+1,y-1))
@@ -89,7 +89,7 @@ bool IAPossibleMoves::CheckHitTopRightBlack(const unsigned short x, const unsign
     };
 }
 
-bool IAPossibleMoves::CheckHitBottomLeftBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitBottomLeftBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x-1, y + 1)) return 0;
     if (!board.IsWhitePawnOnPos(x-1,y+1))
@@ -103,7 +103,7 @@ bool IAPossibleMoves::CheckHitBottomLeftBlack(const unsigned short x, const unsi
     };
 }
 
-bool IAPossibleMoves::CheckHitBottomRightBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitBottomRightBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x+1, y +1)) return 0;
     if (!board.IsWhitePawnOnPos(x+1,y+1))
@@ -117,35 +117,35 @@ bool IAPossibleMoves::CheckHitBottomRightBlack(const unsigned short x, const uns
     };
 }
 
-bool IAPossibleMoves::CheckPutTopLeftBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutTopLeftBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x-1, y -1)) return 0;
     if (board.IsPawnOnPos(x-1, y -1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CheckPutTopRightBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutTopRightBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x+1, y -1)) return 0;
     if (board.IsPawnOnPos(x+1, y -1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CheckPutBottomLeftBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutBottomLeftBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x-1, y +1)) return 0;    
     if (board.IsPawnOnPos(x-1, y +1)) return 0;    
     return true;
 }
 
-bool IAPossibleMoves::CheckPutBottomRightBlack(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutBottomRightBlack(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardBlack(x+1, y +1)) return 0;
     if (board.IsPawnOnPos(x+1, y +1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CanIPutHereBlack(const unsigned short number, const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CanIPutHereBlack(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool ponsFlag = board.GetBlackPawnPons(number);
@@ -220,7 +220,7 @@ bool IAPossibleMoves::CanIPutHereBlack(const unsigned short number, const unsign
     return false;
 }
 
-bool IAPossibleMoves::IsKillBlack(const unsigned short number, const unsigned short x, const unsigned short y, Board board, unsigned short &killed)
+bool IAPossibleMoves::IsKillBlack(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board, unsigned short &killed) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool ponsFlag = board.GetBlackPawnPons(number);
@@ -267,7 +267,7 @@ bool IAPossibleMoves::IsKillBlack(const unsigned short number, const unsigned sh
     return 0;
 }
 
-bool IAPossibleMoves::OutOfBoardBlack(const unsigned short x, const unsigned short y)
+bool IAPossibleMoves::OutOfBoardBlack(const unsigned short x, const unsigned short y) const
 {
     if (x>7) return 1;
     if (y>7) return 1;
@@ -275,7 +275,7 @@ bool IAPossibleMoves::OutOfBoardBlack(const unsigned short x, const unsigned sho
     return 0;
 }
 
-bool IAPossibleMoves::CanIGrabWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CanIGrabWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     bool flag = CheckHitTopLeftWhite(pos.X(), pos.Y(), board) | CheckHitTopRightWhite(pos.X(), pos.Y(), board);
@@ -331,7 +331,7 @@ bool IAPossibleMoves::CanIGrabWhite(const unsigned short number, Board board)
 }
 
 
-bool IAPossibleMoves::CheckHitTopLeftWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitTopLeftWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x-1, y - 1)) return 0;
     if (!board.IsBlackPawnOnPos(x-1,y-1))
@@ -345,7 +345,7 @@ bool IAPossibleMoves::CheckHitTopLeftWhite(const unsigned short x, const unsigne
     };
 }
 
-bool IAPossibleMoves::CheckHitTopRightWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitTopRightWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x+1, y -1)) return 0;
     if (!board.IsBlackPawnOnPos(x+1,y-1))
@@ -359,7 +359,7 @@ bool IAPossibleMoves::CheckHitTopRightWhite(const unsigned short x, const unsign
     };
 }
 
-bool IAPossibleMoves::CheckHitBottomLeftWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitBottomLeftWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x-1, y + 1)) return 0;
     if (!board.IsBlackPawnOnPos(x-1,y+1))
@@ -373,7 +373,7 @@ bool IAPossibleMoves::CheckHitBottomLeftWhite(const unsigned short x, const unsi
     };
 }
 
-bool IAPossibleMoves::CheckHitBottomRightWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckHitBottomRightWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x+1, y +1)) return 0;
     if (!board.IsBlackPawnOnPos(x+1,y+1))
@@ -387,28 +387,28 @@ bool IAPossibleMoves::CheckHitBottomRightWhite(const unsigned short x, const uns
     };
 }
 
-bool IAPossibleMoves::CheckPutTopLeftWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutTopLeftWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x-1, y -1)) return 0;
     if (board.IsPawnOnPos(x-1, y -1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CheckPutTopRightWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutTopRightWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x+1, y -1)) return 0;
     if (board.IsPawnOnPos(x+1, y -1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CheckPutBottomLeftWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutBottomLeftWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x-1, y +1)) return 0;
     if (board.IsPawnOnPos(x-1, y +1)) return 0;
     return true;
 }
 
-bool IAPossibleMoves::CheckPutBottomRightWhite(const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CheckPutBottomRightWhite(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoardWhite(x+1, y +1)) return 0;
     if (board.IsPawnOnPos(x+1, y +1)) return 0;
@@ -417,49 +417,49 @@ bool IAPossibleMoves::CheckPutBottomRightWhite(const unsigned short x, const uns
 
 //
 
-bool IAPossibleMoves::CheckHitTopLeftWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitTopLeftWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckHitTopLeftWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitTopRightWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitTopRightWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckHitTopRightWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitBottomLeftWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitBottomLeftWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckHitBottomLeftWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitBottomRightWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitBottomRightWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckHitBottomRightWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutTopLeftWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutTopLeftWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckPutTopLeftWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutTopRightWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutTopRightWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckPutTopRightWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutBottomLeftWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutBottomLeftWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckPutBottomLeftWhite(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutBottomRightWhite(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutBottomRightWhite(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     return CheckPutBottomRightWhite(pos.X(),pos.Y(),board);
@@ -502,49 +502,49 @@ void IAPossibleMoves::KillHitBottomRightWhite(const unsigned short number, Board
 //
 //NEW
 
-bool IAPossibleMoves::CheckHitTopLeftBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitTopLeftBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckHitTopLeftBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitTopRightBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitTopRightBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckHitTopRightBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitBottomLeftBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitBottomLeftBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckHitBottomLeftBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckHitBottomRightBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckHitBottomRightBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckHitBottomRightBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutTopLeftBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutTopLeftBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckPutTopLeftBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutTopRightBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutTopRightBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckPutTopRightBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutBottomLeftBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutBottomLeftBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckPutBottomLeftBlack(pos.X(),pos.Y(),board);
 }
 
-bool IAPossibleMoves::CheckPutBottomRightBlack(const unsigned short number, Board board)
+bool IAPossibleMoves::CheckPutBottomRightBlack(const unsigned short number, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     return CheckPutBottomRightBlack(pos.X(),pos.Y(),board);
@@ -586,7 +586,7 @@ void IAPossibleMoves::KillHitBottomRightBlack(const unsigned short number, Board
 }
 //NEW
 
-bool IAPossibleMoves::CanIPutHereWhite(const unsigned short number, const unsigned short x, const unsigned short y, Board board)
+bool IAPossibleMoves::CanIPutHereWhite(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     bool ponsFlag = board.GetWhitePawnPons(number);
@@ -661,7 +661,7 @@ bool IAPossibleMoves::CanIPutHereWhite(const unsigned short number, const unsign
     return false;
 }
 
-bool IAPossibleMoves::IsKillWhite(const unsigned short number, const unsigned short x, const unsigned short y, Board board, unsigned short &killed)
+bool IAPossibleMoves::IsKillWhite(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board, unsigned short &killed) const
 {
     PawnPos pos = board.GetWhitePawnPos(number);
     bool ponsFlag = board.GetWhitePawnPons(number);
@@ -708,7 +708,7 @@ bool IAPossibleMoves::IsKillWhite(const unsigned short number, const unsigned sh
     return 0;
 }
 
-bool IAPossibleMoves::OutOfBoardWhite(const unsigned short x, const unsigned short y)
+bool IAPossibleMoves::OutOfBoardWhite(const unsigned short x, const unsigned short y) const
 {
     if (x>7) return 1;
     if (y>7) return 1;
