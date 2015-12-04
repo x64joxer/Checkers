@@ -530,7 +530,7 @@ void Board::printDebug() const
     };
 }
 
-Board & Board::operator =(char* data)
+Board & Board::operator =(const char* data)
 {
 
     //| |w| |w| |w| |w|
@@ -598,7 +598,7 @@ Board & Board::operator =(char* data)
 }
 
 
-Board & Board::operator =(std::string data)
+Board & Board::operator =(const std::string & data)
 {
 
     //| |w| |w| |w| |w|
@@ -666,7 +666,7 @@ Board & Board::operator =(std::string data)
     return *this;
 }
 
-bool Board::operator ==(Board data)
+bool Board::operator ==(const Board & data) const
 {
     TRACE01 Traces() << "\n" << "LOG: Board::operator ==(Board data)";
 
@@ -721,7 +721,7 @@ bool Board::operator ==(Board data)
     return 1;
 }
 
-bool Board::operator !=(Board data)
+bool Board::operator !=(const Board & data) const
 {
     return !(*this==data);
 }
@@ -816,7 +816,7 @@ void Board::SetWhitePatchEnd(const bool flag)
     whitePatchEnd = flag;
 }
 
-void Board::CopyTo(ThreadIASimpleBoard & data)
+void Board::CopyTo(ThreadIASimpleBoard & data) const
 {
     for (unsigned short i=0;i<12;i++)
     {

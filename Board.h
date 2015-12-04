@@ -55,11 +55,11 @@ class Board
         double GetPercentageResult() const;
         void printDebug() const;
 
-        Board & operator =(char *);
-        Board & operator =(std::string);
-        bool operator ==(Board );
-        bool operator !=(Board );
-        void CopyTo(ThreadIASimpleBoard & data);
+        Board & operator =(const char *);
+        Board & operator =(const std::string &);
+        bool operator ==(const Board &) const;
+        bool operator !=(const Board &) const;
+        void CopyTo(ThreadIASimpleBoard & data) const;
         void CopyFrom(const ThreadIASimpleBoard & data);
         void SetOrigin(Board & data);
         Board GetOrigin() const;
