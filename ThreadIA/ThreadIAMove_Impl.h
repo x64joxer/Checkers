@@ -17,7 +17,7 @@ void ThreadIAMove<QMain>::SetMessageHandler(MessageHandler *wsk)
 }
 
 template  <unsigned long long QMain>
-void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, KindOfSteps stepKind)
+void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, const KindOfSteps stepKind)
 {
     const unsigned short maxThreads = numberOfThreads + 1;
     std::thread iaThread[maxThreads];

@@ -21,7 +21,7 @@ class ThreadIAMove
                          const unsigned short numberOfThreads,
                          const unsigned int refreshMainQueue,
                          const unsigned int numberOfStepsToDo,
-                         KindOfSteps stepKind);
+                         const KindOfSteps stepKind);
 
    private:
         ThreadIABoardQueue<QMain> queue;
@@ -29,7 +29,6 @@ class ThreadIAMove
         void SetOriginToAll();
 
         MessageHandler *messageHandler;
-
 };
 
 
