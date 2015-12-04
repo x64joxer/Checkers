@@ -5,7 +5,7 @@ PossibleMoves::PossibleMoves()
 
 }
 
-bool PossibleMoves::CanIGrab(const unsigned short number, Board board)
+bool PossibleMoves::CanIGrab(const unsigned short number, const Board & board)
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool flag = CheckHitTopLeft(pos.X(), pos.Y(), board) | CheckHitTopRight(pos.X(), pos.Y(), board);
@@ -61,7 +61,7 @@ bool PossibleMoves::CanIGrab(const unsigned short number, Board board)
 }
 
 
-bool PossibleMoves::CheckHitTopLeft(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckHitTopLeft(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x-1, y - 1)) return 0;
     if (!board.IsWhitePawnOnPos(x-1,y-1))
@@ -75,7 +75,7 @@ bool PossibleMoves::CheckHitTopLeft(const unsigned short x, const unsigned short
     };
 }
 
-bool PossibleMoves::CheckHitTopRight(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckHitTopRight(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x+1, y -1)) return 0;
     if (!board.IsWhitePawnOnPos(x+1,y-1))
@@ -89,7 +89,7 @@ bool PossibleMoves::CheckHitTopRight(const unsigned short x, const unsigned shor
     };
 }
 
-bool PossibleMoves::CheckHitBottomLeft(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckHitBottomLeft(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x-1, y + 1)) return 0;
     if (!board.IsWhitePawnOnPos(x-1,y+1))
@@ -103,7 +103,7 @@ bool PossibleMoves::CheckHitBottomLeft(const unsigned short x, const unsigned sh
     };
 }
 
-bool PossibleMoves::CheckHitBottomRight(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckHitBottomRight(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x+1, y +1)) return 0;
     if (!board.IsWhitePawnOnPos(x+1,y+1))
@@ -117,35 +117,35 @@ bool PossibleMoves::CheckHitBottomRight(const unsigned short x, const unsigned s
     };
 }
 
-bool PossibleMoves::CheckPutTopLeft(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckPutTopLeft(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x-1, y -1)) return 0;
     if (board.IsPawnOnPos(x-1, y -1)) return 0;
     return true;
 }
 
-bool PossibleMoves::CheckPutTopRight(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckPutTopRight(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x+1, y -1)) return 0;
     if (board.IsPawnOnPos(x+1, y -1)) return 0;
     return true;
 }
 
-bool PossibleMoves::CheckPutBottomLeft(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckPutBottomLeft(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x-1, y +1)) return 0;
     if (board.IsPawnOnPos(x-1, y +1)) return 0;
     return true;
 }
 
-bool PossibleMoves::CheckPutBottomRight(const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CheckPutBottomRight(const unsigned short x, const unsigned short y, const Board & board) const
 {
     if (OutOfBoard(x+1, y +1)) return 0;
     if (board.IsPawnOnPos(x+1, y +1)) return 0;
     return true;
 }
 
-bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned short x, const unsigned short y, Board board)
+bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool ponsFlag = board.GetBlackPawnPons(number);
@@ -227,7 +227,7 @@ bool PossibleMoves::CanIPutHere(const unsigned short number, const unsigned shor
     return false;
 }
 
-bool PossibleMoves::IsKill(const unsigned short number, const unsigned short x, const unsigned short y, Board board, unsigned short &killed)
+bool PossibleMoves::IsKill(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board, unsigned short &killed) const
 {
     PawnPos pos = board.GetBlackPawnPos(number);
     bool ponsFlag = board.GetBlackPawnPons(number);
@@ -274,7 +274,7 @@ bool PossibleMoves::IsKill(const unsigned short number, const unsigned short x, 
     return 0;
 }
 
-bool PossibleMoves::OutOfBoard(const unsigned short x, const unsigned short y)
+bool PossibleMoves::OutOfBoard(const unsigned short x, const unsigned short y) const
 {
     if (x>7) return 1;
     if (y>7) return 1;

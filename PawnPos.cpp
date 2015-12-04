@@ -11,12 +11,12 @@ PawnPos::PawnPos(const unsigned short X, const unsigned short Y)
     y = Y;
 }
 
-unsigned short PawnPos::X()
+unsigned short PawnPos::X() const
 {
     return x;
 }
 
-unsigned short PawnPos::Y()
+unsigned short PawnPos::Y() const
 {
     return y;
 }
@@ -51,7 +51,7 @@ void PawnPos::SetY(const unsigned short Y)
     };
 }
 
-bool PawnPos::operator != (PawnPos data)
+bool PawnPos::operator != (const PawnPos & data)
 {
     if (X()==data.X())
     {

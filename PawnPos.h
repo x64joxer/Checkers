@@ -8,12 +8,12 @@ class PawnPos
     public:
         PawnPos();
         PawnPos(const unsigned short X, const unsigned short Y);
-        unsigned short X();
-        unsigned short Y();
+        unsigned short X() const;
+        unsigned short Y() const;
         void SetX(const unsigned short X);
         void SetY(const unsigned short Y);
 
-        bool operator != (PawnPos );
+        bool operator != (const PawnPos &);
 
     private:
         unsigned short x : 4;

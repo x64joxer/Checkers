@@ -8,21 +8,21 @@ class PossibleMoves
 {
     public:
         PossibleMoves();
-        bool CanIGrab(const unsigned short number, Board board);
-        bool CheckHitTopLeft(const unsigned short x, const unsigned short y, Board board);
-        bool CheckHitTopRight(const unsigned short x, const unsigned short y, Board board);
-        bool CheckHitBottomLeft(const unsigned short x, const unsigned short y, Board board);
-        bool CheckHitBottomRight(const unsigned short x, const unsigned short y, Board board);
-        bool CheckPutTopLeft(const unsigned short x, const unsigned short y, Board board);
-        bool CheckPutTopRight(const unsigned short x, const unsigned short y, Board board);
-        bool CheckPutBottomLeft(const unsigned short x, const unsigned short y, Board board);
-        bool CheckPutBottomRight(const unsigned short x, const unsigned short y, Board board);
-        bool CanIPutHere(const unsigned short number, const unsigned short x, const unsigned short y, Board board);
-        bool IsKill(const unsigned short number, const unsigned short x, const unsigned short y, Board board, unsigned short &killed);
+        bool CanIGrab(const unsigned short number, const Board & board);
+        bool CheckHitTopLeft(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckHitTopRight(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckHitBottomLeft(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckHitBottomRight(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckPutTopLeft(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckPutTopRight(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckPutBottomLeft(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CheckPutBottomRight(const unsigned short x, const unsigned short y, const Board & board) const;
+        bool CanIPutHere(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board) const;
+        bool IsKill(const unsigned short number, const unsigned short x, const unsigned short y, const Board & board, unsigned short &killed) const;
 
     private:
 
-        bool OutOfBoard(const unsigned short x, const unsigned short y);
+        bool OutOfBoard(const unsigned short x, const unsigned short y) const;
 
 };
 
