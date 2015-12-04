@@ -83,6 +83,9 @@ void MessageHandler::Start()
                     }
                 }
             }
+        } else
+        {
+            ClerWorkerStateOfUnconnected();
         }
         //Share jobs end
 

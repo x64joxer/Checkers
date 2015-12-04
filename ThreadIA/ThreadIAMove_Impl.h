@@ -86,6 +86,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         }
 
         if (messageHandler) messageHandler->StopSharing();
+        ProgramVariables::NotifyOne();
 
         ProgramVariables::SetNumOfAnalyded(queue.Size());
 
