@@ -137,7 +137,7 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
             stop = start + firstQueueElelemtsOnThread;
             stop2 = start2 + secondQueueElelemtsOnThread;
 
-            iaThread[i] = std::move(std::thread(&ThreadIABoardQueue<QMain>::GetBestResult2,
+            iaThread[i] = std::move(std::thread(&ThreadIABoardQueue<QMain>::GetBestResultMultiThread,
                                                 &queue,
                                                 flag1,
                                                 start,

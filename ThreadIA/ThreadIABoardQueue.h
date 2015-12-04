@@ -14,21 +14,21 @@ class ThreadIABoardQueue
         ThreadIABoardQueue();
         ~ThreadIABoardQueue();
         Board PopFront(const unsigned short num);
-        inline void PushBack(Board &board);
-        inline void PushBackDoNotForget(Board &board);
-        Board GetBestResult();
-        void GetBestResult2(bool make, const unsigned long long start, const unsigned long long stop, bool make2, const unsigned long long start2, const unsigned long long stop2, Board *best);
+        inline void PushBack(const Board & board);
+        inline void PushBackDoNotForget(const Board & board);
+        Board GetBestResult() const;
+        void GetBestResultMultiThread(const bool make, const unsigned long long start, const unsigned long long stop, bool make2, const unsigned long long start2, const unsigned long long stop2, Board *best) const;
         void Clear();
         Board First(const bool remove);      
-        unsigned long long GetFirstNumber();
+        unsigned long long GetFirstNumber() const;
         void NotifyRest();
-        unsigned long long Size();
-        unsigned long long SizeDoNotForget();
-        Board & At(const unsigned long long number);
+        unsigned long long Size() const;
+        unsigned long long SizeDoNotForget() const;
+        Board & At(const unsigned long long number) const;
 
     private:
-        bool Empty() { if (numberOfElements==0) { return true;}; return false;  }
-        void SetWorkerFlag(const bool flag,const unsigned short number);
+        bool Empty() const { if (numberOfElements==0) { return true;}; return false;  }
+        void SetWorkerFlag(const bool flag, const unsigned short number);
 
         Board *queue;        
         unsigned long long first;
@@ -38,7 +38,7 @@ class ThreadIABoardQueue
         Board *doNotForgetqueue;
         unsigned long long doNotForgetnumberOfElements;
 
-        std::mutex mutex_guard;
+        mutable std::mutex mutex_guard;
         std::condition_variable *condition_var;
         unsigned short workersFlags;
 };

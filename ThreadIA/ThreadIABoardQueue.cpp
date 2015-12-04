@@ -133,7 +133,7 @@ Board ThreadIABoardQueue<size>::PopFront(const unsigned short num)
 }
 
 template <unsigned long long size>
-inline void ThreadIABoardQueue<size>::PushBack(Board & board)
+inline void ThreadIABoardQueue<size>::PushBack(const Board & board)
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
     TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::PushBack(Board board) Number of cells";
@@ -174,7 +174,7 @@ inline void ThreadIABoardQueue<size>::PushBack(Board & board)
 }
 
 template <unsigned long long size>
-inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
+inline void ThreadIABoardQueue<size>::PushBackDoNotForget(const Board & board)
 {
     TRACE01 Traces() << "\n" << "LOG: inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)";
     mutex_guard.lock();
@@ -188,7 +188,7 @@ inline void ThreadIABoardQueue<size>::PushBackDoNotForget(Board &board)
 }
 
 template <unsigned long long size>
-Board ThreadIABoardQueue<size>::GetBestResult()
+Board ThreadIABoardQueue<size>::GetBestResult() const
 {
     double result = 0;    
     Board temp;
@@ -199,11 +199,8 @@ Board ThreadIABoardQueue<size>::GetBestResult()
     if (numberOfElements>0)
     {
         result = At(0).GetPercentageResult();
-        temp = At(0);
-        PopFront(0);
+        temp = At(0);        
 
-        if (numberOfElements>0)
-        {
             for (unsigned long long i=0;i<numberOfElements;i++)
             {
                 if (result>At(i).GetPercentageResult())
@@ -212,7 +209,6 @@ Board ThreadIABoardQueue<size>::GetBestResult()
                     temp = At(i);
                 };
             };
-        };
     }
 
     if (doNotForgetnumberOfElements>0)
@@ -244,7 +240,7 @@ Board ThreadIABoardQueue<size>::GetBestResult()
 }
 
 template <unsigned long long size>
-void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long long start, const unsigned long long stop, bool make2, const unsigned long long start2, const unsigned long long stop2, Board *best)
+void ThreadIABoardQueue<size>::GetBestResultMultiThread(bool make, const unsigned long long start, const unsigned long long stop, bool make2, const unsigned long long start2, const unsigned long long stop2, Board *best) const
 {
     TRACE01 Traces() << "\n" << "LOG: void ThreadIABoardQueue<size>::GetBestResult2";
     double result = 0;
@@ -308,7 +304,7 @@ void ThreadIABoardQueue<size>::GetBestResult2(bool make, const unsigned long lon
 }
 
 template <unsigned long long size>
-unsigned long long ThreadIABoardQueue<size>::Size()
+unsigned long long ThreadIABoardQueue<size>::Size() const
 {
     TRACE01 Traces() << "\n" << "LOG: ThreadIABoardQueue<size>::Size()";
 
@@ -317,7 +313,7 @@ unsigned long long ThreadIABoardQueue<size>::Size()
 }
 
 template <unsigned long long size>
-unsigned long long ThreadIABoardQueue<size>::SizeDoNotForget()
+unsigned long long ThreadIABoardQueue<size>::SizeDoNotForget() const
 {
     std::lock_guard<std::mutex> guard(mutex_guard);
     return doNotForgetnumberOfElements;
@@ -331,15 +327,15 @@ void ThreadIABoardQueue<size>::NotifyRest()
 }
 
 template <unsigned long long size>
-unsigned long long ThreadIABoardQueue<size>::GetFirstNumber()
+unsigned long long ThreadIABoardQueue<size>::GetFirstNumber() const
 {
     return first;
 }
 
 template <unsigned long long size>
-void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned short number)
+void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag, const unsigned short number)
 {
-    if (number>0)
+    if (number > 0)
     {
         unsigned short val;
 
@@ -357,7 +353,7 @@ void ThreadIABoardQueue<size>::SetWorkerFlag(const bool flag,const unsigned shor
 }
 
 template <unsigned long long size>
-Board & ThreadIABoardQueue<size>::At(const unsigned long long number)
+Board & ThreadIABoardQueue<size>::At(const unsigned long long number) const
 {
     if (number > numberOfElements)
     {
