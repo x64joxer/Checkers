@@ -32,7 +32,8 @@ void MessageHandler::Start()
                 return WorkerAgent::IsWaitingMessage() |
                        ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) |
                        (WorkersState::GetGlobNumOfWaitingTimer()>0) |
-                       endFlag ; }
+                       endFlag |
+                       (WorkerAgent::GetNumberOfPeers() < workersStateList.size()); }
             );
             mutex_guard.unlock();
         }
@@ -94,6 +95,12 @@ void MessageHandler::Start()
                 NoResponseFromWorker(workersState.at(n));
             }
         });
+
+        //Clear all unnecessary state objects
+        if (WorkerAgent::GetNumberOfPeers() < workersStateList.size())
+        {
+            ClerWorkerStateOfUnconnectedNoneOkWorkers();
+        }
 
     }
 
@@ -254,6 +261,59 @@ void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
         wsk->SetNone();
         jobList.remove(wsk->GetJobId());
     }
+}
+
+void MessageHandler::ClerWorkerStateOfUnconnected()
+{
+    WorkersState *wsk;
+    std::list<std::string> workersStateListToRemove;
+
+    std::for_each(workersStateList.begin(), workersStateList.end(),
+    [this, &wsk, &workersStateListToRemove] (std::string &n)
+    {
+        wsk = workersState.at(n);
+
+        if (!WorkerAgent::Exist(wsk->GetHost(), wsk->GetPort()))
+        {
+            delete workersState.at(n);
+            workersStateListToRemove.push_back(n);
+        }
+    });
+
+    std::for_each(workersStateListToRemove.begin(), workersStateListToRemove.end(),
+    [this] (std::string &n)
+    {
+       workersState.erase(n);
+       workersStateList.remove(n);
+    });
+}
+
+void MessageHandler::ClerWorkerStateOfUnconnectedNoneOkWorkers()
+{
+    WorkersState *wsk;
+    std::list<std::string> workersStateListToRemove;
+
+    std::for_each(workersStateList.begin(), workersStateList.end(),
+    [this, &wsk, &workersStateListToRemove] (std::string &n)
+    {
+        wsk = workersState.at(n);
+
+        if (wsk->GetState() == WorkersState::NONE_OK)
+        {
+            if (!WorkerAgent::Exist(wsk->GetHost(), wsk->GetPort()))
+            {
+                delete workersState.at(n);
+                workersStateListToRemove.push_back(n);
+            }
+        }
+    });
+
+    std::for_each(workersStateListToRemove.begin(), workersStateListToRemove.end(),
+    [this] (std::string &n)
+    {
+       workersState.erase(n);
+       workersStateList.remove(n);
+    });
 }
 
 void MessageHandler::ClearWorkersStateList()

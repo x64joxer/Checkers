@@ -28,6 +28,7 @@ class PeerQueue
         bool Empty() { return peers.empty(); }
         void GetFirstMessage(QHostAddress &ho, int &po,char *data);
         void GetFirstFreePeers(QHostAddress &ho, int &po);
+        bool Exist(QHostAddress ho, int po);
         bool IsWaitingMessage() { if (waitingMessages>0) { return 1; } return 0; }
         unsigned int GetFreeStateNumber();
         unsigned int GetBusyStateNumber();

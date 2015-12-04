@@ -201,6 +201,25 @@ void PeerQueue::GetFirstFreePeers(QHostAddress &ho, int &po)
                                  });
 }
 
+bool PeerQueue::Exist(QHostAddress ho, int po)
+{
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, ho, po](Peers &n){
+                                 if (!flag)
+                                 {
+                                     if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                     {
+                                       TRACE01 Traces() << "\n" << "LOG: Peer exist in queue.";
+                                       flag = true;
+                                     }
+                                 }
+                              });
+    return flag;
+}
+
 unsigned int PeerQueue::GetFreeStateNumber()
 {    
     std::lock_guard<std::mutex> guard(mutex_guard);
