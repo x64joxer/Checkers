@@ -72,7 +72,9 @@ void PeerQueue::RemovePeer(QHostAddress ho, int po)
                                      });
 
         if (flag)
-        {                        
+        {
+            if (waitingMessages > 0) waitingMessages -= wsk->NumberOfMessages();
+            messagesQueue.remove(wsk);
             peers.remove(*wsk);            
             ProgramVariables::NotifyOne();
 

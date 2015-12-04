@@ -20,6 +20,7 @@ class Peers
         void AddData(char *dat);
         void GetData(char *dat);
         bool IsData() { return !data.empty(); }
+        unsigned int NumberOfMessages() const { return data.size(); }
 
         enum  STATE { NONE, BUSY, FREE };
 
