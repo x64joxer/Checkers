@@ -14,24 +14,24 @@ class ThreadIATreeExpander
 {
     public:
        ThreadIATreeExpander();       
-       void Expand(unsigned long long howManySteps,
-                   unsigned int frequencyOfTransferData,
-                   ThreadIABoardQueue<MQueue> &mainBoardQueue,
+       void Expand(const unsigned long long howManySteps,
+                   const unsigned int frequencyOfTransferData,
+                   ThreadIABoardQueue<MQueue> & mainBoardQueue,
                    const unsigned short numThread,
                    std::atomic<int> *percentSteps,
-                   KindOfSteps stepKind);
+                   const KindOfSteps stepKind);
 
-       void ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind);
+       void ExpandWithoutQueue(const unsigned int howManySteps, const unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, const KindOfSteps stepKind);
        void SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue);
 
     private:
-       void TransferBoards(ThreadIABoardQueue<MQueue> &mainBoardQueue);
+       void TransferBoards(ThreadIABoardQueue<MQueue> & mainBoardQueue);
        inline void AddToMainQueue(const Board &board);
-       inline void AddToDoNotForgetQueue(const Board &board);
-       bool ExpandWhite(Board board, unsigned int stepNumber = 1);
-       bool ExpandBlack(Board board, unsigned int stepNumber = 1);
+       inline void AddToDoNotForgetQueue(const Board & board);
+       bool ExpandWhite(const Board & board, const unsigned int stepNumber = 1);
+       bool ExpandBlack(const Board & board, const unsigned int stepNumber = 1);
 
-       ThreadIABoardQueue<MQueue> * mainBoardQueue_2;
+       ThreadIABoardQueue<MQueue> * mainBoardQueueLocal;
        const unsigned long long queueSize;       
        unsigned long long lastQueueElement;
        unsigned long long firstQueueElement;

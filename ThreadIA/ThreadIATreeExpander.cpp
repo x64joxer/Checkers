@@ -14,30 +14,31 @@ ThreadIATreeExpander<MQueue, sQueue>::ThreadIATreeExpander() :
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(unsigned int howManySteps, unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
+void ThreadIATreeExpander<MQueue, sQueue>::ExpandWithoutQueue(const unsigned int howManySteps, const unsigned int frequencyOfTransferData, const unsigned short numThread, std::atomic<int> *percentSteps, const KindOfSteps stepKind)
 {
-    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueue_2, numThread, percentSteps, stepKind);
+    Expand(howManySteps, frequencyOfTransferData, *mainBoardQueueLocal, numThread, percentSteps, stepKind);
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
 void ThreadIATreeExpander<MQueue, sQueue>::SetMainBoardQueue(ThreadIABoardQueue<MQueue> * mainBoardQueue)
 {
-    mainBoardQueue_2 = mainBoardQueue;
+    mainBoardQueueLocal = mainBoardQueue;
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps, KindOfSteps stepKind)
+void ThreadIATreeExpander<MQueue, sQueue>::Expand(const unsigned long long howManySteps, const unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> & mainBoardQueue, const unsigned short numThread, std::atomic<int> *percentSteps, const KindOfSteps stepKind)
 {
     TRACE01 Traces() << "\n" << "LOG: EXPAND START";
     TRACE01 Traces() << "\n" << "LOG: void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned int howManySteps, unsigned int frequencyOfTransferData, ThreadIABoardQueue<MQueue> &mainBoardQueue)";
 
     threadNumber = numThread;
+    unsigned long long howManyStepsLocal = howManySteps;
 
     queue[0] = mainBoardQueue.PopFront(threadNumber);
     if (!queue[firstQueueElement].GetNullBoard()) numberOfElements++;
 
     unsigned long long step =0;
-    unsigned long long totalStep = howManySteps;
+    unsigned long long totalStep = howManyStepsLocal;
 
     if (stepKind == KindOfSteps::Step)
     {
@@ -46,12 +47,12 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
     if (stepKind == KindOfSteps::Time)
     {
         step = ProgramVariables::GetSecondsSinceEpoch();
-        howManySteps = step + howManySteps;
+        howManyStepsLocal = step + howManyStepsLocal;
     }
 
     unsigned long long current;
 
-    while (step < howManySteps)
+    while (step < howManyStepsLocal)
     {
         if (queue[firstQueueElement].GetNullBoard()) break;
 
@@ -84,7 +85,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
             }
 
             //Finish job
-            if (step >= howManySteps) break;
+            if (step >= howManyStepsLocal) break;
 
             //Check if time to transfer data 
 
@@ -119,15 +120,15 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
                     {
                         if (step == 0)
                         {
-                            *percentSteps = (step+1) / (howManySteps / 100);
+                            *percentSteps = (step+1) / (howManyStepsLocal / 100);
                         } else
                         {
-                            *percentSteps = step / (howManySteps / 100);
+                            *percentSteps = step / (howManyStepsLocal / 100);
                         }
                     } else
                     if (stepKind == KindOfSteps::Time)
                     {
-                        *percentSteps = (totalStep - (howManySteps - step)) * (100 / totalStep);
+                        *percentSteps = (totalStep - (howManyStepsLocal - step)) * (100 / totalStep);
                     }
                 };
             };
@@ -152,14 +153,14 @@ void ThreadIATreeExpander<MQueue, sQueue>::Expand(unsigned long long howManyStep
         TRACE01 Traces() << "\n" << "LOG: for (current = firstQueueElement; current <= lastQueueElement; ) END";
 
         //Finish job
-        if (step >= howManySteps)
+        if (step >= howManyStepsLocal)
         {
-            TRACE01 Traces() << "\n" << "LOG: (step >= howManySteps) finihing job!";
+            TRACE01 Traces() << "\n" << "LOG: (step >= howManyStepsLocal) finihing job!";
             break;
         };
 
         //No jobs take more from global queue
-        if (step < howManySteps)
+        if (step < howManyStepsLocal)
         {
             TRACE01 Traces() << "\n" << "LOG: No jobs. Taking fom global queue";
 
@@ -237,7 +238,7 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToMainQueue(const Board &board)
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
-void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board &board)
+void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board & board)
 {
     if (++lastDoNotForgetQueueElement > doNotForgetQueueSize-1)
     {
@@ -249,39 +250,40 @@ void ThreadIATreeExpander<MQueue, sQueue>::AddToDoNotForgetQueue(const Board &bo
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
-bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int stepNumber)
+bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(const Board & board, const unsigned int stepNumber)
 {
     TRACE01 Traces() << "\n" << "LOG: void IATreeExpander::ExpandWhite(IADecisionTree *treePointer)";
 
     //DEL Board board = board.GetBoard();
     unsigned short pawnNumber = board.GetNumberOfWhite();
+    Board boardLocal = board;
     IAPossibleMoves possible;
     bool killFlag = false;
 
-    if (board.GetPreviousMurder()<12)
+    if (boardLocal.GetPreviousMurder()<12)
     {
-        if (board.GetNumberOfBlack() == 0)
+        if (boardLocal.GetNumberOfBlack() == 0)
         {
-            AddToDoNotForgetQueue(board);
+            AddToDoNotForgetQueue(boardLocal);
 
             TRACE01 Traces() << "\n" << "LOG: There was situation when all black was killed!";
-            TRACE01 board.PrintDebug();
+            TRACE01 boardLocal.PrintDebug();
             return 0;
         };
 
-        unsigned short i = board.GetPreviousMurder();
+        unsigned short i = boardLocal.GetPreviousMurder();
         //Left Bottom
-       if (possible.CheckHitBottomLeftWhite(i, board))
+       if (possible.CheckHitBottomLeftWhite(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomLeftWhite(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitBottomLeftWhite(i, tempNew);
            killFlag = true;
 
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
-           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);           
+           if (!boardLocal.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
 
            AddToMainQueue(tempNew);
 
@@ -289,16 +291,16 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //Right Bottom
-       if (possible.CheckHitBottomRightWhite(i, board))
+       if (possible.CheckHitBottomRightWhite(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomRightWhite(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitBottomRightWhite(i, tempNew);
            killFlag = true;
            tempNew.StartWhite();
            tempNew.SetPreviousMurder(i);
-           if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
+           if (!boardLocal.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
 
            AddToMainQueue(tempNew);
 
@@ -306,19 +308,19 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //For pons
-       if (board.GetWhitePawnPons(i))
+       if (boardLocal.GetWhitePawnPons(i))
        {
            //Left Bottom
-          if (possible.CheckHitTopLeftWhite(i, board))
+          if (possible.CheckHitTopLeftWhite(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomLeftWhite(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitTopLeftWhite(i, tempNew);
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
-              if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
+              if (!boardLocal.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
 
               AddToMainQueue(tempNew);
 
@@ -326,16 +328,16 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               TRACE01 tempNew.PrintDebug();
           };
           //Right Bottom
-          if (possible.CheckHitTopRightWhite(i, board))
+          if (possible.CheckHitTopRightWhite(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomRightWhite(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitTopRightWhite(i, tempNew);
               killFlag = true;
               tempNew.StartWhite();
               tempNew.SetPreviousMurder(i);
-              if (!board.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
+              if (!boardLocal.GetWhitePatchEnd()) tempNew.SetOrigin(tempNew);
 
               AddToMainQueue(tempNew);
 
@@ -346,21 +348,21 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 
        if (!killFlag)
        {           
-           board.SetPreviousMurder(12);
-           board.StartBlack();
-           board.SetWhitePatchEnd(true);
-           ExpandBlack(board);
+           boardLocal.SetPreviousMurder(12);
+           boardLocal.StartBlack();
+           boardLocal.SetWhitePatchEnd(true);
+           ExpandBlack(boardLocal);
        };
 
        return 0;
     };
 
-    if (board.GetNumberOfWhite() == 0)
+    if (boardLocal.GetNumberOfWhite() == 0)
     {
-        AddToDoNotForgetQueue(board);
+        AddToDoNotForgetQueue(boardLocal);
 
         TRACE01 Traces() << "\n" << "LOG: There was situation when all white was killed!";
-        TRACE01 board.PrintDebug();
+        TRACE01 boardLocal.PrintDebug();
         return 0;
     };
 
@@ -368,10 +370,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
     for (unsigned short i=0;i<pawnNumber;i++)
     {
         //Left Bottom
-       if (possible.CheckHitBottomLeftWhite(i, board))
+       if (possible.CheckHitBottomLeftWhite(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomLeftWhite(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitBottomLeftWhite(i, tempNew);
            killFlag = true;
@@ -384,10 +386,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //Right Bottom
-       if (possible.CheckHitBottomRightWhite(i, board))
+       if (possible.CheckHitBottomRightWhite(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomRightWhite(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitBottomRightWhite(i, tempNew);
            killFlag = true;
@@ -400,13 +402,13 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //For pons
-       if (board.GetWhitePawnPons(i))
+       if (boardLocal.GetWhitePawnPons(i))
        {
            //Left Bottom
-          if (possible.CheckHitTopLeftWhite(i, board))
+          if (possible.CheckHitTopLeftWhite(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomLeftWhite(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitTopLeftWhite(i, tempNew);
               killFlag = true;
@@ -419,10 +421,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
               TRACE01 tempNew.PrintDebug();
           };
           //Right Bottom
-          if (possible.CheckHitTopRightWhite(i, board))
+          if (possible.CheckHitTopRightWhite(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitBottomRightWhite(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitTopRightWhite(i, tempNew);
               killFlag = true;
@@ -441,16 +443,16 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
     {        
         TRACE01 Traces() << "\n" << "LOG:  (!killFlag) == true";
         bool canImove = false;
-        board.SetWhitePatchEnd(true);
+        boardLocal.SetWhitePatchEnd(true);
 
         //Check possible puts
         for (unsigned short i=0;i<pawnNumber;i++)
         {
             //Bottom Left
-            if (possible.CheckPutBottomLeftWhite(i, board))
+            if (possible.CheckPutBottomLeftWhite(i, boardLocal))
             {
                 TRACE01 Traces() << "\n" << "LOG: possible.CheckPutBottomLeftWhite(" << i << ", board) == true";
-                Board tempNew = board;
+                Board tempNew = boardLocal;
                 TRACE01 tempNew.PrintDebug();
                 tempNew.PutWhiteBottomLeftPawn(i);
                 tempNew.StartBlack();
@@ -463,10 +465,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                 canImove = true;
             };
             //Bottom Right
-            if (possible.CheckPutBottomRightWhite(i, board))
+            if (possible.CheckPutBottomRightWhite(i, boardLocal))
             {
                 TRACE01 Traces() << "\n" << "LOG: possible.CheckPutBottomRightWhite(" << i << ", board) == true";
-                Board tempNew = board;
+                Board tempNew = boardLocal;
                 TRACE01 tempNew.PrintDebug();
                 tempNew.PutWhiteBottomRightPawn(i);
                 tempNew.StartBlack();
@@ -479,13 +481,13 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                 canImove = true;
             };
             //For pons
-            if (board.GetWhitePawnPons(i))
+            if (boardLocal.GetWhitePawnPons(i))
             {
                 //Top Left
-                if (possible.CheckPutTopLeftWhite(i, board))
+                if (possible.CheckPutTopLeftWhite(i, boardLocal))
                 {
                     TRACE01 Traces() << "\n" << "LOG: possible.CheckPutTopLeftWhite(" << i << ", board) == true";
-                    Board tempNew = board;
+                    Board tempNew = boardLocal;
                     TRACE01 tempNew.PrintDebug();
                     tempNew.PutWhiteTopLeftPawn(i);
 
@@ -505,10 +507,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
                     //TO DO };
                 };
                 //Top Right
-                if (possible.CheckPutTopRightWhite(i, board))
+                if (possible.CheckPutTopRightWhite(i, boardLocal))
                 {
                     TRACE01 Traces() << "\n" << "LOG: possible.CheckPutTopRightWhite(" << i << ", board) == true";
-                    Board tempNew = board;
+                    Board tempNew = boardLocal;
                     TRACE01 tempNew.PrintDebug();
                     tempNew.PutWhiteTopRightPawn(i);
 
@@ -533,10 +535,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
         {
             if (stepNumber>0)
             {
-                AddToDoNotForgetQueue(board);
+                AddToDoNotForgetQueue(boardLocal);
 
                 TRACE01 Traces() << "\n" << "LOG: There was situation when white player can not move!";
-                TRACE01 board.PrintDebug();
+                TRACE01 boardLocal.PrintDebug();
             };
         };
     };
@@ -545,32 +547,33 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandWhite(Board board, unsigned int
 }
 
 template <unsigned long long MQueue, unsigned long long sQueue>
-bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int stepNumber)
+bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(const Board & board, const unsigned int stepNumber)
 {
     TRACE01 Traces() << "\n" << "LOG: void IATreeExpander::ExpandBlack(IADecisionTree *treePointer)";
 
     //DEL Board board = board.GetBoard();
     unsigned short pawnNumber = board.GetNumberOfBlack();
+    Board boardLocal = board;
     IAPossibleMoves possible;
     bool killFlag = false;
 
-    if (board.GetPreviousMurder()<12)
+    if (boardLocal.GetPreviousMurder()<12)
     {
-        if (board.GetNumberOfWhite() == 0)
+        if (boardLocal.GetNumberOfWhite() == 0)
         {
-            AddToDoNotForgetQueue(board);
+            AddToDoNotForgetQueue(boardLocal);
 
             TRACE01 Traces() << "\n" << "LOG: There was situation when all White was killed!";
-            TRACE01 board.PrintDebug();
+            TRACE01 boardLocal.PrintDebug();
             return 0;
         };
 
-        unsigned short i = board.GetPreviousMurder();
+        unsigned short i = boardLocal.GetPreviousMurder();
         //Left Top
-       if (possible.CheckHitTopLeftBlack(i, board))
+       if (possible.CheckHitTopLeftBlack(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopLeftBlack(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitTopLeftBlack(i, tempNew);
            killFlag = true;
@@ -584,10 +587,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //Right Top
-       if (possible.CheckHitTopRightBlack(i, board))
+       if (possible.CheckHitTopRightBlack(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopRightBlack(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitTopRightBlack(i, tempNew);
            killFlag = true;
@@ -600,13 +603,13 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //For pons
-       if (board.GetBlackPawnPons(i))
+       if (boardLocal.GetBlackPawnPons(i))
        {
            //Left Top
-          if (possible.CheckHitBottomLeftBlack(i, board))
+          if (possible.CheckHitBottomLeftBlack(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopLeftBlack(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitBottomLeftBlack(i, tempNew);
               killFlag = true;
@@ -619,10 +622,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               TRACE01 tempNew.PrintDebug();
           };
           //Right Top
-          if (possible.CheckHitBottomRightBlack(i, board))
+          if (possible.CheckHitBottomRightBlack(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopRightBlack(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitBottomRightBlack(i, tempNew);
               killFlag = true;
@@ -638,20 +641,20 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
 
        if (!killFlag)
        {
-           board.SetPreviousMurder(12);
-           board.StartWhite();
-           ExpandWhite(board);
+           boardLocal.SetPreviousMurder(12);
+           boardLocal.StartWhite();
+           ExpandWhite(boardLocal);
        };
 
        return 0;
     };
 
-    if (board.GetNumberOfBlack() == 0)
+    if (boardLocal.GetNumberOfBlack() == 0)
     {
-        AddToDoNotForgetQueue(board);
+        AddToDoNotForgetQueue(boardLocal);
 
         TRACE01 Traces() << "\n" << "LOG: There was situation when all Black was killed!";
-        TRACE01 board.PrintDebug();
+        TRACE01 boardLocal.PrintDebug();
         return 0;
     };
 
@@ -659,10 +662,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
     for (unsigned short i=0;i<pawnNumber;i++)
     {
         //Left Top
-       if (possible.CheckHitTopLeftBlack(i, board))
+       if (possible.CheckHitTopLeftBlack(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopLeftBlack(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitTopLeftBlack(i, tempNew);
            killFlag = true;
@@ -675,10 +678,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //Right Top
-       if (possible.CheckHitTopRightBlack(i, board))
+       if (possible.CheckHitTopRightBlack(i, boardLocal))
        {
            TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopRightBlack(" << i << ", board) == true";
-           Board tempNew = board;
+           Board tempNew = boardLocal;
            TRACE01 tempNew.PrintDebug();
            possible.KillHitTopRightBlack(i, tempNew);
            killFlag = true;
@@ -691,13 +694,13 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
            TRACE01 tempNew.PrintDebug();
        };
        //For pons
-       if (board.GetBlackPawnPons(i))
+       if (boardLocal.GetBlackPawnPons(i))
        {
            //Left Top
-          if (possible.CheckHitBottomLeftBlack(i, board))
+          if (possible.CheckHitBottomLeftBlack(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopLeftBlack(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitBottomLeftBlack(i, tempNew);
               killFlag = true;
@@ -710,10 +713,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
               TRACE01 tempNew.PrintDebug();
           };
           //Right Top
-          if (possible.CheckHitBottomRightBlack(i, board))
+          if (possible.CheckHitBottomRightBlack(i, boardLocal))
           {
               TRACE01 Traces() << "\n" << "LOG: possible.CheckHitTopRightBlack(" << i << ", board) == true";
-              Board tempNew = board;
+              Board tempNew = boardLocal;
               TRACE01 tempNew.PrintDebug();
               possible.KillHitBottomRightBlack(i, tempNew);
               killFlag = true;
@@ -738,10 +741,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
         for (unsigned short i=0;i<pawnNumber;i++)
         {
             //Top Left
-            if (possible.CheckPutTopLeftBlack(i, board))
+            if (possible.CheckPutTopLeftBlack(i, boardLocal))
             {
                 TRACE01 Traces() << "\n" << "LOG: possible.CheckPutTopLeftBlack(" << i << ", board) == true";
-                Board tempNew = board;
+                Board tempNew = boardLocal;
                 TRACE01 tempNew.PrintDebug();
                 tempNew.PutBlackTopLeftPawn(i);
                 tempNew.StartWhite();
@@ -754,10 +757,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                 canImove = true;
             }
             //Top Right
-            if (possible.CheckPutTopRightBlack(i, board))
+            if (possible.CheckPutTopRightBlack(i, boardLocal))
             {
                 TRACE01 Traces() << "\n" << "LOG: possible.CheckPutTopRightBlack(" << i << ", board) == true";
-                Board tempNew = board;
+                Board tempNew = boardLocal;
                 TRACE01 tempNew.PrintDebug();
                 tempNew.PutBlackTopRightPawn(i);
                 tempNew.StartWhite();
@@ -770,13 +773,13 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                 canImove = true;
             };
             //For pons
-            if (board.GetBlackPawnPons(i))
+            if (boardLocal.GetBlackPawnPons(i))
             {
                 //Bottom Left
-                if (possible.CheckPutBottomLeftBlack(i, board))
+                if (possible.CheckPutBottomLeftBlack(i, boardLocal))
                 {
                     TRACE01 Traces() << "\n" << "LOG: possible.CheckPutBottomLeftBlack(" << i << ", board) == true";
-                    Board tempNew = board;
+                    Board tempNew = boardLocal;
                     TRACE01 tempNew.PrintDebug();
                     tempNew.PutBlackBottomLeftPawn(i);
 
@@ -796,10 +799,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
                     //TO DO };
                 };
                 //Bottom Right
-                if (possible.CheckPutBottomRightBlack(i, board))
+                if (possible.CheckPutBottomRightBlack(i, boardLocal))
                 {
                     TRACE01 Traces() << "\n" << "LOG: possible.CheckPutBottomRightBlack(" << i << ", board) == true";
-                    Board tempNew = board;
+                    Board tempNew = boardLocal;
                     TRACE01 tempNew.PrintDebug();
                     tempNew.PutBlackBottomRightPawn(i);
 
@@ -824,10 +827,10 @@ bool ThreadIATreeExpander<MQueue, sQueue>::ExpandBlack(Board board, unsigned int
         {
             if (stepNumber>0)
             {
-                AddToDoNotForgetQueue(board);
+                AddToDoNotForgetQueue(boardLocal);
 
                 TRACE01 Traces() << "\n" << "LOG: There was situation when Black player can not move!";
-                TRACE01 board.PrintDebug();
+                TRACE01 boardLocal.PrintDebug();
             };
         };
     };
