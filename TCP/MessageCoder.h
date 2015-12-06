@@ -29,7 +29,7 @@ class MessageCoder
         static void ClearChar(char *dest, const unsigned int num);
 
         static void MessageToMap(const char *source, std::map<std::string, std::string> & dest);
-        static void MapToBoard(const std::map<std::string, std::string> & dest, Board *board);
+        static void MapToBoard(const std::map<std::string, std::string> & dest, Board *board);        
 
         //Keys
         static std::string ACTION;
@@ -69,6 +69,11 @@ class MessageCoder
         static std::string BLACK_Y;
         static std::string WHITE_PONS;
         static std::string BLACK_PONS;
+
+     private:
+        static std::string GetNextKey(const std::string & debug_key);
+        static unsigned int nextKey;
+        static bool debugMode;
 
 };
 

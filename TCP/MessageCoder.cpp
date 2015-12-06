@@ -315,41 +315,55 @@ void MessageCoder::CreateOkMessage(const std::string  & id, char *dest)
     KeyValuePairToChar(MESSAGE_END, 0, dest);
 }
 
-std::string MessageCoder::ACTION = "ACTION";
-std::string MessageCoder::OK = "OK";
-std::string MessageCoder::MESSAGE_ID = "MESSAGE_ID";
-std::string MessageCoder::MESSAGE_END = "MESSAGE_END";
+std::string MessageCoder::GetNextKey(const std::string & debug_key)
+{
+    if (debugMode)
+    {
+        return debug_key;
+    } else
+    {
+        nextKey++;
+        return std::to_string(nextKey) + "_";
+    }
+}
 
-std::string MessageCoder::START_WORK = "START_WORK";
-std::string MessageCoder::SET_STATE = "SET_STATE";
-std::string MessageCoder::BEST_RESULT = "BEST_RESULT";
+std::string MessageCoder::ACTION = GetNextKey("ACTION");
+std::string MessageCoder::OK = GetNextKey("OK");
+std::string MessageCoder::MESSAGE_ID = GetNextKey("MESSAGE_ID");
+std::string MessageCoder::MESSAGE_END = GetNextKey("MESSAGE_END");
 
-std::string MessageCoder::MAX_TIME = "MAX_TIME";
-std::string MessageCoder::NUM_OF_ANALYSED = "NUM_OF_ANALYSED";
-std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
-std::string MessageCoder::STATE =  "STATE";
-std::string MessageCoder::JOB_ID = "JOB_ID";
-std::string MessageCoder::NUM_OF_THREAD = "NUM_OF_THREAD";
+std::string MessageCoder::START_WORK = GetNextKey("START_WORK");
+std::string MessageCoder::SET_STATE = GetNextKey("SET_STATE");
+std::string MessageCoder::BEST_RESULT = GetNextKey("BEST_RESULT");
 
-std::string MessageCoder::PREVIOUS_MURDER = "PREVIOUS_MURDER";
-std::string MessageCoder::WHITE_PATCH_END = "WHITE_PATCH_END";
-std::string MessageCoder::BLACK_WHITE = "BLACK_WHITE";
+std::string MessageCoder::MAX_TIME = GetNextKey("MAX_TIME");
+std::string MessageCoder::NUM_OF_ANALYSED = GetNextKey("NUM_OF_ANALYSED");
+std::string MessageCoder::NUM_OF_BOARD = GetNextKey("NUM_OF_BOARD");
+std::string MessageCoder::STATE = GetNextKey("STATE");
+std::string MessageCoder::JOB_ID = GetNextKey("JOB_ID");
+std::string MessageCoder::NUM_OF_THREAD = GetNextKey("NUM_OF_THREAD");
 
-std::string MessageCoder::ORIGIN_NUMBER_BLACK = "ORIGIN_NUMBER_BLACK";
-std::string MessageCoder::ORIGIN_NUMBER_WHITE = "ORIGIN_NUMBER_WHITE";
-std::string MessageCoder::ORIGIN_WHITE_X = "ORIGIN_WHITE_X_" ;
-std::string MessageCoder::ORIGIN_WHITE_Y = "ORIGIN_WHITE_Y_" ;
-std::string MessageCoder::ORIGIN_BLACK_X = "ORIGIN_BLACK_X_" ;
-std::string MessageCoder::ORIGIN_BLACK_Y = "ORIGIN_BLACK_Y_" ;
-std::string MessageCoder::ORIGIN_WHITE_PONS = "ORIGIN_WHITE_PONS_" ;
-std::string MessageCoder::ORIGIN_BLACK_PONS = "ORIGIN_BLACK_PONS_" ;
+std::string MessageCoder::PREVIOUS_MURDER = GetNextKey("PREVIOUS_MURDER");
+std::string MessageCoder::WHITE_PATCH_END = GetNextKey("WHITE_PATCH_END");
+std::string MessageCoder::BLACK_WHITE = GetNextKey("BLACK_WHITE");
 
-std::string MessageCoder::NUMBER_BLACK = "NUMBER_BLACK";
-std::string MessageCoder::NUMBER_WHITE = "NUMBER_WHITE";
-std::string MessageCoder::WHITE_X = "WHITE_X_" ;
-std::string MessageCoder::WHITE_Y = "WHITE_Y_" ;
-std::string MessageCoder::BLACK_X = "BLACK_X_" ;
-std::string MessageCoder::BLACK_Y = "BLACK_Y_" ;
-std::string MessageCoder::WHITE_PONS = "WHITE_PONS_" ;
-std::string MessageCoder::BLACK_PONS = "BLACK_PONS_" ;
+std::string MessageCoder::ORIGIN_NUMBER_BLACK = GetNextKey("ORIGIN_NUMBER_BLACK");
+std::string MessageCoder::ORIGIN_NUMBER_WHITE = GetNextKey("ORIGIN_NUMBER_WHITE");
+std::string MessageCoder::ORIGIN_WHITE_X = GetNextKey("ORIGIN_WHITE_X_");
+std::string MessageCoder::ORIGIN_WHITE_Y = GetNextKey("ORIGIN_WHITE_Y_");
+std::string MessageCoder::ORIGIN_BLACK_X = GetNextKey("ORIGIN_BLACK_X_");
+std::string MessageCoder::ORIGIN_BLACK_Y = GetNextKey("ORIGIN_BLACK_Y_");
+std::string MessageCoder::ORIGIN_WHITE_PONS = GetNextKey("ORIGIN_WHITE_PONS_");
+std::string MessageCoder::ORIGIN_BLACK_PONS = GetNextKey("ORIGIN_BLACK_PONS_");
 
+std::string MessageCoder::NUMBER_BLACK = GetNextKey("NUMBER_BLACK");
+std::string MessageCoder::NUMBER_WHITE = GetNextKey("NUMBER_WHITE");
+std::string MessageCoder::WHITE_X = GetNextKey("WHITE_X_");
+std::string MessageCoder::WHITE_Y = GetNextKey("WHITE_Y_");
+std::string MessageCoder::BLACK_X = GetNextKey("BLACK_X_");
+std::string MessageCoder::BLACK_Y = GetNextKey("BLACK_Y_");
+std::string MessageCoder::WHITE_PONS = GetNextKey("WHITE_PONS_");
+std::string MessageCoder::BLACK_PONS = GetNextKey("BLACK_PONS_");
+
+unsigned int MessageCoder::nextKey = 0;
+bool MessageCoder::debugMode = false;
