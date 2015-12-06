@@ -119,20 +119,25 @@ Peers PeerQueue::AT(const unsigned int n)
 {
     unsigned int counter = 0;
     Peers *tmp;
+    bool flag = false;
 
     if (peers.size() >= n)
     {
         std::for_each(peers.begin(),peers.end(),
-                      [&tmp, n, &counter](Peers &var){
+                      [&tmp, n, &counter, &flag](Peers &var){
                                     if (n == counter)
                                     {
                                         tmp = &var;
+                                        flag = true;
                                     }
                                     counter++;
                                   });
     }
 
-   return *tmp;
+   if (flag) return *tmp;
+   Peers tmpNull;
+   tmpNull.SetNull(true);
+   return  tmpNull;
 }
 
 void PeerQueue::GetData(QHostAddress ho, int po,char *data)

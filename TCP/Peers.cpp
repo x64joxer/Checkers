@@ -1,7 +1,8 @@
 #include "TCP/Peers.h"
 
 Peers::Peers()
-      : state(NONE)
+      : state(NONE),
+        isNull(false)
 {
 
 }

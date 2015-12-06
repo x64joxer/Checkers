@@ -26,22 +26,26 @@ void GUIWorkersList::RefreshList()
        for (unsigned int i = 0; i < size; i++)
        {
             tmp = WorkerAgent::AT(i);
-            str = tmp.GetHost().toString() + ":" + QString::number(tmp.GetPort());
 
-            if (tmp.GetState() == Peers::STATE::NONE)
+            if (!tmp.IsNull())
             {
-                str += "     NONE";
-            } else
-            if (tmp.GetState() == Peers::STATE::BUSY)
-            {
-                str += "     BUSY";
-            } else
-            if (tmp.GetState() == Peers::STATE::FREE)
-            {
-                str += "     FREE";
+                str = tmp.GetHost().toString() + ":" + QString::number(tmp.GetPort());
+
+                if (tmp.GetState() == Peers::STATE::NONE)
+                {
+                    str += "     NONE";
+                } else
+                if (tmp.GetState() == Peers::STATE::BUSY)
+                {
+                    str += "     BUSY";
+                } else
+                if (tmp.GetState() == Peers::STATE::FREE)
+                {
+                    str += "     FREE";
+                }
+
+                ui->workersList->addItem(str);
             }
-
-            ui->workersList->addItem(str);
        }
     }
 }

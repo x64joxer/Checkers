@@ -21,6 +21,8 @@ class Peers
         void GetData(char *dat);
         bool IsData() { return !data.empty(); }
         unsigned int NumberOfMessages() const { return data.size(); }
+        bool IsNull() const { return isNull; }
+        void SetNull (const bool flag) { isNull = flag; }
 
         enum  STATE { NONE, BUSY, FREE };
 
@@ -31,6 +33,7 @@ class Peers
 
     private:
 
+        bool isNull;
         STATE state;
         QHostAddress host;
         int port;
