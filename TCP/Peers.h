@@ -29,6 +29,9 @@ class Peers
         STATE GetState() const;
         void SetState(const STATE val);
 
+        unsigned short GetNumOThread() const { return numOfThread; }
+        void SetNumOThread(const unsigned short val) { numOfThread = val; }
+
         bool operator==(const Peers &);
 
     private:
@@ -37,7 +40,9 @@ class Peers
         STATE state;
         QHostAddress host;
         int port;
-        std::list<char*> data;        
+        std::list<char*> data;
+
+        unsigned short numOfThread;
 };
 
 #endif // PEERS_H

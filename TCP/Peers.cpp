@@ -2,7 +2,8 @@
 
 Peers::Peers()
       : state(NONE),
-        isNull(false)
+        isNull(false),
+        numOfThread(0)
 {
 
 }

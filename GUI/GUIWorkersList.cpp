@@ -29,19 +29,22 @@ void GUIWorkersList::RefreshList()
 
             if (!tmp.IsNull())
             {
-                str = tmp.GetHost().toString() + ":" + QString::number(tmp.GetPort());
+                str = "IP ADRESS: " + tmp.GetHost().toString() + ":" + QString::number(tmp.GetPort());
 
+                str+= "     NUMBER OF THREAD: " + QString::number(tmp.GetNumOThread());
+
+                str += "     STATE: ";
                 if (tmp.GetState() == Peers::STATE::NONE)
                 {
-                    str += "     NONE";
+                    str += " NONE";
                 } else
                 if (tmp.GetState() == Peers::STATE::BUSY)
                 {
-                    str += "     BUSY";
+                    str += " BUSY";
                 } else
                 if (tmp.GetState() == Peers::STATE::FREE)
                 {
-                    str += "     FREE";
+                    str += " FREE";
                 }
 
                 ui->workersList->addItem(str);

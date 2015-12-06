@@ -135,6 +135,7 @@ Peers PeerQueue::AT(const unsigned int n)
     }
 
    if (flag) return *tmp;
+
    Peers tmpNull;
    tmpNull.SetNull(true);
    return  tmpNull;
