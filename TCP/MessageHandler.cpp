@@ -54,8 +54,10 @@ void MessageHandler::Start()
 
             if (WorkerAgent::GetFreeStateNumber() > 0)
             {                
-                if (ProgramVariables::GetMaxTimeForIa() - (ProgramVariables::GetSecondsSinceEpoch() - startTime) > ProgramVariables::GetMaxSecondsToEnd())
+                if (TakeSecondsToEnd() > ProgramVariables::GetMaxSecondsToEnd())
                 {
+                    TRACE01 Traces() << "\n" << "LOG: Time to end " << ProgramVariables::GetMaxTimeForIa() - (ProgramVariables::GetSecondsSinceEpoch() - startTime);
+
                     if (boardQueue->Size() > 0)
                     {
                         QHostAddress ho;
@@ -72,7 +74,7 @@ void MessageHandler::Start()
                             MessageCoder::ClearChar(data, ProgramVariables::K4);
                             std::string tempId = ProgramVariables::CreateMessageId();
                             std::string jobId = ProgramVariables::CreateMessageId();
-                            MessageCoder::CreateStartMessage(ProgramVariables::GetMaxTimeForIa() - (ProgramVariables::GetSecondsSinceEpoch() - startTime), 1, tempId, jobId, data);
+                            MessageCoder::CreateStartMessage(TakeSecondsToEnd(), 1, tempId, jobId, data);
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
@@ -110,6 +112,19 @@ void MessageHandler::Start()
 
     active = false;
     delete [] data;
+}
+
+unsigned long long MessageHandler::TakeSecondsToEnd()
+{
+    unsigned long long howManyPass = (ProgramVariables::GetSecondsSinceEpoch() - startTime);
+
+    if (ProgramVariables::GetMaxTimeForIa() > howManyPass)
+    {
+       return ProgramVariables::GetMaxTimeForIa() - howManyPass;
+    } else
+    {
+       return 0;
+    }
 }
 
 void MessageHandler::MessageInterpreting(const QHostAddress ho, const int po, const std::map<std::string, std::string> & data)

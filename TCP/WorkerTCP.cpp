@@ -275,6 +275,12 @@ void WorkerTCP::SendBestResultMessage()
     delete [] temp;
 }
 
+void WorkerTCP::Disconnect()
+{
+    tcpSocket->disconnectFromHost();
+    time->start();
+}
+
 void WorkerTCP::NoResponseFromServer()
 {
     waitForOKMessageTimer->stop();
@@ -291,8 +297,9 @@ void WorkerTCP::NoResponseFromServer()
             SendBestResultMessage();
         } else
         {
-            TRACE01 Traces() << "\n" << "LOG: Reattempts BEST_RESUL exhusted!";
+            Traces() << "\n" << "ERR: Reattempts BEST_RESUL exhusted!";
             messageState = NONE_OK;
+            Disconnect();
         }
     }
 }
