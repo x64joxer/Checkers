@@ -304,7 +304,8 @@ void MessageCoder::CreateStateMessage(const Peers::STATE stat, const std::string
     KeyValuePairToChar(ACTION, SET_STATE, dest);
     KeyValuePairToChar(MESSAGE_ID, id, dest);
     KeyValuePairToChar(STATE, stat, dest);
-    KeyValuePairToChar(MESSAGE_END, 0, dest);
+    KeyValuePairToChar(NUM_OF_THREAD, ProgramVariables::GetNumberOfThreads(), dest);
+    KeyValuePairToChar(MESSAGE_END, 0, dest);    
 }
 
 void MessageCoder::CreateOkMessage(const std::string  & id, char *dest)
@@ -328,6 +329,7 @@ std::string MessageCoder::NUM_OF_ANALYSED = "NUM_OF_ANALYSED";
 std::string MessageCoder::NUM_OF_BOARD = "NUM_OF_BOARD";
 std::string MessageCoder::STATE =  "STATE";
 std::string MessageCoder::JOB_ID = "JOB_ID";
+std::string MessageCoder::NUM_OF_THREAD = "NUM_OF_THREAD";
 
 std::string MessageCoder::PREVIOUS_MURDER = "PREVIOUS_MURDER";
 std::string MessageCoder::WHITE_PATCH_END = "WHITE_PATCH_END";

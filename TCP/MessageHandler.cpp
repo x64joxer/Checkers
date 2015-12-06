@@ -190,23 +190,23 @@ void MessageHandler::TakeSetState(const QHostAddress ho, const int po, const std
 
         if (state == Peers::STATE::BUSY)
         {
-            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);            
-            char *dest = new char[ProgramVariables::K4];
-            MessageCoder::ClearChar(dest, ProgramVariables::K4);
-            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
-            WorkerAgent::SendMessage(ho, po, dest);            
+            WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);               
         } else
         if (state == Peers::STATE::FREE)
         {
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);            
-            char *dest = new char[ProgramVariables::K4];
-            MessageCoder::ClearChar(dest, ProgramVariables::K4);
-            MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
-            WorkerAgent::SendMessage(ho, po, dest);            
         } else
         {
             Traces() << "\n" << "ERR: Wrong peer state! host:" << ho.toString() << ":" << po;
+            throw std::out_of_range("Wrong peer state");
         }
+
+        WorkerAgent::SetNumberOfThread(ho, po, std::atoi(data.at(MessageCoder::NUM_OF_THREAD).c_str()));
+
+        char *dest = new char[ProgramVariables::K4];
+        MessageCoder::ClearChar(dest, ProgramVariables::K4);
+        MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
+        WorkerAgent::SendMessage(ho, po, dest);
     }
     catch (std::out_of_range)
     {

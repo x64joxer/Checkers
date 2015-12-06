@@ -46,6 +46,7 @@ class MessageCoder
         static std::string NUM_OF_BOARD;
         static std::string STATE;
         static std::string JOB_ID;
+        static std::string NUM_OF_THREAD;
 
         static std::string PREVIOUS_MURDER;
         static std::string WHITE_PATCH_END;

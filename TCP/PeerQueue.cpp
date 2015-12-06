@@ -283,3 +283,33 @@ void PeerQueue::SetState(const QHostAddress ho, const int po, const Peers::STATE
         Traces() << "\n" << "ERROR: Peer not exist!";
     };
 }
+
+void PeerQueue::SetNumberOfThread(const QHostAddress ho, const int po, unsigned short val)
+{
+    TRACE01 Traces() << "\n" << "PeerQueue::SetNumberOfThread(const QHostAddress ho, const int po, unsigned short val)";
+
+    std::lock_guard<std::mutex> guard(mutex_guard);
+    bool flag = false;
+
+    std::for_each(peers.begin(),peers.end(),
+                  [&flag, this, val, ho, po](Peers &n){
+                                     if (!flag)
+                                     {
+                                         if ((n.GetHost() == ho)&&(n.GetPort() == po))
+                                         {
+                                            n.SetNumOThread(val);
+                                            flag = true;
+                                         }
+                                     }
+                                 });
+
+    if (flag)
+    {
+        ProgramVariables::NotifyOne();
+
+        TRACE01 Traces() << "\n" << "LOG: Number of thread set";
+    } else
+    {
+        Traces() << "\n" << "ERROR: Peer not exist!";
+    };
+}

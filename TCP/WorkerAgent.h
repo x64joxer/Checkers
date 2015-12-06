@@ -24,6 +24,7 @@ class WorkerAgent : public QObject
         static void GetFirstMessage(QHostAddress &ho, int &po,char *data) { peerQueue.GetFirstMessage(ho,po,data); }
         static bool IsWaitingMessage() { return peerQueue.IsWaitingMessage(); }
         static void SetState(const QHostAddress ho, const int po, const Peers::STATE state) { peerQueue.SetState(ho, po, state); }
+        static void SetNumberOfThread(const QHostAddress ho, const int po, unsigned short val) { peerQueue.SetNumberOfThread(ho, po, val); }
         static unsigned int GetFreeStateNumber() { return peerQueue.GetFreeStateNumber(); }
         static void GetFirstFreePeers(QHostAddress &ho, int &po) { peerQueue.GetFirstFreePeers(ho, po); }
         static unsigned int GetBusyStateNumber() { return peerQueue.GetBusyStateNumber();  }

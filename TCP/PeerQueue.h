@@ -34,6 +34,7 @@ class PeerQueue
         unsigned int GetBusyStateNumber();
 
         void SetState(const QHostAddress ho, const int po, const Peers::STATE state);
+        void SetNumberOfThread(const QHostAddress ho, const int po, unsigned short val);
 
     private:
         void GetData(QHostAddress ho, int po,char *data);
