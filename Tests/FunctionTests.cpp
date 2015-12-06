@@ -15,6 +15,7 @@ void FunctionTests::Make()
     Test06();
     Test07();
     Test08();
+    Test09();
 }
 
 void FunctionTests::Test01()
@@ -575,6 +576,67 @@ void FunctionTests::Test08()
     }
 
     Traces() << "\n" << "LOG: End Test08()";
+
+    delete board;
+}
+
+void FunctionTests::Test09()
+{
+    Traces() << "\n" << "FunctionTests::Test09()";
+    std::atomic_bool endIaJobFlag;
+    std::atomic<int> currentPercentOfSteps;
+    Board *board = new Board();
+
+    Traces::TurnOnTraces();
+
+    unsigned short numOfThreads=4;
+        Traces() << "\n" << "FunctionTests::Test09() for number of thread = ";
+
+       *board  = std::string("| |w| | | |w| |w|") +
+                 std::string("|w| |w| |w| |w| |") +
+                 std::string("| |w| |w| |w| |w|") +
+                 std::string("| | | | | | | | |") +
+                 std::string("| | | | | | | | |") +
+                 std::string("|b| |b| |b| |b| |") +
+                 std::string("| |b| |b| |b| |b|") +
+                 std::string("|b| |b| |b| |b| |");
+
+    {
+
+        unsigned short movments = 0;
+
+        while ((board->GetNumberOfBlack() > 0) && (board->GetNumberOfWhite() > 0))
+        {
+                board->StartWhite();
+                Traces() << "\n" << "Step number " << movments;
+                board->PrintDebug();
+
+                if (board->GetNumberOfWhite() > 0)
+                {
+                    ThreadIAMove<3000000> workerA;
+                    workerA(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 100, 10, KindOfSteps::Time);
+                }
+
+                movments++;
+
+                board->Mirror();
+                board->StartWhite();
+                Traces() << "\n" << "Step number " << movments;
+                board->PrintDebug();
+
+                if (board->GetNumberOfBlack() > 0)
+                {
+                    ThreadIAMove<3000000> workerB;
+                    workerB(board, &endIaJobFlag, &currentPercentOfSteps, numOfThreads, 100, 10, KindOfSteps::Time);
+                }
+
+                movments++;
+                if (movments > 100) break;
+        }
+    }
+    TRACE01 Traces() << "\n" << "LOG: End Test09()";
+
+    Traces::TurnOffTraces();
 
     delete board;
 }

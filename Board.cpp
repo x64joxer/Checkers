@@ -18,6 +18,30 @@ void Board::Clear()
     }
 }
 
+void Board::Mirror()
+{
+    Pawn temp;
+
+    for (unsigned short i =0; i<12; i++)
+    {
+        temp = black[i];
+        black[i] = white[i];
+        white[i] = temp;
+    }
+
+    for (unsigned short i =0; i<12; i++)
+    {
+        white[i].x = (7 - white[i].x);
+        white[i].y = 7 - white[i].y;
+    }
+
+    for (unsigned short i =0; i<12; i++)
+    {
+        black[i].x = (7 - black[i].x);
+        black[i].y = 7 - black[i].y;
+    }
+}
+
 void Board::AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons)
 {
     if (((y+1) % 2 == 1)&&((x+1) % 2 == 1))

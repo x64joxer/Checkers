@@ -18,6 +18,7 @@ class Board
     public:
         Board();               
         void Clear();
+        void Mirror();
         void AddBlackPawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons);
         void AddWhitePawn(const unsigned short x, const unsigned short y, const bool dead, const bool pons);
         void SetWhitePawnPos(const unsigned short number,const unsigned short x, const unsigned short y);
@@ -29,7 +30,7 @@ class Board
         void PutBlackTopLeftPawn(const unsigned short number);
         void PutBlackTopRightPawn(const unsigned short number);
         void PutBlackBottomLeftPawn(const unsigned short number);
-        void PutBlackBottomRightPawn(const unsigned short number);
+        void PutBlackBottomRightPawn(const unsigned short number);        
 
         PawnPos GetWhitePawnPos(const unsigned short number) const;
         PawnPos GetBlackPawnPos(const unsigned short number) const;
