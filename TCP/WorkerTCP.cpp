@@ -201,8 +201,7 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
             board->PrintDebug();
 
             Traces() << "\n" << "LOG: ...witch origin:";
-            board->GetOrigin().PrintDebug();
-
+            board->GetOrigin().PrintDebug();        
 
             endIaJobFlag = false;
             std::thread tempJob(&ThreadIAMove<3000000>::operator (),
@@ -242,7 +241,7 @@ void WorkerTCP::CheckStatus()
 
         if (connection_state == CONNECTED)
         {
-            numOfReattempt = 0;
+            numOfReattempt = 0;            
             SendBestResultMessage();
             waitForIATimer->stop();
             endIaJobFlag = false;

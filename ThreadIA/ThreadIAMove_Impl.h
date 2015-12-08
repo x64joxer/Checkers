@@ -20,9 +20,12 @@ template  <unsigned long long QMain>
 void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag, std::atomic<int> *percentSteps, const unsigned short numberOfThreads, const unsigned int refreshMainQueue, const unsigned int numberOfStepsToDo, const KindOfSteps stepKind)
 {
     const unsigned short maxThreads = numberOfThreads + 1;
-    std::thread iaThread[maxThreads];
+    std::thread iaThread[maxThreads];    
     ThreadIATreeExpander<QMain,5000> expander[maxThreads];
     unsigned int numberOfSteps = numberOfStepsToDo / numberOfThreads;
+
+    ProgramVariables::SetNumOfAnalyded(0);
+
     if (messageHandler) messageHandler->SetBoardQueue(&queue);
 
     if (stepKind == KindOfSteps::Time)
@@ -88,88 +91,90 @@ void ThreadIAMove<QMain>::operator ()(Board * boardWsk, std::atomic_bool * flag,
         if (messageHandler) messageHandler->StopSharing();
         ProgramVariables::NotifyOne();
 
-        ProgramVariables::SetNumOfAnalyded(queue.Size());
+        ProgramVariables::IncreaseNumOfAnalyded(queue.Size() + queue.SizeDoNotForget());
 
-        qDebug() << "Num of elements" << queue.Size();
+        Traces()<< "\n" << "LOG: -------------------------------------------------------------------";
+        Traces()<< "\n" << "LOG: Total num of analysed elements: " << ProgramVariables::GetNumOfAnalyded();
+        Traces()<< "\n" << "LOG: -------------------------------------------------------------------";
 
         if (numberOfThreads <2)
-        {
+        {            
             temp = queue.GetBestResult();
         } else
         {
-
         //NEW METHOD
-        unsigned long long minElements = 2000;
-        unsigned short numOfThreads = numberOfThreads;
+            unsigned long long minElements = 2000;
+            unsigned short numOfThreads = numberOfThreads;
 
-        if (queue.Size() / minElements >= queue.SizeDoNotForget() / minElements)
-        {
-            if (queue.Size() / minElements < numOfThreads) numOfThreads = queue.Size() / minElements;
-        } else
-        {
-            if (queue.SizeDoNotForget() / minElements < numOfThreads) numOfThreads = queue.SizeDoNotForget() / minElements;
-        };
-        if (numOfThreads == 0) numOfThreads = 1;
-
-        unsigned long long firstQueueElelemtsOnThread = queue.Size() / numberOfThreads;
-        unsigned long long secondQueueElelemtsOnThread = queue.SizeDoNotForget() / numberOfThreads;
-
-        if (firstQueueElelemtsOnThread == 0)
-        {
-            if (queue.Size()>0) firstQueueElelemtsOnThread = queue.Size()-1;
-        };
-        if (secondQueueElelemtsOnThread == 0) secondQueueElelemtsOnThread = queue.SizeDoNotForget();
-
-        unsigned long long start = queue.GetFirstNumber();
-        unsigned long long start2 = 0;
-        unsigned long long stop = firstQueueElelemtsOnThread;
-        unsigned long long stop2 = secondQueueElelemtsOnThread;
-        bool flag1 = true;
-        bool flag2 = true;
-        Board best[numOfThreads];
-
-        for (unsigned short i=1;i<=numOfThreads;i++)
-        {
-            TRACE01 Traces() << "\n" << "LOG: Start sharing for thread " << i;
-            if (firstQueueElelemtsOnThread ==0) flag1 = false;
-            if (secondQueueElelemtsOnThread == 0) flag2 = false;
-            if (firstQueueElelemtsOnThread >= queue.GetFirstNumber()+ queue.Size()) firstQueueElelemtsOnThread = (queue.GetFirstNumber()+ queue.Size())-1;
-            if (secondQueueElelemtsOnThread >= queue.SizeDoNotForget()) secondQueueElelemtsOnThread = queue.SizeDoNotForget() -1;
-            stop = start + firstQueueElelemtsOnThread;
-            stop2 = start2 + secondQueueElelemtsOnThread;
-
-            iaThread[i] = std::move(std::thread(&ThreadIABoardQueue<QMain>::GetBestResultMultiThread,
-                                                &queue,
-                                                flag1,
-                                                start,
-                                                stop,
-                                                flag2,
-                                                start2,
-                                                stop2,
-                                                &best[i-1]
-                                                ));
-            start = stop;
-            start2 = stop2;
-        }
-
-        TRACE01 Traces() << "\n" << "LOG: Waiting for all threads...";
-
-        for (unsigned short i=1;i<=numOfThreads;i++)
-        {
-            TRACE01 Traces() << "\n" << "LOG: Waiting for " << i;
-            iaThread[i].join();
-            TRACE01 Traces() << "\n" << "LOG: Thread " << i << " finished";
-        };
-
-        TRACE01 Traces() << "\n" << "LOG: Workers finished";
-        temp = best[0];
-        for (unsigned short i=0;i<numOfThreads;i++)
-        {
-            if (temp.GetPercentageResult()>best[i].GetPercentageResult())
+            if (queue.Size() / minElements >= queue.SizeDoNotForget() / minElements)
             {
-                temp = best[i];
+                if (queue.Size() / minElements < numOfThreads) numOfThreads = queue.Size() / minElements;
+            } else
+            {
+                if (queue.SizeDoNotForget() / minElements < numOfThreads) numOfThreads = queue.SizeDoNotForget() / minElements;
             };
-        };
+            if (numOfThreads == 0) numOfThreads = 1;
+
+            unsigned long long firstQueueElelemtsOnThread = queue.Size() / numberOfThreads;
+            unsigned long long secondQueueElelemtsOnThread = queue.SizeDoNotForget() / numberOfThreads;
+
+            if (firstQueueElelemtsOnThread == 0)
+            {
+                if (queue.Size()>0) firstQueueElelemtsOnThread = queue.Size()-1;
+            };
+            if (secondQueueElelemtsOnThread == 0) secondQueueElelemtsOnThread = queue.SizeDoNotForget();
+
+            unsigned long long start = queue.GetFirstNumber();
+            unsigned long long start2 = 0;
+            unsigned long long stop = firstQueueElelemtsOnThread;
+            unsigned long long stop2 = secondQueueElelemtsOnThread;
+            bool flag1 = true;
+            bool flag2 = true;
+            Board best[numOfThreads];
+
+            for (unsigned short i=1;i<=numOfThreads;i++)
+            {
+                TRACE01 Traces() << "\n" << "LOG: Start sharing for thread " << i;
+                if (firstQueueElelemtsOnThread ==0) flag1 = false;
+                if (secondQueueElelemtsOnThread == 0) flag2 = false;
+                if (firstQueueElelemtsOnThread >= queue.GetFirstNumber()+ queue.Size()) firstQueueElelemtsOnThread = (queue.GetFirstNumber()+ queue.Size())-1;
+                if (secondQueueElelemtsOnThread >= queue.SizeDoNotForget()) secondQueueElelemtsOnThread = queue.SizeDoNotForget() -1;
+                stop = start + firstQueueElelemtsOnThread;
+                stop2 = start2 + secondQueueElelemtsOnThread;
+
+                iaThread[i] = std::move(std::thread(&ThreadIABoardQueue<QMain>::GetBestResultMultiThread,
+                                                    &queue,
+                                                    flag1,
+                                                    start,
+                                                    stop,
+                                                    flag2,
+                                                    start2,
+                                                    stop2,
+                                                    &best[i-1]
+                                                    ));
+                start = stop;
+                start2 = stop2;
+            }
+
+            TRACE01 Traces() << "\n" << "LOG: Waiting for all threads...";
+
+            for (unsigned short i=1;i<=numOfThreads;i++)
+            {
+                TRACE01 Traces() << "\n" << "LOG: Waiting for " << i;
+                iaThread[i].join();
+                TRACE01 Traces() << "\n" << "LOG: Thread " << i << " finished";
+            };
+
+            TRACE01 Traces() << "\n" << "LOG: Workers finished";
+            temp = best[0];
+
+            for (unsigned short i=0;i<numOfThreads;i++)
+            {
+                if (temp.GetPercentageResult()>best[i].GetPercentageResult())
+                {
+                    temp = best[i];
+                };
+            };
         };
         //END
 

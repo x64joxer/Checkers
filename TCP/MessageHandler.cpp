@@ -230,7 +230,8 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
             Board temp;
             MessageCoder::MapToBoard(data, &temp);
             std::string tempNumOfanalysed = data.at(MessageCoder::NUM_OF_ANALYSED);
-            Traces() << "\n" << "LOG: Number of trees analysed by worker " << ho.toString() << ":" << po << " = " << QString(tempNumOfanalysed.c_str());
+            ProgramVariables::IncreaseNumOfAnalyded(std::stoll(tempNumOfanalysed));
+            Traces() << "\n" << "LOG: Number of branch analysed by worker " << ho.toString() << ":" << po << " = " << QString(tempNumOfanalysed.c_str());
             TRACE01 boardQueue->PushBack(temp);
 
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
