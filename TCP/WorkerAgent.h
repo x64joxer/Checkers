@@ -29,7 +29,7 @@ class WorkerAgent : public QObject
         static void GetFirstFreePeers(QHostAddress &ho, int &po) { peerQueue.GetFirstFreePeers(ho, po); }
         static unsigned int GetBusyStateNumber() { return peerQueue.GetBusyStateNumber();  }
         static unsigned int GetNumberOfPeers() { return peerQueue.Size(); }
-        static bool Exist(QHostAddress ho, int po) { return peerQueue.Exist(ho, po); }
+        static bool Exist(QHostAddress ho, int po) { return peerQueue.Exist(ho, po); }        
 
     signals:
 

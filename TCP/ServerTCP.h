@@ -26,7 +26,7 @@ class ServerTCP : public QObject
 
     private slots:
         void newConnection();
-        void newDataFromClient();
+        void newDataFromClient(QHostAddress ho, int po, char* data);
         void ConnectionError(QAbstractSocket::SocketError socketError);
         void Disconnected();
 

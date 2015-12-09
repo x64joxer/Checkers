@@ -58,15 +58,16 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
 
 void ServerTCP::newConnection()
 {    
-    TCPSocket * tempClientConnection = new TCPSocket();
+    TCPSocket * tempClientConnection = new TCPSocket(this);
     tempClientConnection->SetTcpSocketWsk(tcpServer->nextPendingConnection());
     TRACE01 Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->GetTcpSocketWsk()->peerAddress().toString() << ":" << tempClientConnection->GetTcpSocketWsk()->peerPort();
     clientConnection.push_back(tempClientConnection);    
     peerQueue->AddPeer(tempClientConnection->GetTcpSocketWsk()->peerAddress(), tempClientConnection->GetTcpSocketWsk()->peerPort());
 
-    connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
+    connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(readyRead()),tempClientConnection,SLOT(NewDataFromClient()));
     connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
     connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(disconnected()),this,SLOT(Disconnected()));
+    connect(tempClientConnection, SIGNAL(NewData(QHostAddress,int,char*)), this, SLOT(newDataFromClient(QHostAddress,int,char*)));
 }
 
 void ServerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
@@ -100,23 +101,9 @@ void ServerTCP::Disconnected()
     }
 }
 
-void ServerTCP::newDataFromClient()
-{
-   char *data;
-
-    foreach (TCPSocket *var, clientConnection)
-    {
-        if (var->GetTcpSocketWsk()->bytesAvailable()>0)
-        {                        
-            data  = new char[var->GetTcpSocketWsk()->bytesAvailable()];
-            var->GetTcpSocketWsk()->read(data,var->GetTcpSocketWsk()->bytesAvailable());
-            TRACE01 Traces() << "\n" << "LOG: Data from worker " << var->GetTcpSocketWsk()->peerAddress().toString() << ":" << var->GetTcpSocketWsk()->peerPort() << ":" << QString(data);
-            peerQueue->AddData(var->GetTcpSocketWsk()->peerAddress(),var->GetTcpSocketWsk()->peerPort(),data);
-            break;
-        }
-    }
-
-    delete [] data;
+void ServerTCP::newDataFromClient(QHostAddress ho, int po, char* data)
+{  
+    peerQueue->AddData(ho, po,data);
 }
 
 ServerTCP::~ServerTCP()
