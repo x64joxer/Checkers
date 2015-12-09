@@ -9,9 +9,9 @@ ServerTCP::ServerTCP(QObject *parent) : QObject(parent)
 
 void ServerTCP::Stop()
 {
-    foreach (QTcpSocket *var, clientConnection)
+    foreach (TCPSocket *var, clientConnection)
     {
-        var->close();
+        var->GetTcpSocketWsk()->close();
     }
 
     tcpServer->close();
@@ -40,17 +40,17 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
 
     TRACE01 Traces() << "\n" << "LOG: SendMessage(QHostAddress ho, int po, char* data)";
 
-    foreach (QTcpSocket *var, clientConnection)
+    foreach (TCPSocket *var, clientConnection)
     {        
-        if ((var->peerAddress() == ho)&&(var->peerPort() == po))
+        if ((var->GetTcpSocketWsk()->peerAddress() == ho)&&(var->GetTcpSocketWsk()->peerPort() == po))
         {
             TRACE01 Traces() << "\n" << "LOG: Sending data to peer " << ho.toString() << ":" << po;            
 
-            while(var->waitForBytesWritten()) {}
-            var->write(data);
-            while(var->waitForBytesWritten()) {}
+            while(var->GetTcpSocketWsk()->waitForBytesWritten()) {}
+            var->DeleteData();
+            var->SetDataWsk(data);
+            var->GetTcpSocketWsk()->write(data);
 
-            delete [] data;
             break;
         }
     }
@@ -58,15 +58,15 @@ void ServerTCP::SendMessage(QHostAddress ho, int po, char* data)
 
 void ServerTCP::newConnection()
 {    
-    QTcpSocket * tempClientConnection;
-    tempClientConnection = tcpServer->nextPendingConnection();    
-    TRACE01 Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->peerAddress().toString() << ":" << tempClientConnection->peerPort();
+    TCPSocket * tempClientConnection = new TCPSocket();
+    tempClientConnection->SetTcpSocketWsk(tcpServer->nextPendingConnection());
+    TRACE01 Traces() << "\n" << "LOG: Connection witch new client:" << tempClientConnection->GetTcpSocketWsk()->peerAddress().toString() << ":" << tempClientConnection->GetTcpSocketWsk()->peerPort();
     clientConnection.push_back(tempClientConnection);    
-    peerQueue->AddPeer(tempClientConnection->peerAddress(), tempClientConnection->peerPort());
+    peerQueue->AddPeer(tempClientConnection->GetTcpSocketWsk()->peerAddress(), tempClientConnection->GetTcpSocketWsk()->peerPort());
 
-    connect(tempClientConnection,SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
-    connect(tempClientConnection,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
-    connect(tempClientConnection,SIGNAL(disconnected()),this,SLOT(Disconnected()));
+    connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(readyRead()),this,SLOT(newDataFromClient()));
+    connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(ConnectionError(QAbstractSocket::SocketError)));
+    connect(tempClientConnection->GetTcpSocketWsk(),SIGNAL(disconnected()),this,SLOT(Disconnected()));
 }
 
 void ServerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
@@ -87,14 +87,14 @@ void ServerTCP::ConnectionError(QAbstractSocket::SocketError socketError)
 
 void ServerTCP::Disconnected()
 {
-    foreach (QTcpSocket *var, clientConnection)
+    foreach (TCPSocket *var, clientConnection)
     {
-        if (var->state() == QAbstractSocket::UnconnectedState)
+        if (var->GetTcpSocketWsk()->state() == QAbstractSocket::UnconnectedState)
         {
-            TRACE01 Traces() << "\n" << "LOG: Worker disconnected :" << var->peerAddress().toString() << ":" << var->peerPort();
+            TRACE01 Traces() << "\n" << "LOG: Worker disconnected :" << var->GetTcpSocketWsk()->peerAddress().toString() << ":" << var->GetTcpSocketWsk()->peerPort();
             clientConnection.removeOne(var);
-            peerQueue->RemovePeer(var->peerAddress(), var->peerPort());
-            var->deleteLater();            
+            peerQueue->RemovePeer(var->GetTcpSocketWsk()->peerAddress(), var->GetTcpSocketWsk()->peerPort());
+            delete var;
             break;
         }
     }
@@ -104,14 +104,14 @@ void ServerTCP::newDataFromClient()
 {
    char *data;
 
-    foreach (QTcpSocket *var, clientConnection)
+    foreach (TCPSocket *var, clientConnection)
     {
-        if (var->bytesAvailable()>0)
+        if (var->GetTcpSocketWsk()->bytesAvailable()>0)
         {                        
-            data  = new char[var->bytesAvailable()];
-            var->read(data,var->bytesAvailable());
-            TRACE01 Traces() << "\n" << "LOG: Data from worker " << var->peerAddress().toString() << ":" << var->peerPort() << ":" << QString(data);
-            peerQueue->AddData(var->peerAddress(),var->peerPort(),data);
+            data  = new char[var->GetTcpSocketWsk()->bytesAvailable()];
+            var->GetTcpSocketWsk()->read(data,var->GetTcpSocketWsk()->bytesAvailable());
+            TRACE01 Traces() << "\n" << "LOG: Data from worker " << var->GetTcpSocketWsk()->peerAddress().toString() << ":" << var->GetTcpSocketWsk()->peerPort() << ":" << QString(data);
+            peerQueue->AddData(var->GetTcpSocketWsk()->peerAddress(),var->GetTcpSocketWsk()->peerPort(),data);
             break;
         }
     }

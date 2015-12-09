@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     TCP/WorkerAgent.cpp \
     TCP/MessageCoder.cpp \
     TCP/WorkersState.cpp \
-    GUI/GUIWorkersList.cpp
+    GUI/GUIWorkersList.cpp \
+    TCP/TCPSocket.cpp
 
 HEADERS  += MainWindow.h \
     CheckerArea.h \
@@ -67,7 +68,8 @@ HEADERS  += MainWindow.h \
     TCP/WorkersState.h \
     GUI/GUIWorkersList.h \
     ThreadIA/threadiamove_impl.h \
-    ThreadIA/ThreadIAMove_Impl.h
+    ThreadIA/ThreadIAMove_Impl.h \
+    TCP/TCPSocket.h
 
 FORMS    += MainWindow.ui \
     CheckerArea.ui \

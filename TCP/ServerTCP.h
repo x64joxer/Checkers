@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include "Traces/Traces.h"
 #include "TCP/PeerQueue.h"
+#include "TCP/TCPSocket.h"
 
 class PeerQueue;
 
@@ -32,7 +33,7 @@ class ServerTCP : public QObject
 
     private:
         QTcpServer *tcpServer;
-        QList<QTcpSocket*> clientConnection;        
+        QList<TCPSocket*> clientConnection;
         PeerQueue *peerQueue;
 };
 
