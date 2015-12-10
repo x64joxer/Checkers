@@ -29,7 +29,7 @@ class ProgramVariables
         static void NotifyOne();
         static std::string CreateMessageId();        
         static void SetNumOfAnalyded(const unsigned long long val) { std::lock_guard<std::mutex> guard(mutex_guard); numOfAnalysded = val; }
-        static unsigned long long const GetNumOfAnalyded() { std::lock_guard<std::mutex> guard(mutex_guard); return numOfAnalysded; }
+        static unsigned long long GetNumOfAnalyded() { std::lock_guard<std::mutex> guard(mutex_guard); return numOfAnalysded; }
         static void IncreaseNumOfAnalyded(const unsigned long long val) { std::lock_guard<std::mutex> guard(mutex_guard); numOfAnalysded+= val; }
 
         static const unsigned int K4 =  4 * 1024;
