@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Checkers</string>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -35,7 +35,6 @@
     </widget>
     <addaction name="actionTraces"/>
     <addaction name="menuNumber_of_threads"/>
-    <addaction name="actionTest_message"/>
     <addaction name="actionWorkers_list"/>
    </widget>
    <addaction name="menuPreferences"/>
@@ -62,14 +61,9 @@
     <string>&amp;1</string>
    </property>
   </action>
-  <action name="actionTest_message">
-   <property name="text">
-    <string>Test &amp;message</string>
-   </property>
-  </action>
   <action name="actionWorkers_list">
    <property name="text">
-    <string>Workers list...</string>
+    <string>&amp;Workers list...</string>
    </property>
   </action>
  </widget>

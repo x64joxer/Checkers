@@ -32,11 +32,9 @@ class MainWindow : public QMainWindow
     private slots:
         void on_actionTraces_triggered();
         void SetNumOfThreads(QAction* action);
-        void on_actionTest_message_triggered();
-
         void on_actionWorkers_list_triggered();
 
-signals:
+    signals:
         void Start();
 
     private:

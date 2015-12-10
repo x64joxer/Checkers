@@ -122,13 +122,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionTest_message_triggered()
-{
-
-    TRACE01 Traces() << "\n" << "LOG: Sending data";
-
-}
-
 void MainWindow::on_actionWorkers_list_triggered()
 {
     GUIWorkersList *workerListWindow = new GUIWorkersList(this);
