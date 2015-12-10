@@ -237,20 +237,11 @@ void WorkerTCP::TakeStartWork(const std::map<std::string, std::string> data)
 void WorkerTCP::CheckStatus()
 {
     if (endIaJobFlag)
-    {
-
-        if (connection_state == CONNECTED)
-        {
-            numOfReattempt = 0;            
-            SendBestResultMessage();
-            waitForIATimer->stop();
-            endIaJobFlag = false;
-        } else
-        {
-            TRACE01 Traces() << "\n" << "LOG: Not conneted to server";
-            waitForIATimer->stop();
-            endIaJobFlag = false;
-        }
+    {        
+        numOfReattempt = 0;
+        SendBestResultMessage();
+        waitForIATimer->stop();
+        endIaJobFlag = false;
     }
 }
 
