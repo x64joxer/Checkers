@@ -102,6 +102,39 @@ std::string ProgramVariables::CreateMessageId()
     return std::to_string(++messageId);
 }
 
+void ProgramVariables::SetMaxWorkers(const unsigned int val)
+{
+     std::lock_guard<std::mutex> guard(mutex_guard_for_max_workers);
+     maxWorkers = val;
+}
+
+bool ProgramVariables::IsMaxWorkersReached()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard_for_max_workers);
+    if (maxWorkers == 0) return false;
+    if (usedWorkers < maxWorkers) return false;
+
+    return true;
+}
+
+void ProgramVariables::IncreaseUsedWorkers()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard_for_max_workers);
+    if (usedWorkers < maxWorkers) usedWorkers++;
+}
+
+void ProgramVariables::DecreaseUsedWorkers()
+{
+    std::lock_guard<std::mutex> guard(mutex_guard_for_max_workers);
+    if (usedWorkers == 0)
+    {
+        Traces() << "\n" << "ERROR: usedWorkers wariable already 0! Can not decrease!";
+    } else
+    {
+        usedWorkers--;
+    }
+}
+
 unsigned long long ProgramVariables::GetMaxSecondsToEnd()
 {
     return 3;
@@ -120,3 +153,6 @@ std::mutex ProgramVariables::mutex_guard;
 std::condition_variable ProgramVariables::condition_var;
 std::condition_variable ProgramVariables::condition_var_network;
 unsigned long long ProgramVariables::numOfAnalysded = 0;
+unsigned int ProgramVariables::maxWorkers = 0;
+unsigned int ProgramVariables::usedWorkers = 0;
+std::mutex ProgramVariables::mutex_guard_for_max_workers;

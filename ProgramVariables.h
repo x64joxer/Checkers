@@ -5,6 +5,7 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
+#include "Traces/Traces.h"
 
 class ProgramVariables
 {
@@ -32,6 +33,12 @@ class ProgramVariables
         static unsigned long long GetNumOfAnalyded() { std::lock_guard<std::mutex> guard(mutex_guard); return numOfAnalysded; }
         static void IncreaseNumOfAnalyded(const unsigned long long val) { std::lock_guard<std::mutex> guard(mutex_guard); numOfAnalysded+= val; }
 
+        static void SetMaxWorkers(const unsigned int val);
+        static bool IsMaxWorkersReached();
+        static void IncreaseUsedWorkers();
+        static void DecreaseUsedWorkers();
+
+
         static const unsigned int K4 =  4 * 1024;
 
     private:
@@ -45,6 +52,9 @@ class ProgramVariables
         static std::condition_variable condition_var;
         static std::condition_variable condition_var_network;
         static unsigned long long numOfAnalysded;
+        static unsigned int maxWorkers;
+        static unsigned int usedWorkers;
+        static std::mutex mutex_guard_for_max_workers;
 };
 
 #endif // PROGRAMVARIABLES_H

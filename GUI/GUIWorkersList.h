@@ -23,6 +23,8 @@ class GUIWorkersList : public QDialog
 
        void on_OKButton_clicked();
 
+       void on_spinBoxMaxWorkers_valueChanged(int arg1);
+
 private:
         Ui::GUIWorkersList *ui;
         QTimer *refreschTimer;

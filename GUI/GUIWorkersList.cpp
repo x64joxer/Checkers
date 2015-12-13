@@ -53,13 +53,18 @@ void GUIWorkersList::RefreshList()
     }
 }
 
+void GUIWorkersList::on_OKButton_clicked()
+{
+    this->deleteLater();
+}
+
+void GUIWorkersList::on_spinBoxMaxWorkers_valueChanged(int arg1)
+{
+    ProgramVariables::SetMaxWorkers(arg1);
+}
+
 GUIWorkersList::~GUIWorkersList()
 {
     delete refreschTimer;
     delete ui;
-}
-
-void GUIWorkersList::on_OKButton_clicked()
-{
-    this->deleteLater();
 }

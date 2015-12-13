@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>686</width>
-    <height>304</height>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,13 +27,42 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>240</y>
+     <y>300</y>
      <width>89</width>
      <height>35</height>
     </rect>
    </property>
    <property name="text">
     <string>Ok</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBoxMaxWorkers">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>300</y>
+     <width>54</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="prefix">
+    <string/>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelMaxWorkers">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>270</y>
+     <width>161</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Max workers (0 unlimited)</string>
    </property>
   </widget>
  </widget>

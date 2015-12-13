@@ -30,7 +30,7 @@ void MessageHandler::Start()
             ProgramVariables::GetGlobalConditionVariableNetwork()->wait(guard,[this]
             {
                 return WorkerAgent::IsWaitingMessage() |
-                       ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs) |
+                       ((WorkerAgent::GetFreeStateNumber() > 0) & shareJobs & (!ProgramVariables::IsMaxWorkersReached())) |
                        (WorkersState::GetGlobNumOfWaitingTimer()>0) |
                        endFlag |
                        (WorkerAgent::GetNumberOfPeers() < workersStateList.size()); }
@@ -50,9 +50,7 @@ void MessageHandler::Start()
         //Share jobs
         if (shareJobs)
         {
-
-
-            if (WorkerAgent::GetFreeStateNumber() > 0)
+            if ((WorkerAgent::GetFreeStateNumber() > 0) && (!ProgramVariables::IsMaxWorkersReached()))
             {                
                 if (TakeSecondsToEnd() > ProgramVariables::GetMaxSecondsToEnd())
                 {
@@ -78,7 +76,8 @@ void MessageHandler::Start()
                             MessageCoder::BoardToChar(board, data, 1);
                             WorkerAgent::SendMessage(ho, po, data);
                             WorkerAgent::SetState(ho, po, Peers::STATE::BUSY);
-                            CreateOkGuard(ho, po, tempId, jobId, WorkersState::START_WORK_OK);
+                            ProgramVariables::IncreaseUsedWorkers();
+                            CreateOkGuard(ho, po, tempId, jobId, WorkersState::START_WORK_OK);                            
                             jobList.push_back(jobId);
                         }
 
@@ -237,6 +236,7 @@ void MessageHandler::TakeBestResult(const QHostAddress ho, const int po, const s
             WorkerAgent::SetState(ho, po, Peers::STATE::FREE);
             char *dest = new char[ProgramVariables::K4];
             MessageCoder::ClearChar(dest, ProgramVariables::K4);
+            ProgramVariables::DecreaseUsedWorkers();
             MessageCoder::CreateOkMessage(data.at(MessageCoder::MESSAGE_ID), dest);
             WorkerAgent::SendMessage(ho, po, dest);
         }
@@ -277,6 +277,7 @@ void MessageHandler::NoResponseFromWorker(WorkersState *wsk)
         Traces() << "\n" << "ERR: No response from worker!";
 
         WorkerAgent::SetState(wsk->GetHost(), wsk->GetPort(), Peers::STATE::FREE);
+        ProgramVariables::DecreaseUsedWorkers();
         wsk->SetNone();
         jobList.remove(wsk->GetJobId());
     }
