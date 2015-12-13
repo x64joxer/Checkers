@@ -19,8 +19,7 @@ class PeerQueue
         PeerQueue();
         void AddPeer(QHostAddress ho, int po);
         void RemovePeer(QHostAddress ho, int po);
-        void AddData(QHostAddress ho, int po,char *data);
-        void SendMessage(QHostAddress ho, int po, char* data);        
+        void AddData(QHostAddress ho, int po,char *data);     
         void SetServer(ServerTCP *serv) { server = serv; }
         Peers First() { return peers.front(); }
         Peers AT(const unsigned int n);

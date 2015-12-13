@@ -121,7 +121,7 @@ Peers PeerQueue::AT(const unsigned int n)
     Peers *tmp;
     bool flag = false;
 
-    if (peers.size() >= n)
+    if (peers.size() >= n)        
     {
         std::for_each(peers.begin(),peers.end(),
                       [&tmp, n, &counter, &flag](Peers &var){
